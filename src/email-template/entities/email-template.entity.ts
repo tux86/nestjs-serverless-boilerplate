@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { EmailTemplateName } from '../enum/email-template-name.enum';
 
 @Entity()
 export class EmailTemplate {
@@ -13,13 +14,16 @@ export class EmailTemplate {
   emailTemplateId: string;
 
   @Column({ length: 50 })
-  name: string;
+  name: string | EmailTemplateName;
 
   @Column('varchar', { length: 255 })
   subject: string;
 
   @Column('text')
-  body: string;
+  bodyText: string;
+
+  @Column('text')
+  bodyHtml: string;
 
   @CreateDateColumn()
   createdAt: Date;

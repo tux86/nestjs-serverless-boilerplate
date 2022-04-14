@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { EmailTemplateType } from './email-template.type';
-import { CreateEmailTemplateInput } from './dto/create-email-template.input';
+import { EmailTemplateType } from './gql/email-template.type';
+import { CreateEmailTemplateInput } from './gql/create-email-template.input';
 import { EmailTemplateService } from './email-template.service';
 
 @Resolver(() => EmailTemplateType)

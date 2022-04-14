@@ -12,7 +12,10 @@ export class EmailTemplateType {
   subject: string;
 
   @Field()
-  body: string;
+  bodyText: string;
+
+  @Field()
+  bodyHtml: string;
 
   @Field()
   createdAt: Date;

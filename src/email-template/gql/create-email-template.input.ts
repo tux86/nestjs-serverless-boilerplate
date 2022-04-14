@@ -12,5 +12,8 @@ export class CreateEmailTemplateInput {
   subject: string;
 
   @Field()
-  body: string;
+  bodyText: string;
+
+  @Field()
+  bodyHtml: string;
 }

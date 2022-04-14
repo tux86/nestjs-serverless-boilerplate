@@ -12,5 +12,8 @@ export class CreateEmailTemplateDto {
   subject: string;
 
   @IsString()
-  body: string;
+  bodyText: string;
+
+  @IsString()
+  bodyHtml: string;
 }
