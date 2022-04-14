@@ -10,7 +10,7 @@ import {
 @Entity()
 export class EmailTemplate {
   @PrimaryGeneratedColumn('uuid')
-  emailId: string;
+  emailTemplateId: string;
 
   @Column({ length: 50 })
   name: string;

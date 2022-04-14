@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EmailModule } from './email/email.module';
+import { EmailTemplateModule } from './email-template/email-template.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver } from '@nestjs/apollo';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), EmailModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot(),
+    GraphQLModule.forRoot({ driver: ApolloDriver, autoSchemaFile: true }),
+    EmailTemplateModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
