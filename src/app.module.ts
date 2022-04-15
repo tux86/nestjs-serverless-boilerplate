@@ -1,25 +1,27 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EmailTemplateModule } from './email-template/email-template.module';
+import { EmailTemplateModule } from './modules/email-template/email-template.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { database } from './config';
+import { app, database } from './config';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
-import { HealthModule } from './health/health.module';
+import { HealthModule } from './modules/health/health.module';
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 @Module({
   imports: [
     // *** ConfigModule
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [
-        `.env.${process.env.NODE_ENV}.local`,
-        `.env.${process.env.NODE_ENV}`,
-        '.env.local',
-        '.env',
-      ],
-      load: [database],
+      // envFilePath: [`.env.local`, `.env.dev`],
+      ignoreEnvFile: true,
+      load: [app, database],
     }),
     // *** TypeOrmModule
     TypeOrmModule.forRootAsync({
@@ -28,14 +30,20 @@ import { HealthModule } from './health/health.module';
       useFactory: (configService: ConfigService) =>
         configService.get('database'),
       connectionFactory: async (options) => {
+        console.log(options);
         const manager = getConnectionManager();
         let connection: Connection;
 
         if (manager.has('default')) {
           connection = manager.get('default');
         }
+
+        /**
+         * TODO: workaround only for serverless-offline mode
+         * => EntityMetadataNotFoundError: No metadata for "XXX" was found.
+         */
         if (
-          process.env.SERVERLESS_OFFLINE_MODE === 'true' &&
+          process.env.IS_OFFLINE === 'true' &&
           connection &&
           connection.isConnected
         ) {
@@ -62,4 +70,13 @@ import { HealthModule } from './health/health.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  private readonly logger = new Logger(AppModule.name);
+
+  constructor() {
+    this.logger.log('_________________________-');
+    this.logger.log(`NODE_ENV=${process.env.NODE_ENV}`);
+    this.logger.log(`STAGE=${process.env.STAGE}`);
+    this.logger.log('_________________________-');
+  }
+}

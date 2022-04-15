@@ -1,3 +1,3 @@
 import database from './database.config';
-
-export { database };
+import app from './app.config';
+export { app, database };

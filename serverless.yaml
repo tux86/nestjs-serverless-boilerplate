@@ -1,7 +1,6 @@
 service: email-service
-frameworkVersion: "2"
+frameworkVersion: '3'
 useDotenv: true
-
 
 plugins:
   - serverless-offline
@@ -10,15 +9,11 @@ provider:
   name: aws
   runtime: nodejs14.x
   architecture: x86_64
-  region: eu-west-1
-  lambdaHashingVersion: 20201221
-  profile: non-prod
-  environment:
-    POSTGRES_HOST: ${env:POSTGRES_HOST}
-    POSTGRES_PORT: ${env:POSTGRES_PORT}
-    POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
-    POSTGRES_USER: ${env:POSTGRES_USER}
-    POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
+  region: ${opt:region, 'eu-west-1'}
+  lambdaHashingVersion: '20201221'
+  profile: ${env:AWS_PROFILE}
+  memorySize: 1024
+  timeout: 20
   vpc:
     securityGroupIds:
       - ${env:SECURITY_GROUP_ID}
@@ -27,6 +22,12 @@ provider:
       - ${env:SUBNET_PRIVATE_B_ID}
       - ${env:SUBNET_DATABASE_A_ID}
       - ${env:SUBNET_DATABASE_B_ID}
+  environment:
+    POSTGRES_HOST: ${env:POSTGRES_HOST}
+    POSTGRES_PORT: ${env:POSTGRES_PORT}
+    POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
+    POSTGRES_USER: ${env:POSTGRES_USER}
+    POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
 
 custom:
   serverless-offline:
@@ -36,8 +37,6 @@ custom:
 functions:
   main:
     handler: dist/serverless.handler
-    memorySize: 1024
-    timeout: 28
     events:
       - httpApi:
           method: '*'
