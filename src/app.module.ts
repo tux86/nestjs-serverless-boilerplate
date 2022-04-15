@@ -6,6 +6,7 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { database } from './config';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { Connection, createConnection, getConnectionManager } from 'typeorm';
     }),
     // *** Application modules
     EmailTemplateModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],
