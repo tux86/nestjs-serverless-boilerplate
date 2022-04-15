@@ -1,0 +1,48 @@
+service: email-service
+frameworkVersion: "2"
+useDotenv: true
+
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  architecture: x86_64
+  region: eu-west-1
+  lambdaHashingVersion: 20201221
+  profile: non-prod
+  environment:
+    POSTGRES_HOST: ${env:POSTGRES_HOST}
+    POSTGRES_PORT: ${env:POSTGRES_PORT}
+    POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
+    POSTGRES_USER: ${env:POSTGRES_USER}
+    POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
+  vpc:
+    securityGroupIds:
+      - ${env:SECURITY_GROUP_ID}
+    subnetIds:
+      - ${env:SUBNET_PRIVATE_A_ID}
+      - ${env:SUBNET_PRIVATE_B_ID}
+      - ${env:SUBNET_DATABASE_A_ID}
+      - ${env:SUBNET_DATABASE_B_ID}
+
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true
+
+
+functions:
+  main:
+    handler: dist/serverless.handler
+    memorySize: 1024
+    timeout: 28
+    events:
+      - httpApi:
+          method: '*'
+          path: /
+      - httpApi:
+          method: '*'
+          path: /{proxy+}
+
