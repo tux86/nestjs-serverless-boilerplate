@@ -7,9 +7,9 @@ import { EmailTemplateService } from './email-template.service';
 export class EmailTemplateResolver {
   constructor(private readonly emailTemplateService: EmailTemplateService) {}
 
-  @Query(() => String)
-  ping(): string {
-    return 'pong';
+  @Query((returns) => [EmailTemplateType])
+  emailTemplates(): Promise<EmailTemplateType[]> {
+    return this.emailTemplateService.getEmailTemplates();
   }
 
   @Mutation(() => EmailTemplateType)

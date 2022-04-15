@@ -16,6 +16,10 @@ export class EmailTemplateService {
     return Object.values(EmailTemplatePlaceholder);
   }
 
+  public async getEmailTemplates(): Promise<EmailTemplate[]> {
+    return this.emailTemplateRepository.getEmailTemplates();
+  }
+
   public async createEmailTemplate(
     input: CreateEmailTemplateInput,
   ): Promise<EmailTemplate> {
