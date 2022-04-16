@@ -2,12 +2,6 @@ service: email-service
 frameworkVersion: '3'
 useDotenv: true
 
-package:
-  patterns:
-    - '!*/**'
-    - dist/**
-    - node_modules/**
-
 plugins:
   - serverless-offline
 
@@ -21,6 +15,10 @@ provider:
   memorySize: 1024
   timeout: 20
   versionFunctions: false
+  ecr:
+    images:
+      appimage:
+        path: ./
   vpc:
     securityGroupIds:
       - ${env:SECURITY_GROUP_ID}
@@ -29,6 +27,12 @@ provider:
       - ${env:SUBNET_PRIVATE_B_ID}
       - ${env:SUBNET_DATABASE_A_ID}
       - ${env:SUBNET_DATABASE_B_ID}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action: "*"
+          Resource: "*"
   environment:
       STAGE: ${sls:stage}
       NODE_ENV: ${env:NODE_ENV}
@@ -39,12 +43,6 @@ provider:
       POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
       POSTGRES_USER: ${env:POSTGRES_USER}
       POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
-  iam:
-    role:
-      statements:
-        - Effect: "Allow"
-          Action: "*"
-          Resource: "*"
 
 custom:
   serverless-offline:
@@ -53,7 +51,11 @@ custom:
 
 functions:
   main:
-    handler: dist/src/serverless.handler
+    # handler: dist/src/serverless.handler
+    image:
+      name: appimage
+      command:
+        - dist/src/serverless.handler
     events:
       - httpApi:
           method: '*'
