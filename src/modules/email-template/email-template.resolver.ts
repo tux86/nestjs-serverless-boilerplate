@@ -1,16 +1,15 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { EmailTemplateType } from './gql/email-template.type';
-import { CreateEmailTemplateInput } from './gql/create-email-template.input';
+import { CreateEmailTemplateInput } from './dtos/create-email-template.input';
 import { EmailTemplateService } from './email-template.service';
-import { EmailTemplatePlaceholder } from './enum/email-template-placeholder.enum';
-import { EmailTemplatePlaceholderObject } from './gql/email-template-placeholder-object.type';
+import { EmailTemplatePlaceholderObject } from './dtos/email-template-placeholder-object.type';
+import { EmailTemplate } from './entities/email-template.entity';
 
-@Resolver(() => EmailTemplateType)
+@Resolver(() => EmailTemplate)
 export class EmailTemplateResolver {
   constructor(private readonly emailTemplateService: EmailTemplateService) {}
 
-  @Query((returns) => [EmailTemplateType])
-  emailTemplates(): Promise<EmailTemplateType[]> {
+  @Query((returns) => [EmailTemplate])
+  emailTemplates(): Promise<EmailTemplate[]> {
     return this.emailTemplateService.getEmailTemplates();
   }
 
@@ -19,10 +18,10 @@ export class EmailTemplateResolver {
     return this.emailTemplateService.getEmailTemplatePlaceholders();
   }
 
-  @Mutation(() => EmailTemplateType)
+  @Mutation(() => EmailTemplate)
   async createEmailTemplate(
     @Args('input') input: CreateEmailTemplateInput,
-  ): Promise<EmailTemplateType> {
+  ): Promise<EmailTemplate> {
     return await this.emailTemplateService.createEmailTemplate(input);
   }
 }
