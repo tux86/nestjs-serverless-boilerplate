@@ -1,3 +1,3 @@
-import database from './database.config';
-import app from './app.config';
-export { app, database };
+import dbConfig from './database.config';
+import appConfig from './app.config';
+export { appConfig, dbConfig };

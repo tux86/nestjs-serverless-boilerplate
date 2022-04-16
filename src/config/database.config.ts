@@ -12,7 +12,7 @@ export default registerAs(
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      synchronize: true,
+      synchronize: false, // ☠️️ CAUTION ☠️️ DO NOT CHANGE VALUE !!
       // migrationsTableName: 'migrations',
       // migrationsTransactionMode: 'each',
       autoLoadEntities: false,

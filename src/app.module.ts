@@ -4,9 +4,10 @@ import { EmailTemplateModule } from './modules/email-template/email-template.mod
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { app, database } from './config';
+import { appConfig, dbConfig } from './config';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
+import { OrganizationModule } from './modules/organization/organization.module';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { HealthCheckerModule } from './modules/health-checker/health-checker.mod
       isGlobal: true,
       // envFilePath: [`.env.local`, `.env.dev`],
       ignoreEnvFile: true,
-      load: [app, database],
+      load: [appConfig, dbConfig],
     }),
     // *** TypeOrmModule
     TypeOrmModule.forRootAsync({
@@ -59,6 +60,7 @@ import { HealthCheckerModule } from './modules/health-checker/health-checker.mod
     }),
     // *** Application modules
     HealthCheckerModule,
+    OrganizationModule,
     EmailTemplateModule,
   ],
   controllers: [],
