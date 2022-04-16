@@ -4,10 +4,11 @@ import { EmailTemplateModule } from './modules/email-template/email-template.mod
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { appConfig, dbConfig } from './config';
+import configuration from './config';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
-import { OrganizationModule } from './modules/organization/organization.module';
+import { MailerModule } from './modules/mailer/mailer.module';
+import { AwsModule } from './modules/aws/aws.module';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { OrganizationModule } from './modules/organization/organization.module';
       isGlobal: true,
       // envFilePath: [`.env.local`, `.env.dev`],
       ignoreEnvFile: true,
-      load: [appConfig, dbConfig],
+      load: [configuration],
     }),
     // *** TypeOrmModule
     TypeOrmModule.forRootAsync({
@@ -25,7 +26,7 @@ import { OrganizationModule } from './modules/organization/organization.module';
       useFactory: (configService: ConfigService) =>
         configService.get('database'),
       connectionFactory: async (options) => {
-        console.log(options);
+        // console.log(options);
         const manager = getConnectionManager();
         let connection: Connection;
 
@@ -60,8 +61,9 @@ import { OrganizationModule } from './modules/organization/organization.module';
     }),
     // *** Application modules
     HealthCheckerModule,
-    OrganizationModule,
     EmailTemplateModule,
+    MailerModule,
+    AwsModule,
   ],
   controllers: [],
   providers: [],

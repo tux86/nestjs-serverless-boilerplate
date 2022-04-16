@@ -9,7 +9,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   architecture: x86_64
-  region: ${opt:region, 'eu-west-1'}
+  region: ${env:AWS_REGION}
   lambdaHashingVersion: '20201221'
   profile: ${env:AWS_PROFILE}
   memorySize: 1024

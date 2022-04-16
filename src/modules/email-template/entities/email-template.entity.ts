@@ -4,19 +4,15 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
-  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 import { EmailTemplateName } from '../enum/email-template-name.enum';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Organization } from '../../organization/entities/organization.entity';
 
 @ObjectType()
 @Entity()
-@Index('unique_email_template_name', ['organization', 'name'], {
+@Index('unique_email_template_name', ['orgId', 'name'], {
   unique: true,
   where: '"deleted_at" IS NULL',
 })
@@ -25,12 +21,8 @@ export class EmailTemplate {
   @PrimaryGeneratedColumn('uuid')
   emailTemplateId: string;
 
-  @Index()
-  @ManyToOne(() => Organization, { nullable: true })
-  @JoinColumn({ name: 'orgId' })
-  organization: Organization;
-
-  @RelationId((emailTemplate: EmailTemplate) => emailTemplate.organization)
+  @Field()
+  @Column({ length: 8 })
   orgId: string;
 
   @Field()
