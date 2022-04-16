@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateEmailTemplateInput } from './gql/create-email-template.input';
 import { EmailTemplateRepository } from './email-template.repository';
 import { EmailTemplatePlaceholder } from './enum/email-template-placeholder.enum';
+import { EmailTemplatePlaceholderObject} from './gql/email-template-placeholder-object.type';
 
 @Injectable()
 export class EmailTemplateService {
@@ -12,8 +13,15 @@ export class EmailTemplateService {
     private emailTemplateRepository: EmailTemplateRepository,
   ) {}
 
-  public getPlaceholders(): EmailTemplatePlaceholder[] {
-    return Object.values(EmailTemplatePlaceholder);
+  public getEmailTemplatePlaceholders(): EmailTemplatePlaceholderObject[] {
+    const result: EmailTemplatePlaceholderObject[] = [];
+    for (const name in EmailTemplatePlaceholder) {
+      result.push({
+        name,
+        value: EmailTemplatePlaceholder[name],
+      });
+    }
+    return result;
   }
 
   public async getEmailTemplates(): Promise<EmailTemplate[]> {
