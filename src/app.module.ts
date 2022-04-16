@@ -6,7 +6,7 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { app, database } from './config';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
-import { HealthModule } from './modules/health/health.module';
+import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -65,7 +65,7 @@ function sleep(ms) {
     }),
     // *** Application modules
     EmailTemplateModule,
-    HealthModule,
+    HealthCheckerModule,
   ],
   controllers: [],
   providers: [],
