@@ -13,7 +13,7 @@ export class SesService {
   constructor(private config: ConfigService) {
     this.logger.debug('initializing ses client');
     const region = config.get('awsRegion');
-    this.client = new SESClient({ region: region });
+    this.client = new SESClient({ region });
   }
 
   public async sendEmail(input: SendEmailParameters): Promise<void> {

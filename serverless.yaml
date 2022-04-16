@@ -2,18 +2,25 @@ service: email-service
 frameworkVersion: '3'
 useDotenv: true
 
+package:
+  patterns:
+    - '!*/**'
+    - dist/**
+    - node_modules/**
+
 plugins:
   - serverless-offline
 
 provider:
   name: aws
   runtime: nodejs14.x
-  architecture: x86_64
-  region: ${env:AWS_REGION}
+  architecture: arm64
+  region: eu-west-1
   lambdaHashingVersion: '20201221'
   profile: ${env:AWS_PROFILE}
   memorySize: 1024
   timeout: 20
+  versionFunctions: false
   vpc:
     securityGroupIds:
       - ${env:SECURITY_GROUP_ID}
@@ -23,11 +30,21 @@ provider:
       - ${env:SUBNET_DATABASE_A_ID}
       - ${env:SUBNET_DATABASE_B_ID}
   environment:
-    POSTGRES_HOST: ${env:POSTGRES_HOST}
-    POSTGRES_PORT: ${env:POSTGRES_PORT}
-    POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
-    POSTGRES_USER: ${env:POSTGRES_USER}
-    POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
+      STAGE: ${sls:stage}
+      NODE_ENV: ${env:NODE_ENV}
+      DEFAULT_FROM_MAIL: ${env:DEFAULT_FROM_MAIL}
+      DESTINATION_EMAIL_TEST: ${env:DESTINATION_EMAIL_TEST}
+      POSTGRES_HOST: ${env:POSTGRES_HOST}
+      POSTGRES_PORT: ${env:POSTGRES_PORT}
+      POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
+      POSTGRES_USER: ${env:POSTGRES_USER}
+      POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action: "*"
+          Resource: "*"
 
 custom:
   serverless-offline:
