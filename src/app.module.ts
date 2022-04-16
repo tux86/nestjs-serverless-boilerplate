@@ -8,12 +8,6 @@ import { app, database } from './config';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 @Module({
   imports: [
     // *** ConfigModule
