@@ -13,7 +13,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "dotenv -e .env.local -- nest start",
     "start:dev": "dotenv -e .env.local -- nest start --watch",
-    "sls:offline": "dotenv -e .env.local -- sls offline --stage ${STAGE:=dev}",
+    "sls:offline": "STAGE=local yarn sls offline --stage dev",
     "deploy": "yarn sls deploy --stage ${STAGE:=dev}",
     "sls:logs": "yarn sls logs -f main -t -s ${STAGE:=dev}",
     "start:debug": "dotenv -e .env.${STAGE:=dev} --nest start --debug --watch",
