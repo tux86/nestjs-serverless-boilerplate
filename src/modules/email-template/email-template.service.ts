@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateEmailTemplateInput } from './dtos/create-email-template.input';
 import { EmailTemplateRepository } from './email-template.repository';
 import { EmailTemplatePlaceholder } from './enum/email-template-placeholder.enum';
-import { EmailTemplatePlaceholderObject} from './dtos/email-template-placeholder-object.type';
+import { EmailTemplatePlaceholderObject } from './dtos/email-template-placeholder-object.type';
 
 @Injectable()
 export class EmailTemplateService {

@@ -58,8 +58,8 @@ import { HealthCheckerModule } from './modules/health-checker/health-checker.mod
       playground: true, // Allow playground in production
     }),
     // *** Application modules
-    EmailTemplateModule,
     HealthCheckerModule,
+    EmailTemplateModule,
   ],
   controllers: [],
   providers: [],
