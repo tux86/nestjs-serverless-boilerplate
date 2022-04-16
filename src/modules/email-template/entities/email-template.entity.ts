@@ -20,15 +20,15 @@ export class EmailTemplate {
   @Column({ length: 50 })
   name: string | EmailTemplateName;
 
-  @Field()
+  @Field({ description: 'email subject' })
   @Column('varchar', { length: 255 })
   subject: string;
 
-  @Field()
+  @Field({ description: 'plain text content' })
   @Column('text')
   bodyText: string;
 
-  @Field()
+  @Field({ description: 'html content' })
   @Column('text')
   bodyHtml: string;
 
