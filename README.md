@@ -12,6 +12,7 @@ email service POC
     * labmda container image arm64
     * AWS SDK version 3
     * AWS Cognito token validation with AuthGuard
+    * Semantic Versioning: <https://github.com/0xb4lamx/nestjs-boilerplate-microservice/blob/master/docs/guidelines.md>
 
 ## Installation
 
