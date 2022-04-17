@@ -11,6 +11,7 @@ email service POC
     * architecture arm64
     * labmda container image arm64
     * AWS SDK version 3
+    * AWS Cognito token validation with AuthGuard
 
 ## Installation
 
