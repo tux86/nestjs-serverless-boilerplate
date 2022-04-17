@@ -12,7 +12,7 @@ export class SesService {
 
   constructor(private config: ConfigService) {
     this.logger.debug('initializing ses client');
-    const region = config.get('awsRegion');
+    const region = config.get('aws.region');
     this.client = new SESClient({ region });
   }
 

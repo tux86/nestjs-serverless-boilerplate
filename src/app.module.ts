@@ -9,6 +9,7 @@ import { Connection, createConnection, getConnectionManager } from 'typeorm';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
 import { MailerModule } from './modules/mailer/mailer.module';
 import { AwsModule } from './modules/aws/aws.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -61,9 +62,10 @@ import { AwsModule } from './modules/aws/aws.module';
     }),
     // *** Application modules
     HealthCheckerModule,
+    AuthModule,
+    AwsModule,
     EmailTemplateModule,
     MailerModule,
-    AwsModule,
   ],
   controllers: [],
   providers: [],
