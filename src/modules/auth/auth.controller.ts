@@ -1,10 +1,10 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { CognitoAuthGuard } from './cognito.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
   @Get()
-  @UseGuards(CognitoAuthGuard)
+  @UseGuards(JwtAuthGuard)
   checkAuth(): any {
     return { status: 'auth success' };
   }

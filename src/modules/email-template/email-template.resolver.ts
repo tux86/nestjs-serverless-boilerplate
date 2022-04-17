@@ -3,17 +3,20 @@ import { CreateEmailTemplateInput } from './dtos/create-email-template.input';
 import { EmailTemplateService } from './email-template.service';
 import { EmailTemplatePlaceholderObject } from './dtos/email-template-placeholder-object.type';
 import { EmailTemplate } from './entities/email-template.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Resolver(() => EmailTemplate)
 export class EmailTemplateResolver {
   constructor(private readonly emailTemplateService: EmailTemplateService) {}
 
-  @Query((returns) => [EmailTemplate])
+  @Query(() => [EmailTemplate])
+  @UseGuards(JwtAuthGuard)
   emailTemplates(): Promise<EmailTemplate[]> {
     return this.emailTemplateService.getEmailTemplates();
   }
 
-  @Query((returns) => [EmailTemplatePlaceholderObject])
+  @Query(() => [EmailTemplatePlaceholderObject])
   emailTemplatePlaceholders(): EmailTemplatePlaceholderObject[] {
     return this.emailTemplateService.getEmailTemplatePlaceholders();
   }
