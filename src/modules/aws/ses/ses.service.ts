@@ -6,9 +6,9 @@ import { SendEmailParameters } from './dtos/send-email-parameters';
 const DEFAULT_CHARSET = 'UTF-8';
 
 @Injectable()
-export class SesService {
+export class SESService {
   private readonly client: SESClient;
-  private readonly logger = new Logger(SesService.name);
+  private readonly logger = new Logger(SESService.name);
 
   constructor(private config: ConfigService) {
     this.logger.debug('initializing ses client');
@@ -17,7 +17,7 @@ export class SesService {
   }
 
   public async sendEmail(input: SendEmailParameters): Promise<void> {
-    const { from, subject, html, text } = input;
+    const { from, subject, bodyText, bodyHtml } = input;
     const { cc, bcc, to } = input.destination;
     const command = new SendEmailCommand({
       Destination: {
@@ -29,11 +29,11 @@ export class SesService {
         Body: {
           Html: {
             Charset: DEFAULT_CHARSET,
-            Data: html,
+            Data: bodyHtml,
           },
           Text: {
             Charset: DEFAULT_CHARSET,
-            Data: text,
+            Data: bodyText,
           },
         },
         Subject: {

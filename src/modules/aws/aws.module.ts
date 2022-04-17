@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { SesModule } from './ses/ses.module';
+import { SESModule } from './ses/ses.module';
 
 @Module({
-  imports: [SesModule],
+  imports: [SESModule],
 })
 export class AwsModule {}

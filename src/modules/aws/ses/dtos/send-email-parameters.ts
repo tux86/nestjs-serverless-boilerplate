@@ -6,6 +6,6 @@ export interface SendEmailParameters {
     to: string[];
   };
   subject: string;
-  html: string;
-  text: string;
+  bodyHtml: string;
+  bodyText: string;
 }

@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { SesService } from './ses.service';
+import { SESService } from './ses.service';
 import { ConfigService } from '@nestjs/config';
 
 @Controller('aws/ses')
-export class SesController {
+export class SESController {
   constructor(
     private config: ConfigService,
-    private readonly sesService: SesService,
+    private readonly sesService: SESService,
   ) {}
 
   @Get('sendEmailTest')
@@ -18,8 +18,8 @@ export class SesController {
         to: [process.env.DESTINATION_EMAIL_TEST],
       },
       subject: 'test email',
-      html: '<p>Hello !</p>',
-      text: 'Hello !',
+      bodyHtml: '<p>Hello !</p>',
+      bodyText: 'Hello !',
     });
   }
 }
