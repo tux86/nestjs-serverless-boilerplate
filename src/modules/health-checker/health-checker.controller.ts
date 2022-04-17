@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import {
-  HealthCheckService,
   HealthCheck,
+  HealthCheckService,
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 
