@@ -1,4 +1,4 @@
-service: email-service
+service: nestjs-serverless-poc
 frameworkVersion: '3'
 useDotenv: true
 
@@ -67,3 +67,8 @@ functions:
           method: '*'
           path: /{proxy+}
 
+Resources:
+  BackendQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:service}-EmailQueue-${sls:stage}
