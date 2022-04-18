@@ -188,6 +188,49 @@
     fast-xml-parser "3.19.0"
     tslib "^2.3.1"
 
+"@aws-sdk/client-sqs@^3.72.0":
+  version "3.72.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-sqs/-/client-sqs-3.72.0.tgz#baf417f32db7694c460eab76b0d36f6cdbf3d95b"
+  integrity sha512-+H+91V5m7nSGgcz49bbC0J4gT9QNIB0G9nGeNHtR0gDS15SX1ekxM5bblpspBT3AySBX6V5cBaPFNCvsO1Bnlg==
+  dependencies:
+    "@aws-crypto/sha256-browser" "2.0.0"
+    "@aws-crypto/sha256-js" "2.0.0"
+    "@aws-sdk/client-sts" "3.72.0"
+    "@aws-sdk/config-resolver" "3.58.0"
+    "@aws-sdk/credential-provider-node" "3.72.0"
+    "@aws-sdk/fetch-http-handler" "3.58.0"
+    "@aws-sdk/hash-node" "3.55.0"
+    "@aws-sdk/invalid-dependency" "3.55.0"
+    "@aws-sdk/md5-js" "3.58.0"
+    "@aws-sdk/middleware-content-length" "3.58.0"
+    "@aws-sdk/middleware-host-header" "3.58.0"
+    "@aws-sdk/middleware-logger" "3.55.0"
+    "@aws-sdk/middleware-retry" "3.58.0"
+    "@aws-sdk/middleware-sdk-sqs" "3.58.0"
+    "@aws-sdk/middleware-serde" "3.55.0"
+    "@aws-sdk/middleware-signing" "3.58.0"
+    "@aws-sdk/middleware-stack" "3.55.0"
+    "@aws-sdk/middleware-user-agent" "3.58.0"
+    "@aws-sdk/node-config-provider" "3.58.0"
+    "@aws-sdk/node-http-handler" "3.58.0"
+    "@aws-sdk/protocol-http" "3.58.0"
+    "@aws-sdk/smithy-client" "3.72.0"
+    "@aws-sdk/types" "3.55.0"
+    "@aws-sdk/url-parser" "3.55.0"
+    "@aws-sdk/util-base64-browser" "3.58.0"
+    "@aws-sdk/util-base64-node" "3.55.0"
+    "@aws-sdk/util-body-length-browser" "3.55.0"
+    "@aws-sdk/util-body-length-node" "3.55.0"
+    "@aws-sdk/util-defaults-mode-browser" "3.72.0"
+    "@aws-sdk/util-defaults-mode-node" "3.72.0"
+    "@aws-sdk/util-user-agent-browser" "3.58.0"
+    "@aws-sdk/util-user-agent-node" "3.58.0"
+    "@aws-sdk/util-utf8-browser" "3.55.0"
+    "@aws-sdk/util-utf8-node" "3.55.0"
+    entities "2.2.0"
+    fast-xml-parser "3.19.0"
+    tslib "^2.3.1"
+
 "@aws-sdk/client-sso@3.72.0":
   version "3.72.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-sso/-/client-sso-3.72.0.tgz#2dc30c90132a1f58c9b9330704a62d9544a3354a"
@@ -391,6 +434,16 @@
   dependencies:
     tslib "^2.3.1"
 
+"@aws-sdk/md5-js@3.58.0":
+  version "3.58.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/md5-js/-/md5-js-3.58.0.tgz#a7ecf5cc8a81ce247fd620f8c981802d0427737f"
+  integrity sha512-V5f4Re+CLn3aDF1nrmDqdUtcqBHCyxxD2s2Ot+hZ2JFit+OtJggo1cI03ldTrQpG79rwHG+bHqL2VvNQP7Aj9A==
+  dependencies:
+    "@aws-sdk/types" "3.55.0"
+    "@aws-sdk/util-utf8-browser" "3.55.0"
+    "@aws-sdk/util-utf8-node" "3.55.0"
+    tslib "^2.3.1"
+
 "@aws-sdk/middleware-content-length@3.58.0":
   version "3.58.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-content-length/-/middleware-content-length-3.58.0.tgz#9418b8c5f4437c9f5f7860e85c36468e93a302f7"
@@ -428,6 +481,15 @@
     "@aws-sdk/util-middleware" "3.55.0"
     tslib "^2.3.1"
     uuid "^8.3.2"
+
+"@aws-sdk/middleware-sdk-sqs@3.58.0":
+  version "3.58.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-sdk-sqs/-/middleware-sdk-sqs-3.58.0.tgz#34fdecbc59d88c7ec7364aaca6cf75eff46c14cc"
+  integrity sha512-t4Z7272cVGIIXwf3OhIoKEh8M8rB5urla69dN6z+UBvOx5oyMreeTQjDhr14Y6r4dECou0qtIFhjbTiXkoCkxg==
+  dependencies:
+    "@aws-sdk/types" "3.55.0"
+    "@aws-sdk/util-hex-encoding" "3.58.0"
+    tslib "^2.3.1"
 
 "@aws-sdk/middleware-sdk-sts@3.58.0":
   version "3.58.0"
@@ -1646,6 +1708,13 @@
     path-to-regexp "3.2.0"
     tslib "2.3.1"
     uuid "8.3.2"
+
+"@nestjs/event-emitter@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/event-emitter/-/event-emitter-1.1.0.tgz#42065ae37da0ddb3d442a35154ccaba33372c60d"
+  integrity sha512-wxQhrPtXSUSD2y7poyBdp0V2b7xD9jCkcenGVhllx3ILkctEYXyY+rAwwWGnDqDxnrN4/MKexkAQBHa2phsNRw==
+  dependencies:
+    eventemitter2 "6.4.5"
 
 "@nestjs/graphql@^10.0.8":
   version "10.0.8"
@@ -4389,6 +4458,11 @@ event-emitter@^0.3.5, event-emitter@~0.3.5:
   dependencies:
     d "1"
     es5-ext "~0.10.14"
+
+eventemitter2@6.4.5:
+  version "6.4.5"
+  resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-6.4.5.tgz#97380f758ae24ac15df8353e0cc27f8b95644655"
+  integrity sha512-bXE7Dyc1i6oQElDG0jMRZJrRAn9QR2xyyFGmBdZleNmyQX0FqGYmhZIrIrpPfm/w//LTo4tVQGOGQcGCb5q9uw==
 
 eventemitter3@^3.1.0:
   version "3.1.2"

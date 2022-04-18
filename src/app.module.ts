@@ -10,6 +10,7 @@ import { HealthCheckerModule } from './modules/health-checker/health-checker.mod
 import { MailerModule } from './modules/mailer/mailer.module';
 import { AwsModule } from './modules/aws/aws.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -60,6 +61,8 @@ import { AuthModule } from './modules/auth/auth.module';
       autoSchemaFile: true,
       playground: true, // Allow playground in production
     }),
+    // *** EventEmitterModule
+    EventEmitterModule.forRoot(),
     // *** Application modules
     HealthCheckerModule,
     AuthModule,
