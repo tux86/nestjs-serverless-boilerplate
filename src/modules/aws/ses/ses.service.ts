@@ -17,9 +17,9 @@ export class SESService {
     private config: ConfigService,
     private eventEmitter: EventEmitter2,
   ) {
-    this.logger.debug('initializing ses client');
     const region = config.get('aws.region');
     this.client = new SESClient({ region });
+    this.logger.debug('ses service initialized');
   }
 
   public async sendEmail(input: SendEmailParameters): Promise<void> {

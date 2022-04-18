@@ -4,6 +4,8 @@ useDotenv: true
 
 plugins:
   - serverless-deployment-bucket
+  # *** offline plugins ***
+  - serverless-offline-sqs
   - serverless-offline
 
 provider:
@@ -50,15 +52,30 @@ provider:
       POSTGRES_USER: ${env:POSTGRES_USER}
       POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
 
+      #SQS
+      EMQ_ENDPOINT: ${env:EMQ_ENDPOINT}
+      #SQS_EMAIL_QUEUE_URL:  ${env:SQS_LOCAL_EMAIL_QUEUE_NAME, !Ref EmailQueue}
+
 custom:
-  serverless-offline:
-    noPrependStageInUrl: true
+
   deploymentBucket:
     accelerate: true
     blockPublicAccess: true
+  # *** offline plugins config ***
+  serverless-offline:
+    noPrependStageInUrl: true
+  serverless-offline-sqs:
+    autoCreate: true
+    apiVersion: "2012-11-05"
+    endpoint: http://0.0.0.0:9324
+    region: ${self:provider.region}
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
+
 
 functions:
-  main:
+  http:
     handler: dist/src/main-http-lambda.handler
 #    image:
 #      name: appimage
@@ -71,10 +88,20 @@ functions:
       - httpApi:
           method: '*'
           path: /{proxy+}
-
+  sqs:
+    handler: dist/src/main-sqs-lambda.handler
+#    image:
+#      name: appimage
+#      command:
+#        - dist/src/main-sqs-lambda.handler
+    events:
+      - sqs:
+          batchSize: 10
+          arn:
+            Fn::GetAtt: [ EmailQueue, Arn ]
 resources:
   Resources:
-    BackendQueue:
+    EmailQueue:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: ${self:service}-EmailQueue-${sls:stage}

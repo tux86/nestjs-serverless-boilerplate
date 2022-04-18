@@ -9,7 +9,7 @@ export class SESController {
     private readonly sesService: SESService,
   ) {}
 
-  @Get('sendEmailTest')
+  @Get('testSendEmail')
   async sendEmailTest(): Promise<void> {
     const from = this.config.get('defaultFromEmail');
     await this.sesService.sendEmail({
