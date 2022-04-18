@@ -3,6 +3,7 @@ frameworkVersion: '3'
 useDotenv: true
 
 plugins:
+  - serverless-deployment-bucket
   - serverless-offline
 
 provider:
@@ -33,6 +34,8 @@ provider:
         - Effect: "Allow"
           Action: "*"
           Resource: "*"
+  deploymentBucket:
+    name: ${self:service}-sls-state-${sls:stage}
   environment:
       STAGE: ${sls:stage}
       NODE_ENV: ${env:NODE_ENV}
@@ -50,15 +53,17 @@ provider:
 custom:
   serverless-offline:
     noPrependStageInUrl: true
-
+  deploymentBucket:
+    accelerate: true
+    blockPublicAccess: true
 
 functions:
   main:
-    # handler: dist/src/serverless.handler
-    image:
-      name: appimage
-      command:
-        - dist/src/serverless.handler
+    handler: dist/src/main-http-lambda.handler
+#    image:
+#      name: appimage
+#      command:
+#        - dist/src/main-http-lambda.handler
     events:
       - httpApi:
           method: '*'
@@ -67,8 +72,9 @@ functions:
           method: '*'
           path: /{proxy+}
 
-Resources:
-  BackendQueue:
-    Type: AWS::SQS::Queue
-    Properties:
-      QueueName: ${self:service}-EmailQueue-${sls:stage}
+resources:
+  Resources:
+    BackendQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:service}-EmailQueue-${sls:stage}
