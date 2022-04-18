@@ -1,4 +1,4 @@
-# Nestjs serverless poc
+# Nestjs serverless POC
 
 ## Description
 
