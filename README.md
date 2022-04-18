@@ -1,18 +1,19 @@
-# Email service
+# Nestjs serverless poc
 
 ## Description
 
-email service POC
+Features: 
 
     * NestJS 8
-    * NestJS/Apollo Graphql
-    * serverless framework 3
-    * serverless-offline
-    * architecture arm64
-    * labmda container image arm64
-    * AWS SDK version 3
-    * AWS Cognito token validation with AuthGuard
-    * Semantic Versioning: <https://github.com/0xb4lamx/nestjs-boilerplate-microservice/blob/master/docs/guidelines.md>
+    * NestJS/Apollo Graphql Server (replacement of AppSync Service)
+    * serverless framework (switch to version 3)
+    * serverless-offline (full working local envrionnement with aws services mocking) 
+    * architecture arm64 + Docker container image arm64
+    * aws-sdk v3
+    * SQS integration with NestJS Standalone applications
+    * AWS Cognito JWT token validation with AuthGuard
+    * Semantic Versioning
+        [https://github.com/0xb4lamx/nestjs-boilerplate-microservice/blob/master/docs/guidelines.md]
 
 ## Installation
 
