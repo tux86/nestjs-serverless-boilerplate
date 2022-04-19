@@ -1,4 +1,5 @@
 export default {
+  accountId: process.env.AWS_ACCOUNT_ID,
   region: process.env.AWS_REGION,
   cognito: {
     userPoolId: process.env.COGNITO_USER_POOL_ID,
@@ -7,8 +8,6 @@ export default {
   },
   sqs: {
     elasticMQEndpoint: process.env.EMQ_ENDPOINT,
-    // emailQueue: {
-    //   name: process.env.SQS_EMAIL_QUEUE_NAME,
-    // },
+    emailQueueName: process.env.EMAIL_QUEUE_NAME,
   },
 };

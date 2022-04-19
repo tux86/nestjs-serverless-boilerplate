@@ -1,0 +1,24 @@
+functions:
+  http:
+    image:
+      name: appimage
+      command:
+        - dist/src/main-http-lambda.handler
+    events:
+      - httpApi:
+          method: '*'
+          path: /
+      - httpApi:
+          method: '*'
+          path: /{proxy+}
+
+  sqs:
+    image:
+      name: appimage
+      command:
+        - dist/src/main-sqs-lambda.handler
+    events:
+      - sqs:
+          batchSize: 1
+          arn:
+            Fn::GetAtt: [ EmailQueue, Arn ]

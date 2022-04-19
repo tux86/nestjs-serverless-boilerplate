@@ -5,6 +5,7 @@ useDotenv: true
 plugins:
   - serverless-deployment-bucket
   # *** offline plugins ***
+  - serverless-cloudside-plugin
   - serverless-offline-sqs
   - serverless-offline
 
@@ -39,25 +40,30 @@ provider:
   deploymentBucket:
     name: ${self:service}-sls-state-${sls:stage}
   environment:
-      STAGE: ${sls:stage}
-      NODE_ENV: ${env:NODE_ENV}
-      COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID}
-      COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
-      COGNITO_REGION: ${env:COGNITO_REGION}
-      DEFAULT_FROM_MAIL: ${env:DEFAULT_FROM_MAIL}
-      DESTINATION_EMAIL_TEST: ${env:DESTINATION_EMAIL_TEST}
-      POSTGRES_HOST: ${env:POSTGRES_HOST}
-      POSTGRES_PORT: ${env:POSTGRES_PORT}
-      POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
-      POSTGRES_USER: ${env:POSTGRES_USER}
-      POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
+    AWS_ACCOUNT_ID: ${aws:accountId}
+    STAGE: ${sls:stage}
+    NODE_ENV: ${env:NODE_ENV}
+    IS_OFFLINE: ${self:custom.config.isOffline}
+    COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID}
+    COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
+    COGNITO_REGION: ${env:COGNITO_REGION}
+    DEFAULT_FROM_MAIL: ${env:DEFAULT_FROM_MAIL}
+    DESTINATION_EMAIL_TEST: ${env:DESTINATION_EMAIL_TEST}
+    POSTGRES_HOST: ${env:POSTGRES_HOST}
+    POSTGRES_PORT: ${env:POSTGRES_PORT}
+    POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
+    POSTGRES_USER: ${env:POSTGRES_USER}
+    POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
 
-      #SQS
-      EMQ_ENDPOINT: ${env:EMQ_ENDPOINT}
-      #SQS_EMAIL_QUEUE_URL:  ${env:SQS_LOCAL_EMAIL_QUEUE_NAME, !Ref EmailQueue}
+    #SQS
+    EMQ_ENDPOINT: ${env:EMQ_ENDPOINT, null}
+    EMAIL_QUEUE_NAME: '${self:custom.config.emailQueueName}'
 
 custom:
-
+  config:
+    isOffline: ${env:IS_OFFLINE, false}
+    # test: ${file(./serverless/config.js):includeFileExt}
+    emailQueueName: ${self:service}-EmailQueue-${sls:stage}
   deploymentBucket:
     accelerate: true
     blockPublicAccess: true
@@ -73,7 +79,6 @@ custom:
     secretAccessKey: root
     skipCacheInvalidation: false
 
-
 functions:
   http:
     handler: dist/src/main-http-lambda.handler
@@ -88,6 +93,7 @@ functions:
       - httpApi:
           method: '*'
           path: /{proxy+}
+
   sqs:
     handler: dist/src/main-sqs-lambda.handler
 #    image:
@@ -96,12 +102,13 @@ functions:
 #        - dist/src/main-sqs-lambda.handler
     events:
       - sqs:
-          batchSize: 10
+          batchSize: 1
           arn:
             Fn::GetAtt: [ EmailQueue, Arn ]
+
 resources:
   Resources:
     EmailQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: ${self:service}-EmailQueue-${sls:stage}
+        QueueName: ${self:custom.config.emailQueueName}

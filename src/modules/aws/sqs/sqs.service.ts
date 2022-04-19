@@ -14,25 +14,38 @@ export class SqsService {
 
   constructor(private config: ConfigService) {
     const region = config.get('aws.region');
-    const elasticMQEndpoint = config.get('aws.sqs.elasticMQEndpoint');
 
     const clientConfig: SQSClientConfig = { region };
-
     // set endpoint if ElasticMQ endpoint provided (offline mode)
-    if (elasticMQEndpoint) {
-      clientConfig.endpoint = elasticMQEndpoint;
-      this.logger.debug(`ElasticMQ endpoint ${elasticMQEndpoint}`);
+    if (this.isLocalQueue()) {
+      clientConfig.endpoint = config.get('aws.sqs.elasticMQEndpoint');
+      this.logger.debug(`ElasticMQ endpoint ${clientConfig.endpoint}`);
     }
 
     this.client = new SQSClient(clientConfig);
     this.logger.debug('sqs service initialized');
   }
 
+  public isLocalQueue() {
+    return this.config.get<boolean>('isOffline');
+  }
+
+  public getQueueUrl(queueName: string): string {
+    if (this.isLocalQueue()) {
+      const endpoint = this.config.get('aws.sqs.elasticMQEndpoint');
+      return `${endpoint}/queue/${queueName}`;
+    } else {
+      const region = this.config.get('aws.region');
+      const accountId = this.config.get('aws.accountId');
+      return `https://sqs.${region}.amazonaws.com/${accountId}/${queueName}`;
+    }
+  }
+
   public async send(queueName: string, input: SendMessageInput): Promise<void> {
     const { body, groupId, deduplicationId, delaySeconds, messageAttributes } =
       input;
     const command = new SendMessageCommand({
-      QueueUrl: `http://0.0.0.0:9324/queue/${queueName}`,
+      QueueUrl: this.getQueueUrl(queueName),
       MessageGroupId: groupId,
       DelaySeconds: delaySeconds,
       MessageDeduplicationId: deduplicationId,

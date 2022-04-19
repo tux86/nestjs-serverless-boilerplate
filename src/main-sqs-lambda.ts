@@ -16,7 +16,7 @@ export const handler: Handler = async (event: SQSEvent) => {
       const { eventSourceARN } = record;
       const queueName = eventSourceARN.split(':').pop();
 
-      logger.debug('queueName :' + queueName);
+      logger.debug(record);
     }
     // logger.debug(
     //   'new message from SQS Queue',
