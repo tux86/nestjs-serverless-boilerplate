@@ -39,6 +39,7 @@ export const handler: Handler = async (event: SQSEvent) => {
         throw new Error(`no message handler found for queue : ${queueName}`);
       }
 
+      // transform payload from Record type to Message type
       const message: Message = {
         MessageId: record.messageId,
         ReceiptHandle: record.receiptHandle,
