@@ -1,19 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
-
 import { SqsMessageHandler } from '../aws/sqs/sqs.decorators';
 import { Message } from '@aws-sdk/client-sqs';
-
-const EMAIL_QUEUE_NAME = 'nestjs-serverless-poc-EmailQueue-dev';
+import awsConfig from '../../config/aws.config';
+const EmailQueueName = awsConfig.sqs.emailQueueName;
 
 @Injectable()
 export class MailerConsumer {
   logger = new Logger(MailerConsumer.name);
 
-  @SqsMessageHandler(EMAIL_QUEUE_NAME)
+  @SqsMessageHandler(EmailQueueName)
   onMessageReceived(message: Message) {
     this.logger.debug(
-      '&&&&&&&&&&&&&&&&&&&&&&&&& sqs message received' +
-        JSON.stringify(message, null, 2),
+      'sqs message received\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n' +
+        JSON.stringify(message, null, 2) +
+        '\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n',
     );
   }
 }
