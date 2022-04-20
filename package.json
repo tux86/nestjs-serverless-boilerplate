@@ -33,6 +33,7 @@
   "dependencies": {
     "@aws-sdk/client-ses": "^3.72.0",
     "@aws-sdk/client-sqs": "^3.72.0",
+    "@nestjs-plus/discovery": "^2.0.2",
     "@nestjs/apollo": "^10.0.8",
     "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "^8.0.0",
