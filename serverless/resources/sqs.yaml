@@ -1,0 +1,5 @@
+Resources:
+  EmailQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.config.emailQueueName}
