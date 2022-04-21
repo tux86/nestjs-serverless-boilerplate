@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
-import { MailerConsumer } from './mailer.consumer';
 
 @Module({
-  providers: [MailerConsumer],
+  providers: [],
 })
 export class MailerModule {}
