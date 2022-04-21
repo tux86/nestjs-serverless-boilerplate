@@ -15,20 +15,7 @@ export class SesMessageHandler {
 
   @SqsMessageHandler(EmailQueueName)
   async handleMessage(message: Message) {
-    this.logger.debug(
-      'sqs message received\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n' +
-        JSON.stringify(message, null, 2) +
-        '\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n',
-    );
-
     const sendEmailParameters: SendEmailParameters = JSON.parse(message.Body);
-
-    this.logger.debug(
-      'ses message \n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n' +
-        JSON.stringify(sendEmailParameters, null, 2) +
-        '\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n',
-    );
-
     await this.sesService.sendEmailSync(sendEmailParameters);
   }
 }

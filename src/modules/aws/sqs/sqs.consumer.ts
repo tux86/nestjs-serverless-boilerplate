@@ -16,11 +16,10 @@ export class SqsConsumer {
       }
 
       for (const record of records) {
-        const { eventSourceARN } = record;
+        const { messageId, eventSourceARN } = record;
         const queueName = eventSourceARN.split(':').pop();
         this.logger.debug(
-          'new message from SQS Queue : ' + queueName,
-          // JSON.stringify(record, null, 2),
+          `new message(${messageId}) consumed from queue(${queueName})`,
         );
 
         const messageHandler = this.sqsService.messageHandlers.get(queueName);

@@ -15,8 +15,8 @@ export class SESController {
         to: [process.env.DESTINATION_EMAIL_TEST],
       },
       subject: 'test email',
-      bodyHtml: '<p>Hello !</p>',
-      bodyText: 'Hello !',
+      html: '<p>Hello !</p>',
+      text: 'Hello !',
     });
   }
 }

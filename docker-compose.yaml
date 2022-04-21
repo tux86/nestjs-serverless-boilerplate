@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - ${MAILHOG_PORT:-1025}:1025
+      - ${MAILHOG_UI_PORT:-8025}:8025
+
