@@ -13,12 +13,15 @@ provider:
   name: aws
   runtime: nodejs14.x
   architecture: arm64
-  region: eu-west-1
+  region: ${opt:region, 'eu-west-1'}
+  stackTags:
+    STACK_NAME: ${self:service}
   lambdaHashingVersion: '20201221'
   profile: ${env:AWS_PROFILE}
   memorySize: 1024
   timeout: 20
   versionFunctions: false
+  logRetentionInDays: 14
   ecr:
     images:
       appimage:
@@ -38,7 +41,7 @@ provider:
           Action: "*"
           Resource: "*"
   deploymentBucket:
-    name: ${self:service}-sls-state-${sls:stage}
+    name: ${env:DEPLOYMENT_BUCKET_PREFIX}-${sls:stage}
   environment:
     ${file(./serverless/provider/environment.yaml):environment}
 
