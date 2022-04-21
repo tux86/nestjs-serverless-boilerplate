@@ -21,7 +21,7 @@
     "sls:deploy:table": "yarn sls deploy --config serverless-dynamodb-table.yaml --stage ${STAGE:=dev}",
     "sls:remove": "yarn sls remove --stage ${STAGE:=dev}",
     "sls:remove:table": "yarn sls remove --config serverless-dynamodb-table.yaml --stage ${STAGE:=dev}",
-    "sls:logs:http": "yarn sls logs -f http -t -s ${STAGE:=dev}",
+    "sls:logs:nest": "yarn sls logs -f nest -t -s ${STAGE:=dev}",
     "sls:logs:sqs": "yarn sls logs -f sqs -t -s ${STAGE:=dev}",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",

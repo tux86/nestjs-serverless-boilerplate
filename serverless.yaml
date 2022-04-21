@@ -65,7 +65,7 @@ custom:
     skipCacheInvalidation: false
 
 functions:
-  ${file(./serverless/functions${env:OFFLINE_EXT, ''}.yaml):functions}
+  ${file(./serverless/functions/functions${env:OFFLINE_EXT, ''}.yaml):functions}
 
 resources:
   ${file(./serverless/resources/sqs.yaml)}
