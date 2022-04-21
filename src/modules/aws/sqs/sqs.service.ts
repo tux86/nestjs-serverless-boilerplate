@@ -1,35 +1,20 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import {
-  SendMessageCommand,
-  SQSClient,
-  SQSClientConfig,
-} from '@aws-sdk/client-sqs';
+import { SendMessageCommand } from '@aws-sdk/client-sqs';
 import { SendMessageInput } from './dtos/send-message.input';
 import { DiscoveryService } from '@nestjs-plus/discovery';
 import { MessageHandler, QueueName, SqsMessageHandlerMeta } from './sqs.types';
 import { SQS_MESSAGE_HANDLER } from './sqs.constants';
+import { SQSProvider } from './sqs.provider';
 
 @Injectable()
 export class SqsService {
-  private readonly client: SQSClient;
-  private readonly logger = new Logger(SqsService.name);
   public readonly messageHandlers = new Map<QueueName, MessageHandler>();
+  private readonly logger = new Logger(SqsService.name);
 
   constructor(
-    private readonly config: ConfigService,
+    private readonly provider: SQSProvider,
     private readonly discover: DiscoveryService,
   ) {
-    const region = config.get('aws.region');
-
-    const clientConfig: SQSClientConfig = { region };
-    // set endpoint if ElasticMQ endpoint provided (offline mode)
-    if (this.isLocalQueue()) {
-      clientConfig.endpoint = config.get('aws.sqs.elasticMQEndpoint');
-      this.logger.debug(`ElasticMQ endpoint ${clientConfig.endpoint}`);
-    }
-
-    this.client = new SQSClient(clientConfig);
     this.logger.log('SQS service initialized');
   }
 
@@ -54,28 +39,11 @@ export class SqsService {
     }
   }
 
-  public isLocalQueue() {
-    return this.config.get<boolean>('isOffline');
-  }
-
-  public getMessageHandlers() {}
-
-  public getQueueUrl(queueName: string): string {
-    if (this.isLocalQueue()) {
-      const endpoint = this.config.get('aws.sqs.elasticMQEndpoint');
-      return `${endpoint}/queue/${queueName}`;
-    } else {
-      const region = this.config.get('aws.region');
-      const accountId = this.config.get('aws.accountId');
-      return `https://sqs.${region}.amazonaws.com/${accountId}/${queueName}`;
-    }
-  }
-
   public async send(queueName: string, input: SendMessageInput): Promise<void> {
     const { body, groupId, deduplicationId, delaySeconds, messageAttributes } =
       input;
     const command = new SendMessageCommand({
-      QueueUrl: this.getQueueUrl(queueName),
+      QueueUrl: `${this.provider.queueBaseUrl}/${queueName}`,
       MessageGroupId: groupId,
       DelaySeconds: delaySeconds,
       MessageDeduplicationId: deduplicationId,
@@ -83,10 +51,12 @@ export class SqsService {
       MessageBody: body,
       MessageAttributes: messageAttributes,
     });
-    await this.client.send(command);
+
+    await this.provider.client.send(command);
   }
 
   public async purgeQueue(queueName: string): Promise<void> {
+    //TODO: WILL BE IMPLEMENTED LATER
     return;
   }
 }
