@@ -23,10 +23,10 @@ export class SQSProvider {
     }
 
     if (isLocalQueueEnabled) {
-      // ElasticMQ queue (local)
+      // Local broken queue (local)
       this.queueBaseUrl = `${localEndpoint}/queue`;
       sqsClientConfig.endpoint = localEndpoint;
-      this.logger.debug(`Using local ElasticMQ endpoint ${localEndpoint}`);
+      this.logger.debug(`Using local broker endpoint ${localEndpoint}`);
     } else {
       // Amazon SQS queue
       const accountId = this.config.get('aws.accountId');
