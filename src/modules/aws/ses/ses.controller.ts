@@ -8,12 +8,10 @@ export class SESController {
 
   @Get('testSendEmail')
   async sendEmailTest(): Promise<void> {
-    const from = this.config.get('defaultFromEmail');
+    const from = this.config.get('aws.ses.defaultSenderAddress');
     await this.sesService.sendEmail({
       from,
-      destination: {
-        to: [process.env.DESTINATION_EMAIL_TEST],
-      },
+      to: [process.env.TEST_RECIPIENT_ADDRESS],
       subject: 'test email',
       html: '<p>Hello !</p>',
       text: 'Hello !',

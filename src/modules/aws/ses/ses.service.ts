@@ -7,7 +7,7 @@ import { SESProvider } from './ses.provider';
 import { ConfigService } from '@nestjs/config';
 import { FakeSmtpClientProvider } from './fake.smtp.client.provider';
 const DEFAULT_CHARSET = 'UTF-8';
-const EmailQueueName = awsConfig.sqs.emailQueueName;
+const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;
 
 @Injectable()
 export class SESService {
@@ -36,17 +36,8 @@ export class SESService {
    * @private
    */
   private async fakerSendEmail(input: SendEmailParameters) {
-    const { from, subject, text, html } = input;
-    const { cc, bcc, to } = input.destination;
-
     await this.fakeProvider.client.sendMail({
-      from,
-      to,
-      cc,
-      bcc,
-      subject,
-      html,
-      text,
+      ...input,
     });
     return;
   }
@@ -56,8 +47,7 @@ export class SESService {
    * @param input
    */
   public async sesSendEmail(input: SendEmailParameters): Promise<void> {
-    const { from, subject, text, html } = input;
-    const { cc, bcc, to } = input.destination;
+    const { from, cc, bcc, to, subject, text, html } = input;
 
     const command = new SendEmailCommand({
       Destination: {

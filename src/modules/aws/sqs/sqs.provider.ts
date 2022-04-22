@@ -11,14 +11,14 @@ export class SQSProvider {
   constructor(private readonly config: ConfigService) {
     const region = config.get('aws.region');
     const isLocalQueueEnabled = this.config.get<boolean>('isOffline');
-    const localEndpoint = config.get('aws.sqs.elasticMQEndpoint');
+    const localEndpoint = config.get('aws.sqs.localBrokerEndpoint');
 
     //  SQS Client config
     const sqsClientConfig: SQSClientConfig = { region };
 
     if (isLocalQueueEnabled && !localEndpoint) {
       throw new Error(
-        `Local mode is enabled. EMQ_ENDPOINT environment variable must be defined`,
+        `Local mode is enabled. LOCAL_BROKER_ENDPOINT environment variable must be defined`,
       );
     }
 

@@ -5,7 +5,7 @@ import awsConfig from '../../../config/aws.config';
 import { SESService } from './ses.service';
 import { SendEmailParameters } from './dtos/send-email-parameters';
 
-const EmailQueueName = awsConfig.sqs.emailQueueName;
+const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;
 
 @Injectable()
 export class SesMessageHandler {

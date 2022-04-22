@@ -7,10 +7,13 @@ export default {
     authority: `https://cognito-idp.${process.env.AWS_REGION}.amazonaws.com/${process.env.COGNITO_USER_POOL_ID}`,
   },
   sqs: {
-    elasticMQEndpoint: process.env.EMQ_ENDPOINT,
-    emailQueueName: process.env.EMAIL_QUEUE_NAME,
+    localBrokerEndpoint: process.env.LOCAL_BROKER_ENDPOINT,
+    queueNames: {
+      emailQueue: process.env.EMAIL_QUEUE_NAME,
+    },
   },
   ses: {
+    defaultSenderAddress: process.env.DEFAULT_SENDER_ADDRESS,
     mailHog: {
       enabled: process.env.MAILHOG_ENABLED === 'true',
       host: process.env.MAILHOG_HOST,
