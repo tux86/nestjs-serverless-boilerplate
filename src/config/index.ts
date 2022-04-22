@@ -1,6 +1,6 @@
 import database from './database.config';
 import aws from './aws.config';
-import { Environment } from '../common/utils/environment';
+import { Environment } from '../common/utils/environment.util';
 
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
