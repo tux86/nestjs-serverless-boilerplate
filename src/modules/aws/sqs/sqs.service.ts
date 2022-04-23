@@ -7,6 +7,9 @@ import {
 import { SendMessageInput } from './dtos/send-message.input';
 import { SqsClientProvider } from './sqs-client.provider';
 
+/**
+ * @class SqsService
+ */
 @Injectable()
 export class SqsService {
   private readonly logger = new Logger(SqsService.name);
@@ -20,8 +23,15 @@ export class SqsService {
     return `${this.provider.queueBaseUrl}/${queueName}`;
   }
 
-  // send message to sqs queue
-  public async send(queueName: string, input: SendMessageInput): Promise<void> {
+  /**
+   *  send message to sqs queue
+   * @param queueName
+   * @param input
+   */
+  public async send<T = any>(
+    queueName: string,
+    input: SendMessageInput,
+  ): Promise<void> {
     const { body, groupId, deduplicationId, delaySeconds, messageAttributes } =
       input;
     const command = new SendMessageCommand({
@@ -30,18 +40,28 @@ export class SqsService {
       DelaySeconds: delaySeconds,
       MessageDeduplicationId: deduplicationId,
       MessageSystemAttributes: messageAttributes,
-      MessageBody: body,
+      MessageBody:
+        typeof body === 'string' ? body : (JSON.stringify(body) as any),
       MessageAttributes: messageAttributes,
     });
 
     await this.provider.client.send(command);
   }
 
+  /**
+   * purge a queue by name
+   * @param queueName
+   */
   public async purgeQueue(queueName: string): Promise<void> {
     //TODO: WILL BE IMPLEMENTED LATER
     return;
   }
 
+  /**
+   * delete messages from a queue
+   * @param queueName
+   * @param messages
+   */
   public async deleteMessages(queueName: string, messages: Message[]) {
     this.logger.debug('delete sqs message from queue');
     const command = new DeleteMessageBatchCommand({

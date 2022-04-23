@@ -23,7 +23,7 @@ export class SESService {
    */
   public async sendEmail(input: SendEmailParameters): Promise<void> {
     await this.sqsService.send(EmailQueueName, {
-      body: JSON.stringify(input),
+      body: input,
     });
   }
 
@@ -34,6 +34,7 @@ export class SESService {
   public async sendEmailSync(input: SendEmailParameters): Promise<void> {
     try {
       const result = await this.sesClientProvider.client.sendMail(input);
+      //TODO: use result
     } catch (error) {
       this.logger.error('failed to send email');
       this.logger.error(error, JSON.stringify(error));
