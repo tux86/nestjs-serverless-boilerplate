@@ -1,4 +1,4 @@
-service: nestjs-serverless-poc
+service: nestjs-serverless-boilerplate
 frameworkVersion: '3'
 useDotenv: true
 

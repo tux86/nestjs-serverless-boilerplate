@@ -1,4 +1,4 @@
-service: nestjs-serverless-poc-table
+service: nestjs-serverless-boilerplate-table
 frameworkVersion: "3"
 useDotenv: true
 
