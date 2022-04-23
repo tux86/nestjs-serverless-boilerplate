@@ -5,7 +5,7 @@ import { Injectable, Logger } from '@nestjs/common';
 /**
  * Provides SQS Client instance
  *
- * depending on the configuration the provided SQS Client cloud
+ * depending on the configuration the provided SQS Client could
  * communicate with local broker server or AWS SQS queue
  */
 @Injectable()
