@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SQSEvent, SQSRecord } from 'aws-lambda';
-import { SqsService } from './sqs.service';
 import { Message } from '@aws-sdk/client-sqs';
+import { SqsHandlersRegistry } from './sqs-handlers-registry';
 
 @Injectable()
 export class SqsConsumer {
   logger = new Logger('SqsConsumer');
-  constructor(private readonly sqsService: SqsService) {}
+  constructor(private readonly registry: SqsHandlersRegistry) {}
   public async handler(event: SQSEvent) {
     try {
       const records: SQSRecord[] = event.Records;
@@ -22,10 +22,7 @@ export class SqsConsumer {
           `new message(${messageId}) consumed from queue(${queueName})`,
         );
 
-        const messageHandler = this.sqsService.messageHandlers.get(queueName);
-        if (!messageHandler) {
-          throw new Error(`no message handler found for queue : ${queueName}`);
-        }
+        const messageHandler = this.registry.getHandler(queueName);
 
         // transform payload from Record type to Message type
         const message: Message = {
@@ -40,7 +37,7 @@ export class SqsConsumer {
           //MessageAttributes: record.messageAttributes;
         };
 
-        messageHandler(message);
+        await messageHandler(message);
       }
     } catch (error) {
       this.logger.error(`Error `, error.stack);

@@ -2,9 +2,15 @@ import { ConfigService } from '@nestjs/config';
 import { SQSClient, SQSClientConfig } from '@aws-sdk/client-sqs';
 import { Injectable, Logger } from '@nestjs/common';
 
+/**
+ * Provides SQS Client instance
+ *
+ * depending on the configuration the provided SQS Client cloud
+ * communicate with local broker server or AWS SQS queue
+ */
 @Injectable()
-export class SQSProvider {
-  private readonly logger = new Logger(SQSProvider.name);
+export class SqsClientProvider {
+  private readonly logger = new Logger(SqsClientProvider.name);
   public readonly client: SQSClient;
   public queueBaseUrl: string;
 

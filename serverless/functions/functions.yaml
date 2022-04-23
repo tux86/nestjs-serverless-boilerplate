@@ -4,6 +4,8 @@ functions:
       name: appimage
       command:
         - dist/src/main-http-lambda.handler
+    memorySize: 2048
+    timeout: 20
     events:
       - httpApi:
           method: '*'
@@ -17,8 +19,8 @@ functions:
       name: appimage
       command:
         - dist/src/main-sqs-lambda.handler
-    memorySize: 2048
-    timeout: 300 # 5 minutes  must be equal to Queue VisibilityTimeout
+    memorySize: 512
+    timeout: 30
     events:
       - sqs:
           batchSize: 1

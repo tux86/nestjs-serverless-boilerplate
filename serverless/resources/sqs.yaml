@@ -3,5 +3,5 @@ Resources:
     Type: AWS::SQS::Queue
     Properties:
       QueueName: ${self:custom.config.emailQueueName}
-      VisibilityTimeout: 300
-      MessageRetentionPeriod: 345600 # 4 days (default)
+      VisibilityTimeout: 30
+

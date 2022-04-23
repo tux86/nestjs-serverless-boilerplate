@@ -1,12 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SendEmailCommand } from '@aws-sdk/client-ses';
 import { SendEmailParameters } from './dtos/send-email-parameters';
 import { SqsService } from '../sqs/sqs.service';
 import awsConfig from '../../../config/aws.config';
-import { SESProvider } from './ses.provider';
-import { ConfigService } from '@nestjs/config';
-import { FakeSmtpClientProvider } from './fake.smtp.client.provider';
-const DEFAULT_CHARSET = 'UTF-8';
+import { SESClientProvider } from './ses-client.provider';
+
 const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;
 
 @Injectable()
@@ -14,11 +11,11 @@ export class SESService {
   private readonly logger = new Logger(SESService.name);
 
   constructor(
-    private readonly config: ConfigService,
-    private readonly sesProvider: SESProvider,
-    private readonly fakeProvider: FakeSmtpClientProvider,
+    private readonly sesClientProvider: SESClientProvider,
     private readonly sqsService: SqsService,
-  ) {}
+  ) {
+    this.logger.debug('SES Client initialized');
+  }
 
   /**
    * send email asynchronous (sqs queue)
@@ -31,65 +28,15 @@ export class SESService {
   }
 
   /**
-   * send email to fake SMTP Server
-   * @param input
-   * @private
-   */
-  private async fakerSendEmail(input: SendEmailParameters) {
-    await this.fakeProvider.client.sendMail({
-      ...input,
-    });
-    return;
-  }
-
-  /**
    * send email synchronous (ses)
    * @param input
    */
-  public async sesSendEmail(input: SendEmailParameters): Promise<void> {
-    const { from, cc, bcc, to, subject, text, html } = input;
-
-    const command = new SendEmailCommand({
-      Destination: {
-        CcAddresses: cc,
-        BccAddresses: bcc,
-        ToAddresses: to,
-      },
-      Message: {
-        Body: {
-          Html: {
-            Charset: DEFAULT_CHARSET,
-            Data: html,
-          },
-          Text: {
-            Charset: DEFAULT_CHARSET,
-            Data: text,
-          },
-        },
-        Subject: {
-          Charset: DEFAULT_CHARSET,
-          Data: subject,
-        },
-      },
-      Source: from,
-      ReplyToAddresses: [],
-    });
-    await this.sesProvider.client.send(command);
-  }
-
-  /**
-   * send mail synchronous
-   * @param input
-   */
-  public async sendEmailSync(input: SendEmailParameters) {
+  public async sendEmailSync(input: SendEmailParameters): Promise<void> {
     try {
-      if (this.fakeProvider.isEnabled) {
-        await this.fakerSendEmail(input);
-      } else {
-        await this.sesSendEmail(input);
-      }
+      const result = await this.sesClientProvider.client.sendMail(input);
     } catch (error) {
-      this.logger.error('failed to send email', error);
+      this.logger.error('failed to send email');
+      this.logger.error(error, JSON.stringify(error));
     }
   }
 }

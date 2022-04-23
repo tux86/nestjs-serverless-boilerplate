@@ -12,7 +12,7 @@ export class SESController {
     await this.sesService.sendEmail({
       from,
       to: [process.env.TEST_RECIPIENT_ADDRESS],
-      subject: 'test email',
+      subject: 'test email ' + Math.random(),
       html: '<p>Hello !</p>',
       text: 'Hello !',
     });

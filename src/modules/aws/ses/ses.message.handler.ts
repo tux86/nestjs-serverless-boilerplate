@@ -11,11 +11,17 @@ const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;
 export class SesMessageHandler {
   private readonly logger = new Logger(SesMessageHandler.name);
 
-  constructor(private readonly sesService: SESService) {}
+  constructor(private readonly sesService: SESService) {
+    this.logger.debug('SesMessageHandler initialized');
+  }
 
   @SqsMessageHandler(EmailQueueName)
   async handleMessage(message: Message) {
-    const sendEmailParameters: SendEmailParameters = JSON.parse(message.Body);
-    await this.sesService.sendEmailSync(sendEmailParameters);
+    try {
+      const parameters: SendEmailParameters = JSON.parse(message.Body);
+      await this.sesService.sendEmailSync(parameters);
+    } catch (error) {
+      this.logger.error('failed to send email');
+    }
   }
 }
