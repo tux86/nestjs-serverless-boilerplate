@@ -63,7 +63,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     // }
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
   private async getDatabaseCredentials(): Promise<DatabaseCredentialsDto> {
     const secretArn = this.config.get<string>('database.secretArn');
     const result = await this.secretsManagerService.getSecretValue(secretArn);
