@@ -1,15 +1,15 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EmailTemplateModule } from './modules/email-template/email-template.module';
+import { EmailTemplateModule } from './email-template/email-template.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
-import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
-import { MailerModule } from './modules/mailer/mailer.module';
-import { AwsModule } from './modules/aws/aws.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { HealthCheckerModule } from './health-checker/health-checker.module';
+import { MailerModule } from './mailer/mailer.module';
+import { AwsModule } from './aws/aws.module';
+import { AuthModule } from './auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
