@@ -3,7 +3,7 @@ import { SESController } from './ses.controller';
 import { SESService } from './ses.service';
 import { EmailSendSuccessListener } from './listeners/email-send-success.listener';
 import { EmailSendFailedListener } from './listeners/email-send-failed.listener';
-import { SesMessageHandler } from './ses.message.handler';
+import { EmailQueueConsumer } from './consumers/email-queue.consumer';
 import { SQSModule } from '../sqs/sqs.module';
 import { SesClientProvider } from './ses.client.provider';
 import { EmailQueueProducer } from './producers/email-queue.producer';
@@ -14,7 +14,7 @@ import { EmailQueueProducer } from './producers/email-queue.producer';
   providers: [
     SesClientProvider,
     SESService,
-    SesMessageHandler,
+    EmailQueueConsumer,
     EmailSendSuccessListener,
     EmailSendFailedListener,
     EmailQueueProducer,
