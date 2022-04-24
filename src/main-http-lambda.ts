@@ -4,7 +4,7 @@ import { serverlessBootstrap as bootstrap } from './main.base';
 let cachedServer: Handler;
 
 export const handler: Handler = async (
-  event: any,
+  event: an2222y,
   context: Context,
   callback: Callback,
 ) => {
