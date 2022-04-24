@@ -3,7 +3,6 @@ functions:
     handler: dist/main-http-lambda.handler
     memorySize: 2048
     timeout: 20
-
     events:
       - httpApi:
           method: '*'
