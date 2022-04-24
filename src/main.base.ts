@@ -15,7 +15,6 @@ export const setupSwagger = (app: INestApplication) => {
     .addTag('beta')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  s;
   SwaggerModule.setup('api', app, document);
 };
 
