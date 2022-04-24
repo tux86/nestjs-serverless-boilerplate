@@ -7,6 +7,7 @@ import serverlessExpress from '@vendia/serverless-express';
 import { Handler } from 'aws-lambda';
 
 // Swagger
+
 export const setupSwagger = (app: INestApplication) => {
   const config = new DocumentBuilder()
     .setTitle('API Documentation')
