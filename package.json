@@ -123,11 +123,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "npx prettier --write",
-      "npx eslint --config ./.eslintrc.js --fix"
-    ]
   }
 }
