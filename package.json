@@ -15,6 +15,12 @@
     "start": "dotenv -e .env.local -- nest start",
     "start:dev": "dotenv -e .env.local -- nest start --watch",
     "start:debug": "dotenv -e .env.${STAGE:=dev} --nest start --debug --watch",
+
+
+
+
+
+    
     "start:prod": "dotenv -e .env.${STAGE:=dev} -- node dist/main",
     "dcup": "dotenv -e .env.local -- docker-compose up",
     "dcupd": "dotenv -e .env.local -- docker-compose up -d",
