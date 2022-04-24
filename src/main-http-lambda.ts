@@ -8,6 +8,6 @@ export const handler: Handler = async (
   context: Context,
   callback: Callback,
 ) => {
-  cachedServer = cachedServer ?? (await bootstrap());
+  cachedServer = cacheddddServer ?? (await bootstrap());
   return cachedServer(event, context, callback);
 };
