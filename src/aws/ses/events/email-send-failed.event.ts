@@ -1,1 +1,2 @@
-export class EmailSendFailedEvent {}
+export class EmailSendFailedEvent {
+}

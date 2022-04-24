@@ -1,11 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
-import {
-  DeleteMessageBatchCommand,
-  Message,
-  SendMessageCommand,
-} from '@aws-sdk/client-sqs';
-import { SendMessageInput } from './dtos/send-message.input';
-import { SqsClientProvider } from './sqs.client.provider';
+import { Injectable, Logger } from "@nestjs/common";
+import { DeleteMessageBatchCommand, Message, SendMessageCommand } from "@aws-sdk/client-sqs";
+import { SendMessageInput } from "./dtos/send-message.input";
+import { SqsClientProvider } from "./sqs.client.provider";
 
 /**
  * @class SqsService
@@ -14,7 +10,8 @@ import { SqsClientProvider } from './sqs.client.provider';
 export class SqsService {
   private readonly logger = new Logger(SqsService.name);
 
-  constructor(public readonly provider: SqsClientProvider) {}
+  constructor(public readonly provider: SqsClientProvider) {
+  }
 
   /**
    *  send message to sqs queue
@@ -23,7 +20,7 @@ export class SqsService {
    */
   public async send<T = any>(
     queueUrl: string,
-    input: SendMessageInput,
+    input: SendMessageInput
   ): Promise<void> {
     const { body, groupId, deduplicationId, delaySeconds, messageAttributes } =
       input;
@@ -34,8 +31,8 @@ export class SqsService {
       MessageDeduplicationId: deduplicationId,
       MessageSystemAttributes: messageAttributes,
       MessageBody:
-        typeof body === 'string' ? body : (JSON.stringify(body) as any),
-      MessageAttributes: messageAttributes,
+        typeof body === "string" ? body : (JSON.stringify(body) as any),
+      MessageAttributes: messageAttributes
     });
 
     await this.provider.client.send(command);
@@ -56,13 +53,13 @@ export class SqsService {
    * @param messages
    */
   public async deleteMessages(queueUrl: string, messages: Message[]) {
-    this.logger.debug('delete sqs message from queue');
+    this.logger.debug("delete sqs message from queue");
     const command = new DeleteMessageBatchCommand({
       QueueUrl: queueUrl,
       Entries: messages.map(({ MessageId, ReceiptHandle }) => ({
         Id: MessageId,
-        ReceiptHandle,
-      })),
+        ReceiptHandle
+      }))
     });
     await this.provider.client.send(command);
   }

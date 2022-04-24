@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 
 @Module({
-  providers: [],
+  providers: []
 })
-export class MailerModule {}
+export class MailerModule {
+}

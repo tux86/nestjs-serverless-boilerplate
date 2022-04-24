@@ -1,4 +1,4 @@
 export enum EmailTemplateName {
-  CustomerSignup = 'CustomerSignup',
-  AdminRequestResetPassword = 'AdminRequestResetPassword',
+  CustomerSignup = "CustomerSignup",
+  AdminRequestResetPassword = "AdminRequestResetPassword",
 }
