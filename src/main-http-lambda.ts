@@ -1,4 +1,4 @@
-import { Callback, Context, Handler } from 'aws-lambda';
+import { Callback, Context2, Handler } from 'aws-lambda';
 import { serverlessBootstrap as bootstrap } from './main.base';
 
 let cachedServer: Handler;
