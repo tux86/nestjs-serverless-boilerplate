@@ -1,3 +1,3 @@
-import { defaultBootstrap as bootstrap } from "./main.base";
+import { defaultBootstrap as bootstrap } from './main.base';
 
 bootstrap();

@@ -1,8 +1,8 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { TypeOrmConfigService } from "./typeorm.config.service";
-import { Connection, createConnection, getConnectionManager } from "typeorm";
-import { SecretsManagerModule } from "../aws/secrets-manager/secrets-manager.module";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './typeorm.config.service';
+import { Connection, createConnection, getConnectionManager } from 'typeorm';
+import { SecretsManagerModule } from '../aws/secrets-manager/secrets-manager.module';
 
 @Module({
   imports: [
@@ -14,8 +14,8 @@ import { SecretsManagerModule } from "../aws/secrets-manager/secrets-manager.mod
         const manager = getConnectionManager();
         let connection: Connection;
 
-        if (manager.has("default")) {
-          connection = manager.get("default");
+        if (manager.has('default')) {
+          connection = manager.get('default');
         }
 
         /**
@@ -23,7 +23,7 @@ import { SecretsManagerModule } from "../aws/secrets-manager/secrets-manager.mod
          * => EntityMetadataNotFoundError: No metadata for "XXX" was found.
          */
         if (
-          process.env.IS_OFFLINE === "true" &&
+          process.env.IS_OFFLINE === 'true' &&
           connection &&
           connection.isConnected
         ) {
@@ -35,9 +35,8 @@ import { SecretsManagerModule } from "../aws/secrets-manager/secrets-manager.mod
         }
 
         return connection;
-      }
-    })
-  ]
+      },
+    }),
+  ],
 })
-export class DatabaseModule {
-}
+export class DatabaseModule {}

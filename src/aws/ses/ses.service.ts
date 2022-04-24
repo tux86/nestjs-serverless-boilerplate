@@ -1,8 +1,8 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { SendEmailParameters } from "./dtos/send-email-parameters";
-import { SesClientProvider } from "./ses.client.provider";
-import { MessageId } from "./types/ses.types";
-import { EmailQueueProducer } from "./producers/email-queue.producer";
+import { Injectable, Logger } from '@nestjs/common';
+import { SendEmailParameters } from './dtos/send-email-parameters';
+import { SesClientProvider } from './ses.client.provider';
+import { MessageId } from './types/ses.types';
+import { EmailQueueProducer } from './producers/email-queue.producer';
 
 @Injectable()
 export class SESService {
@@ -10,9 +10,9 @@ export class SESService {
 
   constructor(
     private readonly sesClientProvider: SesClientProvider,
-    private readonly producer: EmailQueueProducer
+    private readonly producer: EmailQueueProducer,
   ) {
-    this.logger.debug("SES Client initialized");
+    this.logger.debug('SES Client initialized');
   }
 
   /**
@@ -21,7 +21,7 @@ export class SESService {
    */
   public async sendEmail(input: SendEmailParameters): Promise<void> {
     await this.producer.send({
-      body: input
+      body: input,
     });
   }
 

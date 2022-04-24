@@ -1,4 +1,4 @@
-import { Environment } from "../enums/environment.enum";
+import { Environment } from '../enums/environment.enum';
 
 export const isEnvironment = (environment: Environment): boolean =>
   process.env.NODE_ENV === environment;

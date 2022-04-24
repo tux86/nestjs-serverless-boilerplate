@@ -1,18 +1,22 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { QueueName, SqsMessageHandlerMetaGenericType } from "./types/sqs.types";
-import { SqsConsumer } from "./sqs.consumer";
+import { Injectable, Logger } from '@nestjs/common';
+import { QueueName, SqsMessageHandlerMetaGenericType } from './types/sqs.types';
+import { SqsConsumer } from './sqs.consumer';
 import {
   SQS_MESSAGE_PROCESSED_HANDLER,
   SQS_MESSAGE_PROCESSING_ERROR_HANDLER,
-  SQS_MESSAGE_RECEIVED_HANDLER
-} from "./constants/message-handler.constants";
-import { DiscoveredMethodWithMeta, DiscoveryService, MetaKey } from "@nestjs-plus/discovery";
-import { SqsClientProvider } from "./sqs.client.provider";
+  SQS_MESSAGE_RECEIVED_HANDLER,
+} from './constants/message-handler.constants';
+import {
+  DiscoveredMethodWithMeta,
+  DiscoveryService,
+  MetaKey,
+} from '@nestjs-plus/discovery';
+import { SqsClientProvider } from './sqs.client.provider';
 import {
   SqsMessageProcessedHandlerMeta,
   SqsMessageProcessingErrorHandlerMeta,
-  SqsMessageReceivedHandlerMeta
-} from "./interfaces/message-handler-meta.interface";
+  SqsMessageReceivedHandlerMeta,
+} from './interfaces/message-handler-meta.interface';
 
 @Injectable()
 export class SqsConsumersRegistry {
@@ -21,9 +25,9 @@ export class SqsConsumersRegistry {
 
   constructor(
     private readonly provider: SqsClientProvider,
-    private readonly discover: DiscoveryService
+    private readonly discover: DiscoveryService,
   ) {
-    this.logger.debug("SqsLambdaHandler initialized");
+    this.logger.debug('SqsLambdaHandler initialized');
   }
 
   async onModuleInit() {
@@ -33,19 +37,19 @@ export class SqsConsumersRegistry {
   async registerConsumers() {
     this.logger.debug(`initializing consumers`);
     await this.registerHandlersByMetaKey<SqsMessageReceivedHandlerMeta>(
-      SQS_MESSAGE_RECEIVED_HANDLER
+      SQS_MESSAGE_RECEIVED_HANDLER,
     );
     await this.registerHandlersByMetaKey<SqsMessageProcessedHandlerMeta>(
-      SQS_MESSAGE_PROCESSED_HANDLER
+      SQS_MESSAGE_PROCESSED_HANDLER,
     );
     await this.registerHandlersByMetaKey<SqsMessageProcessingErrorHandlerMeta>(
-      SQS_MESSAGE_PROCESSING_ERROR_HANDLER
+      SQS_MESSAGE_PROCESSING_ERROR_HANDLER,
     );
     this.logger.debug(`${this.consumers.size} consumer(s) has been registered`);
   }
 
   async registerHandlersByMetaKey<T extends SqsMessageHandlerMetaGenericType>(
-    metaKey: MetaKey
+    metaKey: MetaKey,
   ) {
     const handlersMetas: DiscoveredMethodWithMeta<T>[] =
       await this.discover.providerMethodsWithMetaAtKey<T>(metaKey);
@@ -63,7 +67,7 @@ export class SqsConsumersRegistry {
       }
       consumer.setHandler(
         String(metaKey),
-        discoveredMethod.handler.bind(discoveredMethod.parentClass.instance)
+        discoveredMethod.handler.bind(discoveredMethod.parentClass.instance),
       );
     }
   }

@@ -1,6 +1,6 @@
 functions:
   nest:
-    handler: dist/src/main-http-lambda.handler
+    handler: dist/main-http-lambda.handler
     memorySize: 2048
     timeout: 20
     events:
@@ -12,7 +12,7 @@ functions:
           path: /{proxy+}
 
   sqs:
-    handler: dist/src/main-sqs-lambda.handler
+    handler: dist/main-sqs-lambda.handler
     memorySize: 512
     timeout: 30
     events:

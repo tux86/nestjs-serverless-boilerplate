@@ -1,11 +1,11 @@
-import { Logger } from "@nestjs/common";
-import { MessageHandler } from "./types/sqs.types";
-import { Message } from "@aws-sdk/client-sqs";
+import { Logger } from '@nestjs/common';
+import { MessageHandler } from './types/sqs.types';
+import { Message } from '@aws-sdk/client-sqs';
 import {
   SQS_MESSAGE_PROCESSED_HANDLER,
   SQS_MESSAGE_PROCESSING_ERROR_HANDLER,
-  SQS_MESSAGE_RECEIVED_HANDLER
-} from "./constants/message-handler.constants";
+  SQS_MESSAGE_RECEIVED_HANDLER,
+} from './constants/message-handler.constants';
 
 export class SqsConsumer {
   private readonly logger: Logger;
@@ -13,7 +13,7 @@ export class SqsConsumer {
   private handlers: { [key: string]: MessageHandler | undefined } = {
     SQS_MESSAGE_RECEIVED_HANDLER: undefined,
     SQS_MESSAGE_PROCESSED_HANDLER: undefined,
-    SQS_MESSAGE_PROCESSING_ERROR_HANDLER: undefined
+    SQS_MESSAGE_PROCESSING_ERROR_HANDLER: undefined,
   };
 
   constructor(public readonly queueName: string) {
@@ -25,8 +25,8 @@ export class SqsConsumer {
     if (this.handlers[name] !== undefined) {
       throw new Error(
         `${String(
-          SQS_MESSAGE_RECEIVED_HANDLER
-        )}: already defined for this queue`
+          SQS_MESSAGE_RECEIVED_HANDLER,
+        )}: already defined for this queue`,
       );
     }
     this.handlers[name] = handler;
@@ -49,7 +49,7 @@ export class SqsConsumer {
       await this.runHandler(
         String(SQS_MESSAGE_PROCESSING_ERROR_HANDLER),
         error,
-        message
+        message,
       );
     }
   }

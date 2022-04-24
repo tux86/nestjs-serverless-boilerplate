@@ -5,20 +5,20 @@ import {
   Entity,
   Index,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
-import { EmailTemplateName } from "../enums/email-template-name.enum";
-import { Field, ID, ObjectType } from "@nestjs/graphql";
+  UpdateDateColumn,
+} from 'typeorm';
+import { EmailTemplateName } from '../enums/email-template-name.enum';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity()
-@Index("unique_email_template_name", ["orgId", "name"], {
+@Index('unique_email_template_name', ['orgId', 'name'], {
   unique: true,
-  where: "\"deleted_at\" IS NULL"
+  where: '"deleted_at" IS NULL',
 })
 export class EmailTemplate {
   @Field(() => ID)
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   emailTemplateId: string;
 
   @Field()
@@ -29,16 +29,16 @@ export class EmailTemplate {
   @Column({ length: 50 })
   name: string | EmailTemplateName;
 
-  @Field({ description: "email subject" })
-  @Column("varchar", { length: 255 })
+  @Field({ description: 'email subject' })
+  @Column('varchar', { length: 255 })
   subject: string;
 
-  @Field({ description: "plain text content" })
-  @Column("text")
+  @Field({ description: 'plain text content' })
+  @Column('text')
   bodyText: string;
 
-  @Field({ description: "html content" })
-  @Column("text")
+  @Field({ description: 'html content' })
+  @Column('text')
   bodyHtml: string;
 
   @Field()

@@ -1,4 +1,4 @@
-import { MessageAttributeValue } from "@aws-sdk/client-sqs";
+import { MessageAttributeValue } from '@aws-sdk/client-sqs';
 
 export interface SendMessageInput<T = any> {
   body: T;

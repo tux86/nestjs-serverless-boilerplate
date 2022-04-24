@@ -1,6 +1,6 @@
-import { ConfigService } from "@nestjs/config";
-import { SQSClient, SQSClientConfig } from "@aws-sdk/client-sqs";
-import { Injectable, Logger } from "@nestjs/common";
+import { ConfigService } from '@nestjs/config';
+import { SQSClient, SQSClientConfig } from '@aws-sdk/client-sqs';
+import { Injectable, Logger } from '@nestjs/common';
 
 /**
  * Provides SQS Client instance
@@ -15,16 +15,16 @@ export class SqsClientProvider {
   private readonly logger = new Logger(SqsClientProvider.name);
 
   constructor(private readonly config: ConfigService) {
-    const region = config.get("aws.region");
-    const isLocalQueueEnabled = this.config.get<boolean>("isOffline");
-    const localEndpoint = config.get("aws.sqs.localBrokerEndpoint");
+    const region = config.get('aws.region');
+    const isLocalQueueEnabled = this.config.get<boolean>('isOffline');
+    const localEndpoint = config.get('aws.sqs.localBrokerEndpoint');
 
     //  SQS Client config
     const sqsClientConfig: SQSClientConfig = { region };
 
     if (isLocalQueueEnabled && !localEndpoint) {
       throw new Error(
-        `Local mode is enabled. LOCAL_BROKER_ENDPOINT environment variable must be defined`
+        `Local mode is enabled. LOCAL_BROKER_ENDPOINT environment variable must be defined`,
       );
     }
 
@@ -35,7 +35,7 @@ export class SqsClientProvider {
       this.logger.debug(`Using local broker endpoint ${localEndpoint}`);
     } else {
       // Amazon SQS queue
-      const accountId = this.config.get("aws.accountId");
+      const accountId = this.config.get('aws.accountId');
       this.queueBaseUrl = `https://sqs.${region}.amazonaws.com/${accountId}`;
     }
     this.client = new SQSClient(sqsClientConfig);

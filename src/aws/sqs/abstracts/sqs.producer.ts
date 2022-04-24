@@ -1,7 +1,7 @@
-import { SqsService } from "../sqs.service";
-import { SendMessageInput } from "../dtos/send-message.input";
-import { Inject, Logger } from "@nestjs/common";
-import { SqsProducer } from "../interfaces/sqs-producer.interface";
+import { SqsService } from '../sqs.service';
+import { SendMessageInput } from '../dtos/send-message.input';
+import { Inject, Logger } from '@nestjs/common';
+import { SqsProducer } from '../interfaces/sqs-producer.interface';
 
 /**
  * @abstract SQSProducerAbstract
@@ -13,8 +13,8 @@ export abstract class SQSProducerAbstract implements SqsProducer {
   public constructor(@Inject(SqsService) readonly sqsService: SqsService) {
     this.queueUrl = [
       this.sqsService.provider.queueBaseUrl,
-      this.queueName()
-    ].join("/");
+      this.queueName(),
+    ].join('/');
   }
 
   public abstract queueName(): string;

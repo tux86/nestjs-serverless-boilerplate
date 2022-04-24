@@ -3,7 +3,7 @@ functions:
     image:
       name: appimage
       command:
-        - dist/src/main-http-lambda.handler
+        - dist/main-http-lambda.handler
     memorySize: 2048
     timeout: 20
     events:
@@ -18,7 +18,7 @@ functions:
     image:
       name: appimage
       command:
-        - dist/src/main-sqs-lambda.handler
+        - dist/main-sqs-lambda.handler
     memorySize: 512
     timeout: 30
     events:
