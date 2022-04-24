@@ -1,5 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SqsMessageHandler } from '../sqs/sqs.decorators';
+import {
+  SQSMessageProcessedHandler,
+  SQSMessageProcessingErrorHandler,
+  SQSMessageReceivedHandler,
+} from '../sqs/decorators/sqs.decorators';
 import { Message } from '@aws-sdk/client-sqs';
 import awsConfig from '../../../config/aws.config';
 import { SESService } from './ses.service';
@@ -15,13 +19,22 @@ export class SesMessageHandler {
     this.logger.debug('SesMessageHandler initialized');
   }
 
-  @SqsMessageHandler(EmailQueueName)
-  async handleMessage(message: Message) {
-    try {
-      const parameters: SendEmailParameters = JSON.parse(message.Body);
-      await this.sesService.sendEmailSync(parameters);
-    } catch (error) {
-      this.logger.error('failed to send email');
-    }
+  @SQSMessageReceivedHandler(EmailQueueName)
+  async handleMessageReceived(message: Message) {
+    this.logger.debug(`onMessageReceived`);
+    const parameters: SendEmailParameters = JSON.parse(message.Body);
+    await this.sesService.sendEmailSync(parameters);
+  }
+
+  @SQSMessageProcessedHandler(EmailQueueName)
+  async handleMessageProcessed(message: Message) {
+    this.logger.debug(`onMessageProcessed : mail sent successfully`);
+  }
+
+  @SQSMessageProcessingErrorHandler(EmailQueueName)
+  async handleProcessingError(error: Error, message: Message) {
+    this.logger.error(`onProcessingError: failed to send email`);
+    //  this.logger.error(error.message, error.stack);
+    //TODO: send message to DLQ
   }
 }

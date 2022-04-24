@@ -5,7 +5,7 @@ import {
   SendMessageCommand,
 } from '@aws-sdk/client-sqs';
 import { SendMessageInput } from './dtos/send-message.input';
-import { SqsClientProvider } from './sqs-client.provider';
+import { SqsClientProvider } from './sqs.client.provider';
 
 /**
  * @class SqsService
@@ -14,28 +14,21 @@ import { SqsClientProvider } from './sqs-client.provider';
 export class SqsService {
   private readonly logger = new Logger(SqsService.name);
 
-  constructor(private readonly provider: SqsClientProvider) {
-    this.logger.debug('SQS service initialized');
-  }
-
-  // returns queue url from queue name
-  public getQueueUrl(queueName: string): string {
-    return `${this.provider.queueBaseUrl}/${queueName}`;
-  }
+  constructor(public readonly provider: SqsClientProvider) {}
 
   /**
    *  send message to sqs queue
-   * @param queueName
+   * @param queueUrl
    * @param input
    */
   public async send<T = any>(
-    queueName: string,
+    queueUrl: string,
     input: SendMessageInput,
   ): Promise<void> {
     const { body, groupId, deduplicationId, delaySeconds, messageAttributes } =
       input;
     const command = new SendMessageCommand({
-      QueueUrl: this.getQueueUrl(queueName),
+      QueueUrl: queueUrl,
       MessageGroupId: groupId,
       DelaySeconds: delaySeconds,
       MessageDeduplicationId: deduplicationId,
@@ -50,22 +43,22 @@ export class SqsService {
 
   /**
    * purge a queue by name
-   * @param queueName
+   * @param queueUrl
    */
-  public async purgeQueue(queueName: string): Promise<void> {
+  public async purgeQueue(queueUrl: string): Promise<void> {
     //TODO: WILL BE IMPLEMENTED LATER
     return;
   }
 
   /**
    * delete messages from a queue
-   * @param queueName
+   * @param queueUrl
    * @param messages
    */
-  public async deleteMessages(queueName: string, messages: Message[]) {
+  public async deleteMessages(queueUrl: string, messages: Message[]) {
     this.logger.debug('delete sqs message from queue');
     const command = new DeleteMessageBatchCommand({
-      QueueUrl: this.getQueueUrl(queueName),
+      QueueUrl: queueUrl,
       Entries: messages.map(({ MessageId, ReceiptHandle }) => ({
         Id: MessageId,
         ReceiptHandle,

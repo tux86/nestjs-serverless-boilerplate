@@ -1,28 +1,56 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { SQSEvent, SQSRecord } from 'aws-lambda';
-import { SqsHandlersRegistry } from './sqs-handlers-registry';
-import { SqsMessageTransformer } from '../ses/transformer/sqs.message.transformer';
+import { Logger } from '@nestjs/common';
+import { MessageHandler } from './types/sqs.types';
+import { Message } from '@aws-sdk/client-sqs';
+import {
+  SQS_MESSAGE_PROCESSED_HANDLER,
+  SQS_MESSAGE_PROCESSING_ERROR_HANDLER,
+  SQS_MESSAGE_RECEIVED_HANDLER,
+} from './constants/message-handler.constants';
 
-@Injectable()
 export class SqsConsumer {
-  logger = new Logger('SqsConsumer');
-  constructor(private readonly registry: SqsHandlersRegistry) {}
-  public async handler(event: SQSEvent) {
+  private readonly logger: Logger;
+
+  private handlers: { [key: string]: MessageHandler | undefined } = {
+    SQS_MESSAGE_RECEIVED_HANDLER: undefined,
+    SQS_MESSAGE_PROCESSED_HANDLER: undefined,
+    SQS_MESSAGE_PROCESSING_ERROR_HANDLER: undefined,
+  };
+
+  constructor(public readonly queueName: string) {
+    this.logger = new Logger(`SqsConsumer::${queueName}`);
+    this.logger.debug(`Consumer initialized`);
+  }
+
+  public setHandler(name: string, handler: MessageHandler): void {
+    if (this.handlers[name] !== undefined) {
+      throw new Error(
+        `${String(
+          SQS_MESSAGE_RECEIVED_HANDLER,
+        )}: already defined for this queue`,
+      );
+    }
+    this.handlers[name] = handler;
+    this.logger.debug(`${name} is bound to consumer handler`);
+  }
+
+  public async runHandler(name: string, ...args: any) {
+    const handler = this.handlers[name];
+    if (handler) {
+      await handler.apply(this, args);
+    }
+  }
+
+  public async handleMessage(message: Message): Promise<void> {
     try {
-      const records: SQSRecord[] = event.Records;
-      if (records.length === 0) {
-        return;
-      }
-      for (const record of records) {
-        const { messageId, eventSourceARN } = record;
-        const queueName = eventSourceARN.split(':').pop();
-        this.logger.debug(`new Message(${messageId}) from Queue(${queueName})`);
-        const messageHandler = this.registry.getHandler(queueName);
-        const message = SqsMessageTransformer.transform(record);
-        await messageHandler(message);
-      }
+      await this.runHandler(String(SQS_MESSAGE_RECEIVED_HANDLER), message);
+      await this.runHandler(String(SQS_MESSAGE_PROCESSED_HANDLER), message);
     } catch (error) {
-      this.logger.error(`Error `, error.stack);
+      this.logger.error(error.message, error.stack);
+      await this.runHandler(
+        String(SQS_MESSAGE_PROCESSING_ERROR_HANDLER),
+        error,
+        message,
+      );
     }
   }
 }

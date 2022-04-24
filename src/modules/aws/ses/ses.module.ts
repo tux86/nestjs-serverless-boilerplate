@@ -5,17 +5,19 @@ import { EmailSendSuccessListener } from './listeners/email-send-success.listene
 import { EmailSendFailedListener } from './listeners/email-send-failed.listener';
 import { SesMessageHandler } from './ses.message.handler';
 import { SQSModule } from '../sqs/sqs.module';
-import { SESClientProvider } from './ses-client.provider';
+import { SesClientProvider } from './ses.client.provider';
+import { EmailQueueProducer } from './producers/email-queue.producer';
 
 @Module({
   imports: [SQSModule],
   controllers: [SESController],
   providers: [
-    SESClientProvider,
+    SesClientProvider,
     SESService,
     SesMessageHandler,
     EmailSendSuccessListener,
     EmailSendFailedListener,
+    EmailQueueProducer,
   ],
   exports: [SESService],
 })

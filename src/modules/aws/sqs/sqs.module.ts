@@ -1,14 +1,20 @@
 import { Module } from '@nestjs/common';
 import { SqsService } from './sqs.service';
 import { DiscoveryModule } from '@nestjs-plus/discovery';
-import { SqsConsumer } from './sqs.consumer';
-import { SqsClientProvider } from './sqs-client.provider';
-import { SqsHandlersRegistry } from './sqs-handlers-registry';
+import { SqsClientProvider } from './sqs.client.provider';
+import { SqsLambdaHandler } from './sqs.lambda.handler';
+import { SqsConsumersRegistry } from './sqs.consumers.registry';
 
 @Module({
   imports: [DiscoveryModule],
   controllers: [],
-  providers: [SqsClientProvider, SqsService, SqsHandlersRegistry, SqsConsumer],
+  providers: [
+    SqsClientProvider,
+    SqsService,
+    SqsConsumersRegistry,
+    SqsLambdaHandler,
+    SqsLambdaHandler,
+  ],
   exports: [SqsService],
 })
 export class SQSModule {}

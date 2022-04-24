@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable, Logger } from '@nestjs/common';
 import nodemailer, { Transporter } from 'nodemailer';
-import { SES, SendRawEmailCommand } from '@aws-sdk/client-ses';
+import { SendRawEmailCommand, SES } from '@aws-sdk/client-ses';
 
 /**
  * Provides a Mail Client : Transporter
@@ -11,9 +11,9 @@ import { SES, SendRawEmailCommand } from '@aws-sdk/client-ses';
  *
  */
 @Injectable()
-export class SESClientProvider {
-  private readonly logger = new Logger(SESClientProvider.name);
+export class SesClientProvider {
   public readonly client: Transporter;
+  private readonly logger = new Logger(SesClientProvider.name);
 
   constructor(private readonly config: ConfigService) {
     const isLocalServer = this.config.get<boolean>('aws.ses.mailHog.enabled');

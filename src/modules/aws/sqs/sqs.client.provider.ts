@@ -10,9 +10,9 @@ import { Injectable, Logger } from '@nestjs/common';
  */
 @Injectable()
 export class SqsClientProvider {
-  private readonly logger = new Logger(SqsClientProvider.name);
   public readonly client: SQSClient;
   public queueBaseUrl: string;
+  private readonly logger = new Logger(SqsClientProvider.name);
 
   constructor(private readonly config: ConfigService) {
     const region = config.get('aws.region');

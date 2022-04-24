@@ -1,18 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SendEmailParameters } from './dtos/send-email-parameters';
-import { SqsService } from '../sqs/sqs.service';
-import awsConfig from '../../../config/aws.config';
-import { SESClientProvider } from './ses-client.provider';
-
-const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;
+import { SesClientProvider } from './ses.client.provider';
+import { MessageId } from './types/ses.types';
+import { EmailQueueProducer } from './producers/email-queue.producer';
 
 @Injectable()
 export class SESService {
   private readonly logger = new Logger(SESService.name);
 
   constructor(
-    private readonly sesClientProvider: SESClientProvider,
-    private readonly sqsService: SqsService,
+    private readonly sesClientProvider: SesClientProvider,
+    private readonly producer: EmailQueueProducer,
   ) {
     this.logger.debug('SES Client initialized');
   }
@@ -22,7 +20,7 @@ export class SESService {
    * @param input
    */
   public async sendEmail(input: SendEmailParameters): Promise<void> {
-    await this.sqsService.send(EmailQueueName, {
+    await this.producer.send({
       body: input,
     });
   }
@@ -31,13 +29,8 @@ export class SESService {
    * send email synchronous (ses)
    * @param input
    */
-  public async sendEmailSync(input: SendEmailParameters): Promise<void> {
-    try {
-      const result = await this.sesClientProvider.client.sendMail(input);
-      //TODO: use result
-    } catch (error) {
-      this.logger.error('failed to send email');
-      this.logger.error(error, JSON.stringify(error));
-    }
+  public async sendEmailSync(input: SendEmailParameters): Promise<MessageId> {
+    const result = await this.sesClientProvider.client.sendMail(input);
+    return result.messageId;
   }
 }
