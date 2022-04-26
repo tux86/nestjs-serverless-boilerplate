@@ -12,6 +12,5 @@ export default (async (): Promise<TypeOrmModuleOptions> => {
   const typeOrmConfigService = await app.get(TypeOrmConfigService);
   const config = await typeOrmConfigService.createTypeOrmOptions();
   await app.close();
-  console.log(JSON.stringify(config, null, 2));
   return config;
 })();
