@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { QueueName, SqsMessageHandlerMetaGenericType } from './types/sqs.types';
 import { SqsConsumer } from './sqs.consumer';
 import {
@@ -19,7 +19,7 @@ import {
 } from './interfaces/message-handler-meta.interface';
 
 @Injectable()
-export class SqsConsumersRegistry {
+export class SqsConsumersRegistry implements OnModuleInit {
   private readonly logger = new Logger(SqsConsumersRegistry.name);
   private readonly consumers = new Map<QueueName, SqsConsumer>();
 
