@@ -20,7 +20,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     // retrieve database username and password from aws secrets manager service
     const dbCredentials = await this.getDatabaseCredentials();
 
-    console.log(dbCredentials.username);
     const defaultConfiguration: TypeOrmModuleOptions = {
       type: 'postgres',
       host: this.config.get<string>('database.host'),
@@ -28,7 +27,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: dbCredentials.username,
       password: dbCredentials.password,
       database: this.config.get<string>('database.name'),
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: [`${__dirname}/../**/*.entity{.ts,.js}`],
       synchronize: false,
       namingStrategy: new SnakeNamingStrategy(),
       useUTC: this.config.get<boolean>('database.useUTC'),
