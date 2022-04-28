@@ -6,6 +6,8 @@ import { SecretsManagerService } from '../aws/secrets-manager/secrets-manager.se
 import { DatabaseCredentialsDto } from './dtos/database-credentials.dto';
 //TODO: should upgrade to class-transformer 5.x think to create wrapper
 import { deserialize } from 'class-transformer';
+import { EmailTemplate } from '../email-template/entities/email-template.entity';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -27,7 +29,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: dbCredentials.username,
       password: dbCredentials.password,
       database: this.config.get<string>('database.name'),
+      // entities: [EmailTemplate, User],
       entities: [`${__dirname}/../**/*.entity{.ts,.js}`],
+      autoLoadEntities: true,
       synchronize: false,
       namingStrategy: new SnakeNamingStrategy(),
       useUTC: this.config.get<boolean>('database.useUTC'),

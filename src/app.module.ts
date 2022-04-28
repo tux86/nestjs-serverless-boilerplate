@@ -1,7 +1,6 @@
 import { Logger, Module } from '@nestjs/common';
 import { EmailTemplateModule } from './email-template/email-template.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config';
 import { HealthCheckerModule } from './health-checker/health-checker.module';
@@ -10,6 +9,8 @@ import { AwsModule } from './aws/aws.module';
 import { AuthModule } from './auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { DatabaseModule } from './database/database.module';
+import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -19,10 +20,12 @@ import { DatabaseModule } from './database/database.module';
       load: [configuration],
     }),
     DatabaseModule,
-    GraphQLModule.forRoot({
-      driver: ApolloDriver,
+    GraphQLModule.forRoot<MercuriusDriverConfig>({
+      driver: MercuriusDriver,
       autoSchemaFile: true,
-      playground: true, // Allow playground in production
+      cache: false,
+      subscription: false,
+      graphiql: true,
     }),
     // *** EventEmitterModule
     EventEmitterModule.forRoot(),
@@ -30,6 +33,7 @@ import { DatabaseModule } from './database/database.module';
     HealthCheckerModule,
     AuthModule,
     AwsModule,
+    UserModule,
     EmailTemplateModule,
     MailerModule,
   ],

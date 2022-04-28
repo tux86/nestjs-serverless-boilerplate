@@ -3,7 +3,7 @@ functions:
     image:
       name: appimage
       command:
-        - dist/main-http-lambda.handler
+        - dist/src/lambda-http.handler
     memorySize: 2048
     timeout: 20
     events:
@@ -18,11 +18,11 @@ functions:
     image:
       name: appimage
       command:
-        - dist/main-sqs-lambda.handler
+        - dist/src/lambda-sqs.handler
     memorySize: 512
     timeout: 30
     events:
       - sqs:
           batchSize: 1
           arn:
-            Fn::GetAtt: [ EmailQueue, Arn ]
+            Fn::GetAtt: [EmailQueue, Arn]

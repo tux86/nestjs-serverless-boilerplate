@@ -37,13 +37,12 @@ provider:
   iam:
     role:
       statements:
-        - Effect: "Allow"
-          Action: "*"
-          Resource: "*"
+        - Effect: 'Allow'
+          Action: '*'
+          Resource: '*'
   deploymentBucket:
     name: ${env:DEPLOYMENT_BUCKET_PREFIX}-${sls:stage}
-  environment:
-    ${file(./serverless/provider/environment.yaml):environment}
+  environment: ${file(./serverless/provider/environment.yaml):environment}
 
 custom:
   config:
@@ -54,18 +53,20 @@ custom:
     blockPublicAccess: true
   # *** offline plugins config ***
   serverless-offline:
+    host: 127.0.0.1
     noPrependStageInUrl: true
+    noAuth: true
+    printOutput: false
+
   serverless-offline-sqs:
     autoCreate: true
-    apiVersion: "2012-11-05"
+    apiVersion: '2012-11-05'
     endpoint: ${env:LOCAL_BROKER_ENDPOINT, ''}
     region: ${self:provider.region}
     accessKeyId: root
     secretAccessKey: root
     skipCacheInvalidation: false
 
-functions:
-  ${file(./serverless/functions/functions${env:OFFLINE_EXT, ''}.yaml):functions}
+functions: ${file(./serverless/functions/functions${env:OFFLINE_EXT, ''}.yaml):functions}
 
-resources:
-  ${file(./serverless/resources/sqs.yaml)}
+resources: ${file(./serverless/resources/sqs.yaml)}

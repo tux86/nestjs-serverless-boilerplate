@@ -10,5 +10,6 @@ export const handler: Handler = async (event: SQSEvent, context: Context) => {
     ? cachedApp
     : await NestFactory.createApplicationContext(AppModule);
 
-  await cachedApp.get(SqsLambdaHandler).handler(event, context);
+  const sqsLambdaHandler = await cachedApp.get(SqsLambdaHandler);
+  return await sqsLambdaHandler.handler(event, context);
 };
