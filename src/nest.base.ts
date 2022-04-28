@@ -1,5 +1,5 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 
 // Swagger
 export const setupSwagger = (app: INestApplication) => {
@@ -16,6 +16,17 @@ export const setupSwagger = (app: INestApplication) => {
 export const setupNestApp = (app: INestApplication) => {
   // app.enableCors();
   app.setGlobalPrefix(process.env.API_PREFIX);
+
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     whitelist: true,
+  //     transform: true,
+  //     forbidNonWhitelisted: true,
+  //     transformOptions: {
+  //       enableImplicitConversion: true,
+  //     },
+  //   }),
+  // );
 
   // Setup Swagger
   setupSwagger(app);

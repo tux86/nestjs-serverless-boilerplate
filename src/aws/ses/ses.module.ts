@@ -5,7 +5,7 @@ import { EmailSendSuccessListener } from './listeners/email-send-success.listene
 import { EmailSendFailedListener } from './listeners/email-send-failed.listener';
 import { EmailQueueConsumer } from './consumers/email-queue.consumer';
 import { SQSModule } from '../sqs/sqs.module';
-import { SesClientProvider } from './ses.client.provider';
+import { SesClientProvider } from './ses-client.provider';
 import { EmailQueueProducer } from './producers/email-queue.producer';
 
 @Module({

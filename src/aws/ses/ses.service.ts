@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SendEmailParameters } from './dtos/send-email-parameters';
-import { SesClientProvider } from './ses.client.provider';
+import { SesClientProvider } from './ses-client.provider';
 import { MessageId } from './types/ses.types';
 import { EmailQueueProducer } from './producers/email-queue.producer';
 

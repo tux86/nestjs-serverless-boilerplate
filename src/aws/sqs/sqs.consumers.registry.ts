@@ -11,7 +11,7 @@ import {
   DiscoveryService,
   MetaKey,
 } from '@nestjs-plus/discovery';
-import { SqsClientProvider } from './sqs.client.provider';
+import { SqsClientProvider } from './sqs-client.provider';
 import {
   SqsMessageProcessedHandlerMeta,
   SqsMessageProcessingErrorHandlerMeta,

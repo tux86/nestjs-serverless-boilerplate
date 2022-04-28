@@ -5,7 +5,7 @@ import {
   SendMessageCommand,
 } from '@aws-sdk/client-sqs';
 import { SendMessageInput } from './dtos/send-message.input';
-import { SqsClientProvider } from './sqs.client.provider';
+import { SqsClientProvider } from './sqs-client.provider';
 
 /**
  * @class SqsService
