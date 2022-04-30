@@ -4,6 +4,7 @@ useDotenv: true
 
 plugins:
   - serverless-deployment-bucket
+  - serverless-plugin-ifelse
   # *** offline plugins ***
   - serverless-cloudside-plugin
   - serverless-offline-sqs
@@ -46,18 +47,20 @@ provider:
 
 custom:
   config:
-    isOffline: ${env:IS_OFFLINE, false}
+    isOffline: ${strToBool(${env:IS_OFFLINE, false})}
     emailQueueName: ${self:service}-EmailQueue-${sls:stage}
+  # *** serverless-deployment-bucket config ***
   deploymentBucket:
     accelerate: true
     blockPublicAccess: true
-  # *** offline plugins config ***
+  # *** serverless-offline config ***
   serverless-offline:
     host: 127.0.0.1
     noPrependStageInUrl: true
     noAuth: true
     printOutput: false
 
+  # *** serverless-offline-sqs  config ***
   serverless-offline-sqs:
     autoCreate: true
     apiVersion: '2012-11-05'
@@ -67,6 +70,16 @@ custom:
     secretAccessKey: root
     skipCacheInvalidation: false
 
-functions: ${file(./serverless/functions/functions${env:OFFLINE_EXT, ''}.yaml):functions}
+  # *** serverless-plugin-ifelse  config ***
+  serverlessIfElse:
+    - If: '${self:custom.config.isOffline} == true'
+      Exclude:
+        - functions.nest.image
+        - functions.sqs.image
+      ElseExclude:
+        - functions.nest.handler
+        - functions.sqs.handler
+
+functions: ${file(./serverless/functions.yaml):functions}
 
 resources: ${file(./serverless/resources/sqs.yaml)}

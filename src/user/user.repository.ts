@@ -18,4 +18,25 @@ export class UserRepository extends Repository<User> {
       throw new InternalServerErrorException();
     }
   }
+
+  public async findByEmail(email: string): Promise<User> {
+    return await this.createQueryBuilder()
+      .select()
+      .where('email = :email', { email })
+      .getOne();
+  }
+  //
+  // public async create(user: Partial<User>): Promise<User | undefined> {
+  //   try {
+  //     await this.createQueryBuilder().insert().into(User).values();
+  //     return await query.getOne();
+  //   } catch (error) {
+  //     this.logger.error(`${error} - ${error.stack}`);
+  //     throw new InternalServerErrorException();
+  //   }
+  // }
+  //
+  // public async removeById(userId: number) {
+  //   await this.remove();
+  // }
 }

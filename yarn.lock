@@ -8887,6 +8887,11 @@ serverless-offline@^8.7.0:
     velocityjs "^2.0.6"
     ws "^7.5.7"
 
+serverless-plugin-ifelse@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-ifelse/-/serverless-plugin-ifelse-1.0.7.tgz#8f98f25731499fda94d2996c581ef0635ef71fba"
+  integrity sha512-9OzcpsKOT50dO6WsGM0AiDbsN9TjH8zg/pLVOJlDjliSulWpP6Q5ceqp5zTM3eY/aAlYTq1/UBElKby6V+vZiQ==
+
 serverless@^3.14.0:
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/serverless/-/serverless-3.14.0.tgz#c530b47e11f811b5e500402f5f7d9be1ab69f53f"

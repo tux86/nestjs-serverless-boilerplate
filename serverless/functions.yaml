@@ -1,5 +1,6 @@
 functions:
   nest:
+    handler: dist/src/lambda-http.handler
     image:
       name: appimage
       command:
@@ -15,6 +16,7 @@ functions:
           path: /{proxy+}
 
   sqs:
+    handler: dist/src/lambda-sqs.handler
     image:
       name: appimage
       command:
