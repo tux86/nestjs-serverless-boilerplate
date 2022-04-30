@@ -3,6 +3,9 @@ environment:
   STAGE: ${sls:stage}
   NODE_ENV: ${env:NODE_ENV}
 
+  # S3
+  BUCKET_NAME: ${self:custom.config.bucketName}
+
   # DATABASE
   DATABASE_HOST: ${env:DATABASE_HOST}
   DATABASE_PORT: ${env:DATABASE_PORT}

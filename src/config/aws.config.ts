@@ -6,6 +6,9 @@ export default {
     clientId: process.env.COGNITO_CLIENT_ID,
     authority: `https://cognito-idp.${process.env.AWS_REGION}.amazonaws.com/${process.env.COGNITO_USER_POOL_ID}`,
   },
+  s3: {
+    bucketName: process.env.BUCKET_NAME,
+  },
   sqs: {
     localBrokerEndpoint: process.env.LOCAL_BROKER_ENDPOINT,
     queueNames: {

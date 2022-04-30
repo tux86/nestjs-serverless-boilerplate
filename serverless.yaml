@@ -48,6 +48,8 @@ provider:
 custom:
   config:
     isOffline: ${strToBool(${env:IS_OFFLINE, false})}
+    bucketName: ${self:service}-bucket-${sls:stage}
+    tableName: ${self:service}-table-${sls:stage}
     emailQueueName: ${self:service}-EmailQueue-${sls:stage}
   # *** serverless-deployment-bucket config ***
   deploymentBucket:
@@ -82,4 +84,7 @@ custom:
 
 functions: ${file(./serverless/functions.yaml):functions}
 
-resources: ${file(./serverless/resources/sqs.yaml)}
+resources:
+  - ${file(./serverless/resources/sqs.yaml)}
+  - ${file(./serverless/resources/s3.yaml)}
+  - ${file(./serverless/resources/table.yaml)}
