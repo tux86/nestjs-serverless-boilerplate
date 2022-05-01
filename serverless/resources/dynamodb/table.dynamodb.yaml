@@ -1,5 +1,5 @@
 Resources:
-  Table:
+  DynamoDBTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
     Properties:
@@ -47,6 +47,6 @@ Resources:
 
 Outputs:
   TableName:
-    Value: !Ref Table
+    Value: !Ref DynamoDBTable
     Export:
       Name: ${self:custom.config.tableName}

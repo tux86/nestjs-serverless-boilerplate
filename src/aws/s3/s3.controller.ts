@@ -3,6 +3,7 @@ import { S3Service } from './s3.service';
 import { ConfigService } from '@nestjs/config';
 import { streamToString } from './utils/s3.stream.utils';
 import { Readable } from 'stream';
+import { nanoid } from 'nanoid';
 
 @Controller('aws/s3')
 export class S3Controller {
@@ -11,7 +12,7 @@ export class S3Controller {
     private readonly s3Service: S3Service,
   ) {}
 
-  @Post('putObject')
+  @Post('/putObject')
   async putObject(): Promise<any> {
     const bucketName = this.config.get('aws.s3.bucketName');
 
@@ -42,6 +43,31 @@ export class S3Controller {
 
       const content = streamToString(result.Body as Readable);
       return content;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Get('/getUploadSignedUrl')
+  async getUploadSignedUrl(): Promise<any> {
+    const bucketName = this.config.get('aws.s3.bucketName');
+
+    try {
+      const signedUploadUrl = await this.s3Service.getUploadUrl({
+        bucketName,
+        baseDir: 'uploads',
+        fileName: 'wal id.x-t ~Karray.png',
+        contentType: 'image/png',
+        expiresIn: 3600,
+        metadata: {
+          'handler-name': 'importer',
+          'import-file-id': nanoid(),
+        },
+      });
+
+      return {
+        signedUploadUrl,
+      };
     } catch (error) {
       return error;
     }

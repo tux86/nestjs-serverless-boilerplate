@@ -1,5 +1,6 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 // Swagger
 export const setupSwagger = (app: INestApplication) => {
@@ -13,7 +14,7 @@ export const setupSwagger = (app: INestApplication) => {
   SwaggerModule.setup('api', app, document);
 };
 
-export const setupNestApp = (app: INestApplication) => {
+export const setupNestApp = async (app: NestFastifyApplication) => {
   // app.enableCors();
   app.setGlobalPrefix(process.env.API_PREFIX);
 

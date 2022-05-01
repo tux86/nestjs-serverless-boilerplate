@@ -16,7 +16,7 @@ provider:
   architecture: arm64
   region: ${opt:region, 'eu-west-1'}
   stackTags:
-    STACK_NAME: ${self:service}
+    STACK_NAME: ${self:service}-${sls:stage}
   lambdaHashingVersion: '20201221'
   profile: ${env:AWS_PROFILE}
   memorySize: 1024
@@ -44,11 +44,17 @@ provider:
   deploymentBucket:
     name: ${env:DEPLOYMENT_BUCKET_PREFIX}-${sls:stage}
   environment: ${file(./serverless/provider/environment.yaml):environment}
-
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
 custom:
   config:
     isOffline: ${strToBool(${env:IS_OFFLINE, false})}
-    bucketName: ${self:service}-bucket-${sls:stage}
+    s3BucketName: ${self:service}-bucket-${sls:stage}
+    rootDomainName: ${env:ROOT_DOMAIN_NAME}
+    apiDomainName: api-2.${env:ROOT_DOMAIN_NAME}
+    mediaDomainName: media-2.${env:ROOT_DOMAIN_NAME}
+    certificateNVirginaArn: ${env:CERTIFICATE_ARN_NVIRIGNIA}
     tableName: ${self:service}-table-${sls:stage}
     emailQueueName: ${self:service}-EmailQueue-${sls:stage}
   # *** serverless-deployment-bucket config ***
@@ -82,9 +88,20 @@ custom:
         - functions.nest.handler
         - functions.sqs.handler
 
-functions: ${file(./serverless/functions.yaml):functions}
-
+functions:
+  - ${file(./serverless/functions/nest-http-handler.function.yaml):functions}
+  - ${file(./serverless/functions/sqs-queue-handler.function.yaml):functions}
 resources:
-  - ${file(./serverless/resources/sqs.yaml)}
-  - ${file(./serverless/resources/s3.yaml)}
-  - ${file(./serverless/resources/table.yaml)}
+  # route 53
+  - ${file(./serverless/resources/route53/api-record.route53.yaml)}
+  - ${file(./serverless/resources/route53/media-record.route53.yaml)}
+  # cloudfront
+  - ${file(./serverless/resources/cloudfront/origin-access-identity.cloudfront.yaml)}
+  - ${file(./serverless/resources/cloudfront/api-distribution.cloudfront.yaml)}
+  - ${file(./serverless/resources/cloudfront/media-distribution.cloudfront.yaml)}
+  # sqs
+  - ${file(./serverless/resources/sqs/email-queue.sqs.yaml)}
+  # s3
+  - ${file(./serverless/resources/s3/bucket.s3.yaml)}
+  # dynamodb
+  #- ${file(./serverless/resources/dynamodb/table.dynamodb.yaml)}

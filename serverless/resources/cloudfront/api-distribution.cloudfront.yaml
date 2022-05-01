@@ -1,0 +1,53 @@
+Resources:
+  ApiCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    DeletionPolicy: Delete
+    DependsOn:
+      - HttpApi # IMPORTANT: resource automatically created by serverless
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        PriceClass: PriceClass_100
+        HttpVersion: http2
+        Comment: Api distribution ${sls:stage}
+        Origins:
+          - Id: ApiGateway
+            DomainName:
+              !Join [
+                '.',
+                [
+                  !Ref HttpApi,
+                  'execute-api',
+                  !Ref AWS::Region,
+                  'amazonaws.com',
+                ],
+              ]
+            OriginPath: ''
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1, TLSv1.1, TLSv1.2]
+        DefaultCacheBehavior:
+          TargetOriginId: ApiGateway
+          ViewerProtocolPolicy: redirect-to-https
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # CachingDisabled
+          Compress: true
+          AllowedMethods:
+            - HEAD
+            - DELETE
+            - POST
+            - GET
+            - OPTIONS
+            - PUT
+            - PATCH
+          CachedMethods:
+            - HEAD
+            - OPTIONS
+            - GET
+        Aliases:
+          - ${self:custom.config.apiDomainName}
+        ViewerCertificate:
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2019
+          AcmCertificateArn: ${self:custom.config.certificateNVirginaArn}

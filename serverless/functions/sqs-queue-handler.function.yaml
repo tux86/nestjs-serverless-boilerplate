@@ -1,0 +1,14 @@
+functions:
+  sqs:
+    handler: dist/src/lambda-sqs.handler
+    image:
+      name: appimage
+      command:
+        - dist/src/lambda-sqs.handler
+    memorySize: 512
+    timeout: 30
+    events:
+      - sqs:
+          batchSize: 1
+          arn:
+            Fn::GetAtt: [EmailQueue, Arn]

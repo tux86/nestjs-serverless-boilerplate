@@ -1,7 +1,7 @@
 Resources:
   EmailQueue:
     Type: AWS::SQS::Queue
+    DeletionPolicy: Delete
     Properties:
       QueueName: ${self:custom.config.emailQueueName}
       VisibilityTimeout: 30
-

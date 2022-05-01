@@ -4,7 +4,7 @@ environment:
   NODE_ENV: ${env:NODE_ENV}
 
   # S3
-  BUCKET_NAME: ${self:custom.config.bucketName}
+  S3_BUCKET_NAME: ${self:custom.config.s3BucketName}
 
   # DATABASE
   DATABASE_HOST: ${env:DATABASE_HOST}
