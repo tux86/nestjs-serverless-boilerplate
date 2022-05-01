@@ -13,6 +13,8 @@ export class S3ClientProvider {
     const region = config.get('aws.region');
     this.client = new S3Client({
       apiVersion: '2006-03-01',
+      // maxAttempts: 5,
+      // useAccelerateEndpoint: true,
       // endpoint : '' TODO: for local s3 simulator
       region,
     });

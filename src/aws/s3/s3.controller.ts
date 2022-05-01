@@ -14,11 +14,8 @@ export class S3Controller {
 
   @Post('/putObject')
   async putObject(): Promise<any> {
-    const bucketName = this.config.get('aws.s3.bucketName');
-
     try {
       const result = await this.s3Service.putObject({
-        Bucket: bucketName,
         Key: 'test.txt',
         Body: 'hello world',
       });
@@ -33,11 +30,8 @@ export class S3Controller {
 
   @Get('getObject')
   async getObject(): Promise<any> {
-    const bucketName = this.config.get('aws.s3.bucketName');
-
     try {
       const result = await this.s3Service.getObject({
-        Bucket: bucketName,
         Key: 'test.txt',
       });
 
@@ -48,19 +42,38 @@ export class S3Controller {
     }
   }
 
-  @Get('/getUploadSignedUrl')
-  async getUploadSignedUrl(): Promise<any> {
-    const bucketName = this.config.get('aws.s3.bucketName');
-
+  @Get('/createPreSignedGetUrl')
+  async createPreSignedGetUrl(): Promise<any> {
     try {
-      const signedUploadUrl = await this.s3Service.getUploadUrl({
-        bucketName,
-        baseDir: 'uploads',
-        fileName: 'wal id.x-t ~Karray.png',
-        contentType: 'image/png',
+      return await this.s3Service.createPreSignedGetUrl(
+        'uploads/73cad09a61-wal-idandx-t-Karray.png',
+        300,
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Get('/createPreSignedPostUrl')
+  async createPreSignedPostUrl(): Promise<any> {
+    try {
+      const data = await this.s3Service.createPreSignedPostUrl('walid.png');
+
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Get('/createPreSignedPutUrl')
+  async createPreSignedPutUrl(): Promise<any> {
+    try {
+      const signedUploadUrl = await this.s3Service.createPreSignedPutUrl({
+        key: 'uploads/wal id.!?:#&x-t ~Karray.png',
         expiresIn: 3600,
         metadata: {
-          'handler-name': 'importer',
+          'target-processor': 'media-processor',
+          'org-id': 'ORG-001',
           'import-file-id': nanoid(),
         },
       });
