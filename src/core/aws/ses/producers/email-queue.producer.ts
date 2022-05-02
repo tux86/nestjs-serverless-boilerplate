@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import awsConfig from '../../../../../config/aws.config';
+import awsConfig from '../../../../config/aws.config';
 import { SQSProducerAbstract } from '../../sqs/abstracts/sqs.producer';
 
 const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;

@@ -5,7 +5,7 @@ import {
   SQSMessageReceivedHandler,
 } from '../../sqs/decorators/sqs.decorators';
 import { Message } from '@aws-sdk/client-sqs';
-import awsConfig from '../../../../../config/aws.config';
+import awsConfig from '../../../../config/aws.config';
 import { SESService } from '../ses.service';
 import { SendEmailParameters } from '../dtos/send-email-parameters';
 

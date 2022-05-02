@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Context, Handler, SQSEvent } from 'aws-lambda';
 import { INestApplicationContext } from '@nestjs/common';
-import { SqsLambdaHandler } from './core/modules/aws/sqs/sqs.lambda.handler';
+import { SqsLambdaHandler } from './core/aws/sqs/sqs.lambda.handler';
 
 let cachedApp: INestApplicationContext;
 export const handler: Handler = async (event: SQSEvent, context: Context) => {

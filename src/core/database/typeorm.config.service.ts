@@ -6,8 +6,8 @@ import { SecretsManagerService } from '../aws/secrets-manager/secrets-manager.se
 import { DatabaseCredentialsDto } from './dtos/database-credentials.dto';
 //TODO: should upgrade to class-transformer 5.x think to create wrapper
 import { deserialize } from 'class-transformer';
-import { EmailTemplate } from '../../../app/email-template/entities/email-template.entity';
-import { User } from '../../../app/user/user.entity';
+import { EmailTemplate } from '../../app/email-template/entities/email-template.entity';
+import { User } from '../../app/user/user.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
