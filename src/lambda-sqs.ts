@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import { Context, Handler, SQSEvent } from 'aws-lambda';
 import { INestApplicationContext } from '@nestjs/common';
 import { SqsLambdaHandler } from './core/modules/aws/sqs/sqs.lambda.handler';

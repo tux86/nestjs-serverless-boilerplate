@@ -5,7 +5,7 @@
 import { NestFactory } from '@nestjs/core';
 import { TypeOrmConfigService } from './src/core/modules/database/typeorm.config.service';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { AppModule } from './src/app.module';
+import { AppModule } from './src/app/app.module';
 
 export default (async (): Promise<TypeOrmModuleOptions> => {
   const app = await NestFactory.createApplicationContext(AppModule);

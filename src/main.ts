@@ -3,7 +3,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import { Logger } from '@nestjs/common';
 import { setupNestApp } from './nest.base';
 
