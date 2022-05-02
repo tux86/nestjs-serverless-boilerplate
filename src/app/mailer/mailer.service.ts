@@ -1,4 +1,4 @@
-// import { Injectable } from '@nestjs/common';
+// import { Injectable } from '@nestjs/core';
 // import { SESService } from '../aws/ses/ses.service';
 // import { EmailTemplateName } from '../email-template/enums/email-template-name.enum';
 // import { EmailTemplatePlaceholder } from '../email-template/enums/email-template-placeholder.enum';

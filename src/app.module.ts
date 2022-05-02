@@ -1,16 +1,20 @@
 import { Logger, Module } from '@nestjs/common';
-import { EmailTemplateModule } from './email-template/email-template.module';
+import { EmailTemplateModule } from './app/email-template/email-template.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config';
-import { HealthCheckerModule } from './health-checker/health-checker.module';
-import { MailerModule } from './mailer/mailer.module';
-import { AwsModule } from './aws/aws.module';
-import { AuthModule } from './auth/auth.module';
+import { HealthCheckerModule } from './core/modules/health-checker/health-checker.module';
+import { MailerModule } from './app/mailer/mailer.module';
+import { AuthModule } from './app/auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { DatabaseModule } from './database/database.module';
+import { DatabaseModule } from './core/modules/database/database.module';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
-import { UserModule } from './user/user.module';
+import { UserModule } from './app/user/user.module';
+import { CognitoModule } from './core/modules/aws/cognito/cognito.module';
+import { SESModule } from './core/modules/aws/ses/ses.module';
+import { SQSModule } from './core/modules/aws/sqs/sqs.module';
+import { S3Module } from './core/modules/aws/s3/s3.module';
+import { SecretsManagerModule } from './core/modules/aws/secrets-manager/secrets-manager.module';
 
 @Module({
   imports: [
@@ -27,12 +31,18 @@ import { UserModule } from './user/user.module';
       subscription: false,
       graphiql: true,
     }),
-    // *** EventEmitterModule
+    // *** EventEmitterModule ***
     EventEmitterModule.forRoot(),
-    // *** Application modules
+    // *** START: AWS Modules ***
+    SESModule,
+    SQSModule,
+    S3Module,
+    SecretsManagerModule,
+    CognitoModule,
+    // *** END: AWS Modules ***
+    // *** Application app ***
     HealthCheckerModule,
     AuthModule,
-    AwsModule,
     UserModule,
     EmailTemplateModule,
     MailerModule,
