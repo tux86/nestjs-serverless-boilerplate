@@ -1,20 +1,19 @@
 import { Logger, Module } from '@nestjs/common';
-import { EmailTemplateModule } from './email-template/email-template.module';
-import { GraphQLModule } from '@nestjs/graphql';
 import { ConfigModule } from '@nestjs/config';
 import configuration from '../config';
-import { HealthCheckerModule } from '../core/health-checker/health-checker.module';
 import { MailerModule } from './mailer/mailer.module';
 import { AuthModule } from './auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { DatabaseModule } from '../core/database/database.module';
-import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { UserModule } from './user/user.module';
-import { CognitoModule } from '../core/aws/cognito/cognito.module';
-import { SESModule } from '../core/aws/ses/ses.module';
-import { SQSModule } from '../core/aws/sqs/sqs.module';
-import { S3Module } from '../core/aws/s3/s3.module';
-import { SecretsManagerModule } from '../core/aws/secrets-manager/secrets-manager.module';
+import { CoreModule } from '../core/core.module';
+import { Organization } from './organization/organization.entity';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriverConfig } from '@nestjs/apollo';
+import { UserGraphqlOrgMgmtModule } from './user/graphql/org-mgmt/user-graphql-org-mgmt.module';
+import { UserGraphqlPublicModule } from './user/graphql/public/user-graphql-public.module';
+import { createApolloDriverConfig } from '../shared/utils/graphql-driver-config.util';
+import { ApiName } from '../shared/enums/graphql.enum';
 
 @Module({
   imports: [
@@ -24,27 +23,23 @@ import { SecretsManagerModule } from '../core/aws/secrets-manager/secrets-manage
       load: [configuration],
     }),
     DatabaseModule,
-    GraphQLModule.forRoot<MercuriusDriverConfig>({
-      driver: MercuriusDriver,
-      autoSchemaFile: true,
-      cache: false,
-      subscription: false,
-      graphiql: true,
-    }),
+    // graphql management api module
+    GraphQLModule.forRoot<ApolloDriverConfig>(
+      createApolloDriverConfig(ApiName.OrgMgmt, [UserGraphqlOrgMgmtModule]),
+    ),
+    // graphql public api module
+    GraphQLModule.forRoot<ApolloDriverConfig>(
+      createApolloDriverConfig(ApiName.Public, [UserGraphqlPublicModule]),
+    ),
     // *** EventEmitterModule ***
     EventEmitterModule.forRoot(),
-    // *** START: AWS Modules ***
-    SESModule,
-    SQSModule,
-    S3Module,
-    SecretsManagerModule,
-    CognitoModule,
-    // *** END: AWS Modules ***
+    // *** CoreModule ***
+    CoreModule,
     // *** Application app ***
-    HealthCheckerModule,
     AuthModule,
+    Organization,
     UserModule,
-    EmailTemplateModule,
+    // EmailTemplateModule,
     MailerModule,
   ],
   controllers: [],

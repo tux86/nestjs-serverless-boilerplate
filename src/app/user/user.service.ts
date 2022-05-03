@@ -6,10 +6,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserRepository) private userRepository: UserRepository,
+    @InjectRepository(UserRepository) private repository: UserRepository,
   ) {}
 
   public async findById(userId: string): Promise<User | undefined> {
-    return await this.userRepository.findById(userId);
+    return await this.repository.findById(userId);
   }
 }
