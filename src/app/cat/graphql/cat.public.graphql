@@ -1,0 +1,9 @@
+type Query {
+    cat(id: ID!): Cat
+}
+
+
+type Cat {
+    id: Int
+    name: String
+}

@@ -2,10 +2,9 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
-import { UserGraphqlModules } from './graphql';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserRepository]), ...UserGraphqlModules],
+  imports: [TypeOrmModule.forFeature([UserRepository])],
   providers: [UserService],
   exports: [UserService],
 })

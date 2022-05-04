@@ -2,10 +2,10 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
   CreateUserInput,
   User,
-} from '../../../../shared/graphql/org-mgmt.graphql';
+} from '../../../shared/graphql/management.graphql';
 
 @Resolver()
-export class UserResolver {
+export class UserManagementResolver {
   constructor() {
     console.log('PRIVATE RESOLVER LOADED ***********************');
   }

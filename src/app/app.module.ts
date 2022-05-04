@@ -8,12 +8,7 @@ import { DatabaseModule } from '../core/database/database.module';
 import { UserModule } from './user/user.module';
 import { CoreModule } from '../core/core.module';
 import { Organization } from './organization/organization.entity';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriverConfig } from '@nestjs/apollo';
-import { UserGraphqlOrgMgmtModule } from './user/graphql/org-mgmt/user-graphql-org-mgmt.module';
-import { UserGraphqlPublicModule } from './user/graphql/public/user-graphql-public.module';
-import { createApolloDriverConfig } from '../shared/utils/graphql-driver-config.util';
-import { ApiName } from '../shared/enums/graphql.enum';
+import { GraphqlServerModule } from '../core/graphql-server/graphql-server.module';
 
 @Module({
   imports: [
@@ -23,14 +18,7 @@ import { ApiName } from '../shared/enums/graphql.enum';
       load: [configuration],
     }),
     DatabaseModule,
-    // graphql management api module
-    GraphQLModule.forRoot<ApolloDriverConfig>(
-      createApolloDriverConfig(ApiName.OrgMgmt, [UserGraphqlOrgMgmtModule]),
-    ),
-    // graphql public api module
-    GraphQLModule.forRoot<ApolloDriverConfig>(
-      createApolloDriverConfig(ApiName.Public, [UserGraphqlPublicModule]),
-    ),
+    GraphqlServerModule,
     // *** EventEmitterModule ***
     EventEmitterModule.forRoot(),
     // *** CoreModule ***
