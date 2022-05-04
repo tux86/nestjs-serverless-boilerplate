@@ -4,8 +4,8 @@
 
 Features: 
 
-    * NestJS 8
-    * NestJS/Graphql with Apollo Adapter for fastify
+    * NestJS 8 + Fastify
+    * NestJS/Graphql  : multi-endpoints 
     * Serverless Framework 3
     * serverless-offline (full working local envrionnement with aws services mocking) 
     * architecture arm64 + Docker container image arm64
