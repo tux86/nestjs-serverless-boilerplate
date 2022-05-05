@@ -8,7 +8,10 @@ import { DatabaseModule } from '../core/database/database.module';
 import { UserModule } from './user/user.module';
 import { CoreModule } from '../core/core.module';
 import { Organization } from './organization/organization.entity';
-import { GraphqlServerModule } from '../core/graphql-server/graphql-server.module';
+import { EmailTemplateModule } from './email-template/email-template.module';
+import { AppController } from './app.controller';
+import { GraphqlManagementApiModule } from './graphql/graphql-management-api/graphql-management-api.module';
+import { GraphqlPublicApiModule } from './graphql/graphql-public-api/graphql-public-api.module';
 
 @Module({
   imports: [
@@ -18,7 +21,8 @@ import { GraphqlServerModule } from '../core/graphql-server/graphql-server.modul
       load: [configuration],
     }),
     DatabaseModule,
-    GraphqlServerModule,
+    GraphqlManagementApiModule,
+    GraphqlPublicApiModule,
     // *** EventEmitterModule ***
     EventEmitterModule.forRoot(),
     // *** CoreModule ***
@@ -27,10 +31,10 @@ import { GraphqlServerModule } from '../core/graphql-server/graphql-server.modul
     AuthModule,
     Organization,
     UserModule,
-    // EmailTemplateModule,
+    EmailTemplateModule,
     MailerModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {

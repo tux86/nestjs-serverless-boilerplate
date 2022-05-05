@@ -3,10 +3,11 @@ import {
   CreateUserInput,
   User,
 } from '../../../shared/graphql/management.graphql';
+import { UserService } from '../user.service';
 
 @Resolver()
 export class UserManagementResolver {
-  constructor() {
+  constructor(private readonly userService: UserService) {
     console.log('PRIVATE RESOLVER LOADED ***********************');
   }
 

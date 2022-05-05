@@ -10,7 +10,6 @@ import {
 import { EmailTemplateName } from '../enums/email-template-name.enum';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-@ObjectType({ description: 'EmailTemplate type' })
 @Entity()
 @Index('unique_email_template_name', ['orgId', 'name'], {
   unique: true,

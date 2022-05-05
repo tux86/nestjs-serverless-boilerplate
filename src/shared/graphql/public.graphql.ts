@@ -6,17 +6,19 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export interface Cat {
-  id?: Nullable<number>;
+export class Cat {
   name?: Nullable<string>;
 }
 
-export interface IQuery {
-  cat(id: string): Nullable<Cat> | Promise<Nullable<Cat>>;
-  user(id: string): Nullable<User> | Promise<Nullable<User>>;
+export abstract class IQuery {
+  abstract cats():
+    | Nullable<Nullable<Cat>[]>
+    | Promise<Nullable<Nullable<Cat>[]>>;
+
+  abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
-export interface User {
+export class User {
   id?: Nullable<number>;
   name?: Nullable<string>;
 }

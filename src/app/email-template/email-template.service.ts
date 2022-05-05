@@ -1,24 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { EmailTemplate } from './entities/email-template.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateEmailTemplateInput } from './dtos/create-email-template.input';
 import { EmailTemplateRepository } from './email-template.repository';
-import { EmailTemplatePlaceholder } from './enums/email-template-placeholder.enum';
-import { EmailTemplatePlaceholderObject } from './dtos/email-template-placeholder-object.type';
+import { EmailTemplatePlaceholderName } from './enums/email-template-placeholder.enum';
+import {
+  CreateEmailTemplateInput,
+  EmailTemplatePlaceholder,
+} from '../../shared/graphql/management.graphql';
 
 @Injectable()
 export class EmailTemplateService {
   constructor(
     @InjectRepository(EmailTemplateRepository)
     private emailTemplateRepository: EmailTemplateRepository,
-  ) {}
+  ) {
+    console.log('============================= EmailTemplateService LOADED');
+  }
 
-  public getEmailTemplatePlaceholders(): EmailTemplatePlaceholderObject[] {
-    const result: EmailTemplatePlaceholderObject[] = [];
-    for (const name in EmailTemplatePlaceholder) {
+  public getEmailTemplatePlaceholders(): EmailTemplatePlaceholder[] {
+    const result: EmailTemplatePlaceholder[] = [];
+    for (const name in EmailTemplatePlaceholderName) {
       result.push({
         name,
-        value: EmailTemplatePlaceholder[name],
+        value: EmailTemplatePlaceholderName[name],
       });
     }
     return result;

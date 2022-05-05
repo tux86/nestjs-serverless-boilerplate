@@ -1,8 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { EmailTemplate } from './entities/email-template.entity';
-import { CreateEmailTemplateInput } from './dtos/create-email-template.input';
 import { v4 as uuid } from 'uuid';
 import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { CreateEmailTemplateInput } from '../../shared/graphql/management.graphql';
 
 @EntityRepository(EmailTemplate)
 export class EmailTemplateRepository extends Repository<EmailTemplate> {

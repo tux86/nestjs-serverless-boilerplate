@@ -1,21 +1,7 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { EndpointName } from './enums/endpoint-name.enum';
+import { EndpointName } from '../enums/endpoint-name.enum';
 import { GenerateOptions } from '@nestjs/graphql/dist/graphql-definitions.factory';
-import { modules as resolversModules } from './resolvers-modules';
-
-/**
- * Returns resolvers module for a specific endpoint
- * @param endpointName
- */
-export const getEndpointResolversModule = (endpointName: EndpointName) => {
-  if (!resolversModules.has(endpointName)) {
-    throw new Error(
-      'could not find resolvers module for endpoint : ' + endpointName,
-    );
-  }
-  return resolversModules.get(endpointName);
-};
 
 /**
  * Generate types definitions from endpoint name
@@ -25,20 +11,21 @@ export const getTypesDefinitionsConfig = (
   endpointName: EndpointName,
 ): GenerateOptions => {
   return {
-    typePaths: [`*/**/*.${endpointName}.graphql`],
+    typePaths: [`*/**/*.${endpointName}.gql`],
     path: join(process.cwd(), `src/shared/graphql/${endpointName}.graphql.ts`),
-    outputAs: 'interface',
+    outputAs: 'class',
   };
 };
 
 /**
  * Generate Apollo drivers config from endpoint name
- * @param endpointName
+ * @param options
  */
-export const getEndpointGraphqlConfig = (
-  endpointName: EndpointName,
-): ApolloDriverConfig => {
-  const ResolversModule = getEndpointResolversModule(endpointName);
+export const getEndpointGraphqlConfig = (options: {
+  endpointName: EndpointName;
+  include: any[];
+}): ApolloDriverConfig => {
+  const { endpointName, include } = options;
 
   const {
     typePaths,
@@ -57,6 +44,6 @@ export const getEndpointGraphqlConfig = (
       path: definitionsPath,
       outputAs,
     },
-    include: [ResolversModule],
+    include,
   };
 };

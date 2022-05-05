@@ -1,6 +1,6 @@
 import { GraphQLDefinitionsFactory } from '@nestjs/graphql';
-import { EndpointName } from '../core/graphql-server/enums/endpoint-name.enum';
-import { getTypesDefinitionsConfig } from '../core/graphql-server/graphql-server.utils';
+import { EndpointName } from '../shared/enums/endpoint-name.enum';
+import { getTypesDefinitionsConfig } from '../shared/utils/graphql.utils';
 
 const definitionsFactory = new GraphQLDefinitionsFactory();
 

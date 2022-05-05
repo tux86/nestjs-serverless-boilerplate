@@ -1,0 +1,32 @@
+type Query {
+    emailTemplates: [EmailTemplate]
+    emailTemplatePlaceholders: [EmailTemplatePlaceholder]
+}
+
+type Mutation {
+    createEmailTemplate(input: CreateEmailTemplateInput): EmailTemplate
+}
+
+type EmailTemplatePlaceholder {
+    name: ID!
+    value: String
+}
+
+type EmailTemplate {
+    emailTemplateId: ID!
+    orgId: ID!
+    name: String!
+    subject: String!
+    bodyText: String
+    bodyHtml: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+input CreateEmailTemplateInput {
+    name: String!
+    subject: String!
+    bodyText: String
+    bodyHtml: String
+}

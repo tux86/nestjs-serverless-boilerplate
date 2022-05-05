@@ -1,9 +1,10 @@
 type Query {
-    cat(id: ID!): Cat
+    cats: [Cat]
+
 }
 
 
 type Cat {
-    id: Int
     name: String
 }
+
