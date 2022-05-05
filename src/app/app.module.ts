@@ -54,9 +54,9 @@ export class AppModule {
   private readonly logger = new Logger(AppModule.name);
 
   constructor() {
-    this.logger.log('_________________________-');
-    this.logger.log(`NODE_ENV=${process.env.NODE_ENV}`);
-    this.logger.log(`STAGE=${process.env.STAGE}`);
-    this.logger.log('_________________________-');
+    this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
+    this.logger.debug(`  NODE_ENV         → ${process.env.NODE_ENV}`);
+    this.logger.debug(`  SERVERLESS STAGE → ${process.env.STAGE}`);
+    this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
   }
 }
