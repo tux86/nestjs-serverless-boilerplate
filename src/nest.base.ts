@@ -17,7 +17,7 @@ export const setupSwagger = (app: INestApplication) => {
 export const setupNestApp = async (app: NestFastifyApplication) => {
   // app.enableCors();
   app.setGlobalPrefix(process.env.API_PREFIX);
-
+  app.useGlobalPipes(new ValidationPipe());
   // app.useGlobalPipes(
   //   new ValidationPipe({
   //     whitelist: true,

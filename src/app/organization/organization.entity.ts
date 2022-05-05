@@ -6,31 +6,24 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
 
-import {
-  IsAlphanumeric,
-  IsNotEmpty,
-  IsUppercase,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
-
+@ObjectType()
 @Entity()
 export class Organization {
-  @IsAlphanumeric()
-  @IsUppercase()
-  @MinLength(4)
-  @MaxLength(10)
+  @Field()
   @PrimaryColumn({ type: 'varchar', length: 10 })
   orgId: string;
 
-  @IsNotEmpty()
+  @Field()
   @Column({ nullable: false, length: 128 })
   name: string;
 
+  @Field()
   @CreateDateColumn()
   createdAt: Date;
 
+  @Field()
   @UpdateDateColumn()
   updatedAt: Date;
 

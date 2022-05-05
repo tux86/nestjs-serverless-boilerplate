@@ -13,6 +13,11 @@ input CreateEmailTemplateInput {
   subject: String!
 }
 
+input CreateOrganizationInput {
+  name: String!
+  orgId: String!
+}
+
 input CreateUserInput {
   name: String!
 }
@@ -40,13 +45,30 @@ type EmailTemplate {
 
 type Mutation {
   createEmailTemplate(input: CreateEmailTemplateInput!): EmailTemplate!
+  createOrganization(input: CreateOrganizationInput!): Organization!
   createUser(input: CreateUserInput!): User!
+  deleteOrganization(orgId: String!): Boolean!
+  updateOrganization(input: UpdateOrganizationInput!): Organization!
+}
+
+type Organization {
+  createdAt: DateTime!
+  name: String!
+  orgId: String!
+  updatedAt: DateTime!
 }
 
 type Query {
   cats: [Cat!]!
   emailTemplates: [EmailTemplate!]!
+  organization(orgId: String!): Organization!
+  organizations: [Organization!]!
   users: [User!]!
+}
+
+input UpdateOrganizationInput {
+  name: String!
+  orgId: String!
 }
 
 type User {

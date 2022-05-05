@@ -31,8 +31,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "schema:drop": "yarn typeorm schema:drop",
-    "schema:sync": "yarn typeorm schema:sync"
+    "typeorm:schema:drop": "yarn typeorm schema:drop",
+    "typeorm:schema:sync": "yarn typeorm schema:sync"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.80.0",
@@ -76,7 +76,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "slugify": "^1.6.5",
-    "typeorm": "^0.2.37",
+    "typeorm": "0.2.37",
     "typeorm-naming-strategies": "^4.1.0",
     "uuid": "^8.3.2"
   },

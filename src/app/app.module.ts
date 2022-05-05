@@ -6,7 +6,6 @@ import { AuthModule } from './auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { DatabaseModule } from '../core/database/database.module';
 import { CoreModule } from '../core/core.module';
-import { Organization } from './organization/organization.entity';
 import { EmailTemplateModule } from './email-template/email-template.module';
 import { AppController } from './app.controller';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -16,6 +15,8 @@ import { isEnvironment } from '../shared/utils/environment.util';
 import { Environment } from '../shared/enums/environment.enum';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UserModule } from './user/user.module';
+import { OrganizationModule } from './organization/organization.module';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 
 @Module({
   imports: [
@@ -42,7 +43,7 @@ import { UserModule } from './user/user.module';
     CoreModule,
     // *** Application app ***
     AuthModule,
-    Organization,
+    OrganizationModule,
     UserModule,
     EmailTemplateModule,
     MailerModule,
