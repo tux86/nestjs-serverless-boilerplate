@@ -1,0 +1,60 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Cat {
+  name: ID!
+}
+
+input CreateEmailTemplateInput {
+  bodyHtml: String!
+  bodyText: String!
+  name: String!
+  subject: String!
+}
+
+input CreateUserInput {
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type EmailTemplate {
+  """html content"""
+  bodyHtml: String!
+
+  """plain text content"""
+  bodyText: String!
+  createdAt: DateTime!
+  emailTemplateId: ID!
+  name: String!
+  orgId: String!
+
+  """email subject"""
+  subject: String!
+  updatedAt: DateTime!
+}
+
+type Mutation {
+  createEmailTemplate(input: CreateEmailTemplateInput!): EmailTemplate!
+  createUser(input: CreateUserInput!): User!
+}
+
+type Query {
+  cats: [Cat!]!
+  emailTemplates: [EmailTemplate!]!
+  users: [User!]!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  familyName: String!
+  givenName: String!
+  isEmailVerified: Boolean!
+  updatedAt: DateTime!
+  userId: ID!
+}

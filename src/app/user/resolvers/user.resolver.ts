@@ -1,32 +1,23 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import {
-  CreateUserInput,
-  User,
-} from '../../../shared/graphql/management.graphql';
+
 import { UserService } from '../user.service';
+import { User } from '../user.entity';
+import { CreateUserInput } from '../dtos/create-user.input';
 
 @Resolver()
-export class UserManagementResolver {
+export class UserResolver {
   constructor(private readonly userService: UserService) {
     console.log('PRIVATE RESOLVER LOADED ***********************');
   }
 
-  @Query()
+  @Query(() => [User])
   users(): User[] {
     console.log('======== Query users===================');
-    return [
-      {
-        name: 'toto',
-        age: 23,
-      },
-    ];
+    return [new User()];
   }
 
-  @Mutation()
+  @Mutation(() => User)
   async createUser(@Args('input') input: CreateUserInput): Promise<User> {
-    return {
-      name: 'toto',
-      age: 23,
-    };
+    return new User();
   }
 }
