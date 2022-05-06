@@ -1,3 +1,3 @@
-import { AbstractException } from './app.exception';
+import { AbstractException } from './abstract.exception';
 
 export class BusinessLogicException extends AbstractException {}

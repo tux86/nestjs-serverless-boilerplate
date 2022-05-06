@@ -19,8 +19,7 @@ export abstract class AbstractException extends Error {
     super(message);
     this.errorCode = errorCode;
     this.statusCode = statusCode;
-    // get child class name
-    this.errorType = new.target.name;
+    this.errorType = new.target.name; // get child class name
     this.message = `${this.errorCode}: ${message}`;
   }
 }

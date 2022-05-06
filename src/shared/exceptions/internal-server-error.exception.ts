@@ -1,4 +1,4 @@
-import { AbstractException } from './app.exception';
+import { AbstractException } from './abstract.exception';
 import { HttpStatus } from '@nestjs/common';
 
 export class InternalServerErrorException extends AbstractException {
