@@ -8,11 +8,15 @@ import {
 import { Observable, throwError, TimeoutError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 
+/**
+ * ApiTimeoutInterceptor
+ * needed to throw RequestTimeoutException before AWS api gateway timout (29s)
+ */
 @Injectable()
-export class TimeoutInterceptor implements NestInterceptor {
+export class ApiTimeoutInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      timeout(28000), // api gateway limit = 29s
+      timeout(28000),
       catchError((err) => {
         if (err instanceof TimeoutError) {
           return throwError(() => new RequestTimeoutException());
