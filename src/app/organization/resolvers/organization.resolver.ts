@@ -3,7 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Organization } from '../organization.entity';
 import { CreateOrganizationInput } from '../dtos/create-organization.input';
 import { OrganizationService } from '../organization.service';
-import { Catch, ForbiddenException } from '@nestjs/common';
+
 import { UpdateOrganizationInput } from '../dtos/update-organization.input';
 
 @Resolver((of) => Organization)

@@ -1,6 +1,8 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
+import { TimeoutInterceptor } from './shared/interceptors/timeout.interceptor';
 
 // Swagger
 export const setupSwagger = (app: INestApplication) => {
@@ -17,17 +19,13 @@ export const setupSwagger = (app: INestApplication) => {
 export const setupNestApp = async (app: NestFastifyApplication) => {
   // app.enableCors();
   app.setGlobalPrefix(process.env.API_PREFIX);
-  app.useGlobalPipes(new ValidationPipe());
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     whitelist: true,
-  //     transform: true,
-  //     forbidNonWhitelisted: true,
-  //     transformOptions: {
-  //       enableImplicitConversion: true,
-  //     },
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
+  app.useGlobalInterceptors(new TimeoutInterceptor());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   // Setup Swagger
   setupSwagger(app);

@@ -1,15 +1,21 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { EmailTemplateService } from './email-template/email-template.service';
 import { OrganizationService } from './organization/organization.service';
+import { sleep } from '../shared/utils/sleep.util';
 
 @Controller()
 export class AppController {
   constructor(private organizationService: OrganizationService) {}
-  @Get('/test')
-  test(): any {
-    return this.organizationService.create({
-      orgId: 'MP921222',
+  @Get('/testException')
+  testException(): any {
+    return this.organizationService.update({
+      orgId: 'X8234J',
       name: 'xxx',
     });
+  }
+
+  @Get('/testTimeoutException')
+  async testTimeoutException(): Promise<any> {
+    await sleep(29000);
+    return this.organizationService.find();
   }
 }

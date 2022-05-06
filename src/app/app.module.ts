@@ -36,6 +36,10 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
       playground: false,
       //TODO: disable plugin on production
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      formatError: (error: GraphQLError) => {
+        delete error.extensions?.code;
+        return error;
+      },
     }),
     // *** EventEmitterModule ***
     EventEmitterModule.forRoot(),

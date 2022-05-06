@@ -1,14 +1,10 @@
-import {
-  ConflictException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { Organization } from './organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrganizationInput } from './dtos/create-organization.input';
-import { Repository, TypeORMError } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UpdateOrganizationInput } from './dtos/update-organization.input';
+import { OrganizationNotFoundException } from './exceptions/organization-not-found.exception';
 
 @Injectable()
 export class OrganizationService {
@@ -53,9 +49,10 @@ export class OrganizationService {
   public async update(
     updateOrganizationInput: UpdateOrganizationInput,
   ): Promise<Organization | never> {
+    const { orgId } = updateOrganizationInput;
     const organization = await this.repository.preload(updateOrganizationInput);
     if (!organization) {
-      throw new NotFoundException('organization does not exists');
+      throw new OrganizationNotFoundException(orgId);
     }
     return await this.repository.save(organization);
   }
