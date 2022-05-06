@@ -14,7 +14,7 @@ export const bootstrap = async () => {
     AppModule,
     new FastifyAdapter(),
   );
-  setupNestApp(app);
+  await setupNestApp(app);
   const port = Number(process.env.port || 3000);
   await app.listen(port, '0.0.0.0');
   logger.log(`Application listening on port ${port}`);
