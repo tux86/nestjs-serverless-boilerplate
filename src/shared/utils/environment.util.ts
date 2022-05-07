@@ -1,16 +1,16 @@
-import { Environment } from '../enums/environment.enum';
+import { Env } from '../enums/env.enum';
 
-export const isEnvironment = (environment: Environment): boolean =>
+export const isEnv = (environment: Env): boolean =>
   process.env.NODE_ENV === environment;
 
 export const isProduction = (): boolean => {
-  return isEnvironment(Environment.Production);
+  return isEnv(Env.Prod);
 };
 
 export const isDevelopment = (): boolean => {
-  return isEnvironment(Environment.Development);
+  return isEnv(Env.Dev);
 };
 
 export const isTest = (): boolean => {
-  return isEnvironment(Environment.Test);
+  return isEnv(Env.Test);
 };

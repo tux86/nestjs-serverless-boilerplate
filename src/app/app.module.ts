@@ -10,13 +10,12 @@ import { EmailTemplateModule } from './email-template/email-template.module';
 import { AppController } from './app.controller';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'path';
-import { isEnvironment } from '../shared/utils/environment.util';
-import { Environment } from '../shared/enums/environment.enum';
+import { isEnv } from '../shared/utils/environment.util';
+import { Env } from '../shared/enums/env.enum';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UserModule } from './user/user.module';
 import { OrganizationModule } from './organization/organization.module';
-import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { GraphQLError } from 'graphql';
 
 @Module({
   imports: [
@@ -28,11 +27,11 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
     DatabaseModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), `src/app/schema.gql`),
+      autoSchemaFile: true, // generated on-the-fly in memory (needed for lambda)
       disableHealthCheck: true,
       sortSchema: true,
       debug: false,
-      introspection: !isEnvironment(Environment.Production),
+      introspection: !isEnv(Env.Prod),
       playground: false,
       //TODO: disable plugin on production
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
