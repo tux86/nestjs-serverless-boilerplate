@@ -47,6 +47,9 @@ provider:
   apiGateway:
     binaryMediaTypes:
       - '*/*'
+#  httpApi:
+#    cors: true
+
 custom:
   config:
     isOffline: ${strToBool(${env:IS_OFFLINE, false})}
