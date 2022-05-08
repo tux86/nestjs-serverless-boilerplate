@@ -4,7 +4,9 @@ functions:
     image:
       name: appimage
       command:
-        - dist/src/lambda-sqs.handler
+        - dist/src/app/consumer/lambda.handler
+    environment:
+      APP_NAME: consumer
     events:
       - sqs:
           batchSize: 1

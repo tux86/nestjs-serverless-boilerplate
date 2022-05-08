@@ -15,6 +15,7 @@ import path from 'path';
 import mime from 'mime';
 import { PresignedPost } from '@aws-sdk/s3-presigned-post/dist-types/createPresignedPost';
 import { customAlphabet } from 'nanoid';
+
 const nanoid = customAlphabet('1234567890abcdef', 10);
 
 @Injectable()
@@ -22,6 +23,7 @@ export class S3Service {
   private readonly logger = new Logger(S3Service.name);
   private readonly s3Client: S3Client;
   private readonly bucketName: string;
+
   constructor(
     private readonly config: ConfigService,
     private readonly s3ClientProvider: S3ClientProvider,

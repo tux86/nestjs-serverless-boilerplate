@@ -15,7 +15,7 @@ provider:
   architecture: arm64
   region: ${opt:region, 'eu-west-1'}
   stackTags:
-    STACK_NAME: ${self:service}-${sls:stage}
+    StackName: ${self:service}-${sls:stage}
   lambdaHashingVersion: '20201221'
   profile: ${env:AWS_PROFILE}
   memorySize: 1024
@@ -60,7 +60,6 @@ custom:
   s3BucketName: ${self:service}-bucket-${sls:stage}
   rootDomainName: ${env:ROOT_DOMAIN_NAME}
   apiDomainName: api-2.${env:ROOT_DOMAIN_NAME}
-  mediaDomainName: media-2.${env:ROOT_DOMAIN_NAME}
   certificateNVirginaArn: ${env:CERTIFICATE_ARN_NVIRIGNIA}
   tableName: ${self:service}-table-${sls:stage}
   emailQueueName: ${self:service}-EmailQueue-${sls:stage}
@@ -90,12 +89,10 @@ functions:
   - ${file(./serverless/functions/${self:custom.offlineDir}/sqs-queue-handler.function.yaml):functions}
 resources:
   # route 53
-  - ${file(./serverless/resources/route53/api-record.route53.yaml)}
-  - ${file(./serverless/resources/route53/media-record.route53.yaml)}
+  - ${file(./serverless/resources/route53/record.route53.yaml)}
   # cloudfront
   - ${file(./serverless/resources/cloudfront/origin-access-identity.cloudfront.yaml)}
-  - ${file(./serverless/resources/cloudfront/api-distribution.cloudfront.yaml)}
-  - ${file(./serverless/resources/cloudfront/media-distribution.cloudfront.yaml)}
+  - ${file(./serverless/resources/cloudfront/distribution.cloudfront.yaml)}
   # sqs
   - ${file(./serverless/resources/sqs/email-queue.sqs.yaml)}
   # s3

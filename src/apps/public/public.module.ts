@@ -1,21 +1,19 @@
-import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import configuration from '../config';
-import { MailerModule } from './mailer/mailer.module';
-import { AuthModule } from './auth/auth.module';
-import { EventEmitterModule } from '@nestjs/event-emitter';
-import { DatabaseModule } from '../core/database/database.module';
-import { CoreModule } from '../core/core.module';
-import { EmailTemplateModule } from './email-template/email-template.module';
-import { AppController } from './app.controller';
+import { DatabaseModule } from '../../core/database/database.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { isEnv } from '../shared/utils/environment.util';
-import { Env } from '../shared/enums/env.enum';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import { UserModule } from './user/user.module';
-import { OrganizationModule } from './organization/organization.module';
+import { isEnv } from '../../shared/utils/env.util';
+import { Env } from '../../shared/enums/env.enum';
+import { OrganizationModule } from '../../core/organization/organization.module';
+import { CoreModule } from '../../core/core.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { Logger, Module } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
+import configuration from '../../config';
+import { OrganizationResolver } from './resolvers/organization.resolver';
+import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
+import { SESModule } from '../../core/aws/ses/ses.module';
+import { appGlobalPrefix } from '../../shared/utils/app.util';
 
 @Module({
   imports: [
@@ -28,13 +26,14 @@ import { GraphQLError } from 'graphql';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true, // generated on-the-fly in memory (needed for lambda)
+      path: `${appGlobalPrefix}/graphql`,
       disableHealthCheck: true,
       sortSchema: true,
       debug: false,
       introspection: !isEnv(Env.Prod),
-      playground: false,
+      playground: true,
       //TODO: disable plugin on production
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
       formatError: (error: GraphQLError) => {
         delete error.extensions?.code;
         return error;
@@ -44,18 +43,16 @@ import { GraphQLError } from 'graphql';
     EventEmitterModule.forRoot(),
     // *** CoreModule ***
     CoreModule,
-    // *** Application app ***
-    AuthModule,
+    SESModule,
+    // *** Application apps ***
+    HealthCheckerModule,
     OrganizationModule,
-    UserModule,
-    EmailTemplateModule,
-    MailerModule,
   ],
-  controllers: [AppController],
-  providers: [],
+  controllers: [],
+  providers: [OrganizationResolver],
 })
-export class AppModule {
-  private readonly logger = new Logger(AppModule.name);
+export class PublicModule {
+  private readonly logger = new Logger(PublicModule.name);
 
   constructor() {
     this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');

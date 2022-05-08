@@ -1,11 +1,21 @@
 functions:
-  api:
+  publicApi:
     timeout: 30 # limits api timout to 30 seconds
-    handler: dist/src/lambda-http.handler
+    handler: dist/src/lambda.handler
+    environment:
+      APP_NAME: public-api
+      APP_GLOBAL_PREFIX: public
     events:
       - httpApi:
           method: '*'
-          path: /
+          path: /public/{proxy+}
+  managementApi:
+    timeout: 30 # limits api timout to 30 seconds
+    handler: dist/src/lambda.handler
+    environment:
+      APP_NAME: management-api
+      APP_GLOBAL_PREFIX: management
+    events:
       - httpApi:
           method: '*'
-          path: /{proxy+}
+          path: /management/{proxy+}

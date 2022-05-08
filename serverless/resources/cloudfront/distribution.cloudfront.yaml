@@ -1,0 +1,157 @@
+Resources:
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    DeletionPolicy: Delete
+    DependsOn:
+      - S3Bucket
+      - CloudFrontOriginAccessIdentity
+      - PublicApiLambdaFunctionUrl
+      - ManagementApiLambdaFunctionUrl
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        PriceClass: PriceClass_100
+        HttpVersion: http2
+        Comment: ${self:service} distribution ${sls:stage}
+        Origins:
+          # S3 Bucket Origin
+          - Id: S3Bucket
+            DomainName: ${self:custom.s3BucketName}.s3.amazonaws.com
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}
+          # Public API Lambda Function Origin
+          - Id: PublicApiLambdaFunction
+            DomainName:
+              !Select [
+                2,
+                !Split ['/', !GetAtt PublicApiLambdaFunctionUrl.FunctionUrl],
+              ]
+            OriginPath: ''
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1, TLSv1.1, TLSv1.2]
+          # Management API Lambda Function Origin
+          - Id: ManagementApiLambdaFunction
+            DomainName:
+              !Select [
+                2,
+                !Split [
+                  '/',
+                  !GetAtt ManagementApiLambdaFunctionUrl.FunctionUrl,
+                ],
+              ]
+            OriginPath: ''
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1, TLSv1.1, TLSv1.2]
+        DefaultCacheBehavior:
+          # ======================== Default CacheBehavior  ========================
+          TargetOriginId: PublicApiLambdaFunction
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          MinTTL: 0
+          DefaultTTL: 0
+          AllowedMethods:
+            - HEAD
+            - DELETE
+            - POST
+            - GET
+            - OPTIONS
+            - PUT
+            - PATCH
+          CachedMethods:
+            - HEAD
+            - OPTIONS
+            - GET
+          ForwardedValues:
+            QueryString: false
+            Headers:
+              - Accept
+              - x-api-key
+              - Authorization
+            Cookies:
+              Forward: none
+        CacheBehaviors:
+          # ======================== S3 Bucket CacheBehavior  ========================
+          - PathPattern: /static/*
+            TargetOriginId: S3Bucket
+            ViewerProtocolPolicy: redirect-to-https
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # CachingDisabled
+            Compress: true
+            AllowedMethods:
+              - HEAD
+              - DELETE
+              - POST
+              - GET
+              - OPTIONS
+              - PUT
+              - PATCH
+            CachedMethods:
+              - HEAD
+              - OPTIONS
+              - GET
+          # ======================== Public API CacheBehavior  ========================
+          - PathPattern: /public/*
+            TargetOriginId: PublicApiLambdaFunction
+            ViewerProtocolPolicy: redirect-to-https
+            Compress: true
+            MinTTL: 0
+            DefaultTTL: 0
+            AllowedMethods:
+              - HEAD
+              - DELETE
+              - POST
+              - GET
+              - OPTIONS
+              - PUT
+              - PATCH
+            CachedMethods:
+              - HEAD
+              - OPTIONS
+              - GET
+            ForwardedValues:
+              QueryString: false
+              Headers:
+                - Accept
+                - x-api-key
+                - Authorization
+              Cookies:
+                Forward: none
+          # ======================== Management API CacheBehavior  ========================
+          - PathPattern: /management/*
+            TargetOriginId: ManagementApiLambdaFunction
+            ViewerProtocolPolicy: redirect-to-https
+            Compress: true
+            MinTTL: 0
+            DefaultTTL: 0
+            AllowedMethods:
+              - HEAD
+              - DELETE
+              - POST
+              - GET
+              - OPTIONS
+              - PUT
+              - PATCH
+            CachedMethods:
+              - HEAD
+              - OPTIONS
+              - GET
+            ForwardedValues:
+              QueryString: false
+              Headers:
+                - Accept
+                - x-api-key
+                - Authorization
+              Cookies:
+                Forward: none
+
+        Aliases:
+          - ${self:custom.apiDomainName}
+        ViewerCertificate:
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2019
+          AcmCertificateArn: ${self:custom.certificateNVirginaArn}

@@ -9,6 +9,7 @@ import { OrganizationNotFoundException } from './exceptions/organization-not-fou
 @Injectable()
 export class OrganizationService {
   private logger = new Logger(OrganizationService.name);
+
   constructor(
     @InjectRepository(Organization)
     private repository: Repository<Organization>,

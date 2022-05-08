@@ -1,6 +1,8 @@
 functions:
   sqs:
-    handler: dist/src/lambda-sqs.handler
+    handler: dist/src/app/consumer/lambda.handler
+    environment:
+      APP_NAME: consumer
     events:
       - sqs:
           batchSize: 1

@@ -6,6 +6,8 @@ export default () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   environment: process.env.NODE_ENV || Env.Dev,
   isOffline: process.env.IS_OFFLINE === 'true',
+  appName: process.env.APP_NAME || undefined,
+  appGlobalPrefix: process.env.APP_GLOBAL_PREFIX || undefined,
   database,
   aws,
 });

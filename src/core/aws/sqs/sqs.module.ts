@@ -13,7 +13,6 @@ import { SqsConsumersRegistry } from './sqs.consumers.registry';
     SqsService,
     SqsConsumersRegistry,
     SqsLambdaHandler,
-    SqsLambdaHandler,
   ],
   exports: [SqsService],
 })

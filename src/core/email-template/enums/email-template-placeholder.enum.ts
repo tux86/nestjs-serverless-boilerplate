@@ -1,5 +1,3 @@
-import { registerEnumType } from '@nestjs/graphql';
-
 export enum EmailTemplatePlaceholderName {
   // organization data
   OrganizationName = '{{{organization_name}}}',
@@ -9,6 +7,7 @@ export enum EmailTemplatePlaceholderName {
   UserEmail = '{{{user_email}}}',
   PlainPassword = '{{{plain_password}}}',
 }
+
 //
 // registerEnumType(EmailTemplatePlaceholderName, {
 //   name: 'EmailTemplatePlaceholderName',

@@ -1,14 +1,19 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { Organization } from '../organization.entity';
-import { CreateOrganizationInput } from '../dtos/create-organization.input';
-import { OrganizationService } from '../organization.service';
+import { Organization } from '../../../core/organization/organization.entity';
+import { CreateOrganizationInput } from '../../../core/organization/dtos/create-organization.input';
+import { OrganizationService } from '../../../core/organization/organization.service';
 
-import { UpdateOrganizationInput } from '../dtos/update-organization.input';
+import { UpdateOrganizationInput } from '../../../core/organization/dtos/update-organization.input';
 
 @Resolver((of) => Organization)
 export class OrganizationResolver {
   constructor(private readonly organizationService: OrganizationService) {}
+
+  @Query(() => Organization)
+  async currentOrganization(): Promise<Organization> {
+    return this.organizationService.findById('MP9212');
+  }
 
   @Query(() => [Organization])
   async organizations(): Promise<Organization[]> {

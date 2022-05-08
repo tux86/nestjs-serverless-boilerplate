@@ -1,9 +1,24 @@
 functions:
-  api:
+  publicApi:
     memorySize: 2048
     timeout: 30 # limits api timout to 30 seconds
     url: true
+    environment:
+      APP_NAME: public-api
+      APP_GLOBAL_PREFIX: public
     image:
       name: appimage
       command:
-        - dist/src/lambda-http.handler
+        - dist/src/lambda.handler
+
+  managementApi:
+    memorySize: 2048
+    timeout: 30 # limits api timout to 30 seconds
+    url: true
+    environment:
+      APP_NAME: management-api
+      APP_GLOBAL_PREFIX: management
+    image:
+      name: appimage
+      command:
+        - dist/src/lambda.handler

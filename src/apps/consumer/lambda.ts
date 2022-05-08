@@ -1,14 +1,14 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
 import { Context, Handler, SQSEvent } from 'aws-lambda';
 import { INestApplicationContext } from '@nestjs/common';
-import { SqsLambdaHandler } from './core/aws/sqs/sqs.lambda.handler';
+import { SqsLambdaHandler } from '../../core/aws/sqs/sqs.lambda.handler';
+import { ConsumerModule } from './consumer.module';
 
 let cachedApp: INestApplicationContext;
 export const handler: Handler = async (event: SQSEvent, context: Context) => {
   cachedApp = cachedApp
     ? cachedApp
-    : await NestFactory.createApplicationContext(AppModule);
+    : await NestFactory.createApplicationContext(ConsumerModule);
 
   const sqsLambdaHandler = await cachedApp.get(SqsLambdaHandler);
   return await sqsLambdaHandler.handler(event, context);
