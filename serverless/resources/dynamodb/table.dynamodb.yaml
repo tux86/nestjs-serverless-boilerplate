@@ -3,7 +3,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
     Properties:
-      TableName: ${self:custom.config.tableName}
+      TableName: ${self:custom.tableName}
       AttributeDefinitions:
         - AttributeName: pk
           AttributeType: S
@@ -49,4 +49,4 @@ Outputs:
   TableName:
     Value: !Ref DynamoDBTable
     Export:
-      Name: ${self:custom.config.tableName}
+      Name: ${self:custom.tableName}

@@ -4,7 +4,6 @@ useDotenv: true
 
 plugins:
   - serverless-deployment-bucket
-  - serverless-plugin-ifelse
   # *** offline plugins ***
   - serverless-cloudside-plugin
   - serverless-offline-sqs
@@ -20,7 +19,7 @@ provider:
   lambdaHashingVersion: '20201221'
   profile: ${env:AWS_PROFILE}
   memorySize: 1024
-  timeout: 20
+  timeout: 30
   versionFunctions: false
   logRetentionInDays: 14
   ecr:
@@ -47,19 +46,24 @@ provider:
   apiGateway:
     binaryMediaTypes:
       - '*/*'
-#  httpApi:
-#    cors: true
 
 custom:
-  config:
-    isOffline: ${strToBool(${env:IS_OFFLINE, false})}
-    s3BucketName: ${self:service}-bucket-${sls:stage}
-    rootDomainName: ${env:ROOT_DOMAIN_NAME}
-    apiDomainName: api-2.${env:ROOT_DOMAIN_NAME}
-    mediaDomainName: media-2.${env:ROOT_DOMAIN_NAME}
-    certificateNVirginaArn: ${env:CERTIFICATE_ARN_NVIRIGNIA}
-    tableName: ${self:service}-table-${sls:stage}
-    emailQueueName: ${self:service}-EmailQueue-${sls:stage}
+  offlineParams:
+    # IS_OFFLINE = true
+    true:
+      offlineDir: 'offline'
+    # IS_OFFLINE = false
+    false:
+      offlineDir: ''
+  isOffline: ${strToBool(${env:IS_OFFLINE, false})}
+  offlineDir: ${self:custom.offlineParams.${self:custom.isOffline}.offlineDir}
+  s3BucketName: ${self:service}-bucket-${sls:stage}
+  rootDomainName: ${env:ROOT_DOMAIN_NAME}
+  apiDomainName: api-2.${env:ROOT_DOMAIN_NAME}
+  mediaDomainName: media-2.${env:ROOT_DOMAIN_NAME}
+  certificateNVirginaArn: ${env:CERTIFICATE_ARN_NVIRIGNIA}
+  tableName: ${self:service}-table-${sls:stage}
+  emailQueueName: ${self:service}-EmailQueue-${sls:stage}
   # *** serverless-deployment-bucket config ***
   deploymentBucket:
     accelerate: true
@@ -81,19 +85,9 @@ custom:
     secretAccessKey: root
     skipCacheInvalidation: false
 
-  # *** serverless-plugin-ifelse  config ***
-  serverlessIfElse:
-    - If: '${self:custom.config.isOffline} == true'
-      Exclude:
-        - functions.nest.image
-        - functions.sqs.image
-      ElseExclude:
-        - functions.nest.handler
-        - functions.sqs.handler
-
 functions:
-  - ${file(./serverless/functions/nest-http-handler.function.yaml):functions}
-  - ${file(./serverless/functions/sqs-queue-handler.function.yaml):functions}
+  - ${file(./serverless/functions/${self:custom.offlineDir}/api-handler.function.yaml):functions}
+  - ${file(./serverless/functions/${self:custom.offlineDir}/sqs-queue-handler.function.yaml):functions}
 resources:
   # route 53
   - ${file(./serverless/resources/route53/api-record.route53.yaml)}

@@ -1,10 +1,6 @@
 functions:
   sqs:
-    memorySize: 2048
-    image:
-      name: appimage
-      command:
-        - dist/src/lambda-sqs.handler
+    handler: dist/src/lambda-sqs.handler
     events:
       - sqs:
           batchSize: 1

@@ -4,7 +4,7 @@ environment:
   NODE_ENV: ${env:NODE_ENV}
 
   # S3
-  S3_BUCKET_NAME: ${self:custom.config.s3BucketName}
+  S3_BUCKET_NAME: ${self:custom.s3BucketName}
 
   # DATABASE
   DATABASE_HOST: ${env:DATABASE_HOST}
@@ -13,7 +13,7 @@ environment:
   DATABASE_SECRET_ARN: ${env:DATABASE_SECRET_ARN}
 
   # COGNITO
-  IS_OFFLINE: ${self:custom.config.isOffline}
+  IS_OFFLINE: ${self:custom.isOffline}
   COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID}
   COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
   COGNITO_REGION: ${env:COGNITO_REGION}
@@ -24,4 +24,4 @@ environment:
 
   #SQS
   LOCAL_BROKER_ENDPOINT: ${env:LOCAL_BROKER_ENDPOINT, null}
-  EMAIL_QUEUE_NAME: ${self:custom.config.emailQueueName}
+  EMAIL_QUEUE_NAME: ${self:custom.emailQueueName}

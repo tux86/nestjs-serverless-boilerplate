@@ -13,7 +13,7 @@ Resources:
         Comment: Media distribution ${sls:stage}
         Origins:
           - Id: S3Bucket
-            DomainName: ${self:custom.config.s3BucketName}.s3.amazonaws.com
+            DomainName: ${self:custom.s3BucketName}.s3.amazonaws.com
             S3OriginConfig:
               OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}
         DefaultCacheBehavior:
@@ -34,8 +34,8 @@ Resources:
             - OPTIONS
             - GET
         Aliases:
-          - ${self:custom.config.mediaDomainName}
+          - ${self:custom.mediaDomainName}
         ViewerCertificate:
           SslSupportMethod: sni-only
           MinimumProtocolVersion: TLSv1.2_2019
-          AcmCertificateArn: ${self:custom.config.certificateNVirginaArn}
+          AcmCertificateArn: ${self:custom.certificateNVirginaArn}

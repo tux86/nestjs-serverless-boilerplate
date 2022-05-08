@@ -1,0 +1,9 @@
+functions:
+  api:
+    memorySize: 2048
+    timeout: 30 # limits api timout to 30 seconds
+    url: true
+    image:
+      name: appimage
+      command:
+        - dist/src/lambda-http.handler

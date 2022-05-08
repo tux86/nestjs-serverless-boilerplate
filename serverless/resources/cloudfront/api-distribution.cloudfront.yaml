@@ -3,7 +3,7 @@ Resources:
     Type: AWS::CloudFront::Distribution
     DeletionPolicy: Delete
     DependsOn:
-      - HttpApi # IMPORTANT: resource automatically created by serverless
+      - ApiLambdaFunctionUrl
     Properties:
       DistributionConfig:
         Enabled: true
@@ -11,16 +11,11 @@ Resources:
         HttpVersion: http2
         Comment: Api distribution ${sls:stage}
         Origins:
-          - Id: ApiGateway
+          - Id: ApiLambdaFunction
             DomainName:
-              !Join [
-                '.',
-                [
-                  !Ref HttpApi,
-                  'execute-api',
-                  !Ref AWS::Region,
-                  'amazonaws.com',
-                ],
+              !Select [
+                2,
+                !Split ['/', !GetAtt ApiLambdaFunctionUrl.FunctionUrl],
               ]
             OriginPath: ''
             CustomOriginConfig:
@@ -29,7 +24,7 @@ Resources:
               OriginProtocolPolicy: https-only
               OriginSSLProtocols: [TLSv1, TLSv1.1, TLSv1.2]
         DefaultCacheBehavior:
-          TargetOriginId: ApiGateway
+          TargetOriginId: ApiLambdaFunction
           ViewerProtocolPolicy: redirect-to-https
           Compress: true
           MinTTL: 0
@@ -55,8 +50,8 @@ Resources:
             Cookies:
               Forward: none
         Aliases:
-          - ${self:custom.config.apiDomainName}
+          - ${self:custom.apiDomainName}
         ViewerCertificate:
           SslSupportMethod: sni-only
           MinimumProtocolVersion: TLSv1.2_2019
-          AcmCertificateArn: ${self:custom.config.certificateNVirginaArn}
+          AcmCertificateArn: ${self:custom.certificateNVirginaArn}

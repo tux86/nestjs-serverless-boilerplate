@@ -1,12 +1,7 @@
 functions:
-  nest:
+  api:
+    timeout: 30 # limits api timout to 30 seconds
     handler: dist/src/lambda-http.handler
-    image:
-      name: appimage
-      command:
-        - dist/src/lambda-http.handler
-    memorySize: 2048
-    timeout: 20
     events:
       - httpApi:
           method: '*'

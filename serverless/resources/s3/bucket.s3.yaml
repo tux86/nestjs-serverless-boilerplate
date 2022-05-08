@@ -3,4 +3,4 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
     Properties:
-      BucketName: ${self:custom.config.s3BucketName}
+      BucketName: ${self:custom.s3BucketName}
