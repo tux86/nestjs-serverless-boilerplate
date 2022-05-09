@@ -63,7 +63,8 @@ export const setupSwagger = (app: INestApplication, path: string) => {
 
 export const setupNestApp = async (app: NestFastifyApplication) => {
   const config = app.get(ConfigService);
-  const appGlobalPrefix = config.get<string | undefined>('APP_GLOBAL_PREFIX');
+  const appGlobalPrefix = config.get<string | undefined>('appGlobalPrefix');
+  const enableSwagger = config.get<boolean>('enableSwagger');
 
   // apps.enableCors();
   app.setGlobalPrefix(process.env.API_PREFIX);
@@ -79,8 +80,9 @@ export const setupNestApp = async (app: NestFastifyApplication) => {
     app.setGlobalPrefix(appGlobalPrefix);
   }
 
-  // TODO add test if (process.env.SWAGGER_ENABLE=true)
   // Setup Swagger
-  const swaggerPath = appGlobalPrefix ? `${appGlobalPrefix}/api` : 'api';
-  setupSwagger(app, swaggerPath);
+  if (enableSwagger) {
+    const swaggerPath = appGlobalPrefix ? `${appGlobalPrefix}/api` : 'api';
+    setupSwagger(app, swaggerPath);
+  }
 };

@@ -4,7 +4,7 @@ functions:
     handler: dist/src/lambda.handler
     environment:
       APP_NAME: org-public
-      APP_GLOBAL_PREFIX: org-public
+      APP_GLOBAL_PREFIX: ${env:APP_ORG_PUBLIC_GLOBAL_PREFIX}
     events:
       - httpApi:
           method: '*'
@@ -14,7 +14,7 @@ functions:
     handler: dist/src/lambda.handler
     environment:
       APP_NAME: org-management
-      APP_GLOBAL_PREFIX: org-management
+      APP_GLOBAL_PREFIX: ${env:APP_ORG_MANAGEMENT_GLOBAL_PREFIX}
     events:
       - httpApi:
           method: '*'

@@ -8,6 +8,7 @@ export default () => ({
   isOffline: process.env.IS_OFFLINE === 'true',
   appName: process.env.APP_NAME || undefined,
   appGlobalPrefix: process.env.APP_GLOBAL_PREFIX || undefined,
+  enableSwagger: process.env.ENABLE_SWAGGER || false,
   database,
   aws,
 });
