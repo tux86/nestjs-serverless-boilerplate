@@ -1,0 +1,15 @@
+Resources:
+  ApiRecord:
+    Type: AWS::Route53::RecordSetGroup
+    DeletionPolicy: Delete
+    DependsOn:
+      - ServiceCloudFrontDistribution
+    Properties:
+      HostedZoneName: ${self:custom.rootDomainName}.
+      RecordSets:
+        - Name: ${self:custom.apiDomainName}
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName:
+              { 'Fn::GetAtt': [ServiceCloudFrontDistribution, DomainName] }

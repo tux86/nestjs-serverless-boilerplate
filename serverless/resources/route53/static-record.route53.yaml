@@ -1,14 +1,15 @@
 Resources:
-  CloudFrontRecord:
+  StaticRecord:
     Type: AWS::Route53::RecordSetGroup
     DeletionPolicy: Delete
     DependsOn:
-      - CloudFrontDistribution
+      - StaticCloudFrontDistribution
     Properties:
       HostedZoneName: ${self:custom.rootDomainName}.
       RecordSets:
-        - Name: ${self:custom.apiDomainName}
+        - Name: ${self:custom.staticDomainName}
           Type: A
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
-            DNSName: { 'Fn::GetAtt': [CloudFrontDistribution, DomainName] }
+            DNSName:
+              { 'Fn::GetAtt': [StaticCloudFrontDistribution, DomainName] }

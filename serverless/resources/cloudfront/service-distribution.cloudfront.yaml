@@ -1,10 +1,8 @@
 Resources:
-  CloudFrontDistribution:
+  ServiceCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     DeletionPolicy: Delete
     DependsOn:
-      - S3Bucket
-      - CloudFrontOriginAccessIdentity
       - PublicApiLambdaFunctionUrl
       - ManagementApiLambdaFunctionUrl
     Properties:
@@ -12,13 +10,8 @@ Resources:
         Enabled: true
         PriceClass: PriceClass_100
         HttpVersion: http2
-        Comment: ${self:service} distribution ${sls:stage}
+        Comment: ${self:service}-${sls:stage} Service distribution
         Origins:
-          # S3 Bucket Origin
-          - Id: S3Bucket
-            DomainName: ${self:custom.s3BucketName}.s3.amazonaws.com
-            S3OriginConfig:
-              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}
           # Public API Lambda Function Origin
           - Id: PublicApiLambdaFunction
             DomainName:
@@ -76,24 +69,6 @@ Resources:
             Cookies:
               Forward: none
         CacheBehaviors:
-          # ======================== S3 Bucket CacheBehavior  ========================
-          - PathPattern: /static/*
-            TargetOriginId: S3Bucket
-            ViewerProtocolPolicy: redirect-to-https
-            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # CachingDisabled
-            Compress: true
-            AllowedMethods:
-              - HEAD
-              - DELETE
-              - POST
-              - GET
-              - OPTIONS
-              - PUT
-              - PATCH
-            CachedMethods:
-              - HEAD
-              - OPTIONS
-              - GET
           # ======================== Public API CacheBehavior  ========================
           - PathPattern: /public/*
             TargetOriginId: PublicApiLambdaFunction

@@ -59,7 +59,8 @@ custom:
   offlineDir: ${self:custom.offlineParams.${self:custom.isOffline}.offlineDir}
   s3BucketName: ${self:service}-bucket-${sls:stage}
   rootDomainName: ${env:ROOT_DOMAIN_NAME}
-  apiDomainName: api-2.${env:ROOT_DOMAIN_NAME}
+  staticDomainName: static.${env:ROOT_DOMAIN_NAME}
+  apiDomainName: api-v2.${env:ROOT_DOMAIN_NAME}
   certificateNVirginaArn: ${env:CERTIFICATE_ARN_NVIRIGNIA}
   tableName: ${self:service}-table-${sls:stage}
   emailQueueName: ${self:service}-EmailQueue-${sls:stage}
@@ -89,10 +90,12 @@ functions:
   - ${file(./serverless/functions/${self:custom.offlineDir}/sqs-queue-handler.function.yaml):functions}
 resources:
   # route 53
-  - ${file(./serverless/resources/route53/record.route53.yaml)}
+  - ${file(./serverless/resources/route53/static-record.route53.yaml)}
+  - ${file(./serverless/resources/route53/api-record.route53.yaml)}
   # cloudfront
   - ${file(./serverless/resources/cloudfront/origin-access-identity.cloudfront.yaml)}
-  - ${file(./serverless/resources/cloudfront/distribution.cloudfront.yaml)}
+  - ${file(./serverless/resources/cloudfront/service-distribution.cloudfront.yaml)}
+  - ${file(./serverless/resources/cloudfront/static-distribution.cloudfront.yaml)}
   # sqs
   - ${file(./serverless/resources/sqs/email-queue.sqs.yaml)}
   # s3
