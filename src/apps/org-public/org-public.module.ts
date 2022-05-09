@@ -51,8 +51,8 @@ import { appGlobalPrefix } from '../../shared/utils/app.util';
   controllers: [],
   providers: [OrganizationResolver],
 })
-export class PublicModule {
-  private readonly logger = new Logger(PublicModule.name);
+export class OrgPublicModule {
+  private readonly logger = new Logger(OrgPublicModule.name);
 
   constructor() {
     this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');

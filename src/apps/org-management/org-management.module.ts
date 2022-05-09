@@ -47,8 +47,8 @@ import { appGlobalPrefix } from '../../shared/utils/app.util';
   controllers: [],
   providers: [OrganizationResolver],
 })
-export class ManagementModule {
-  private readonly logger = new Logger(ManagementModule.name);
+export class OrgManagementModule {
+  private readonly logger = new Logger(OrgManagementModule.name);
 
   constructor() {
     this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');

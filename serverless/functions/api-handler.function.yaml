@@ -1,23 +1,23 @@
 functions:
-  publicApi:
+  orgPublicSvc:
     memorySize: 2048
     timeout: 30 # limits api timout to 30 seconds
     url: true
     environment:
-      APP_NAME: public-api
-      APP_GLOBAL_PREFIX: public
+      APP_NAME: org-public
+      APP_GLOBAL_PREFIX: org-public
     image:
       name: appimage
       command:
         - dist/src/lambda.handler
 
-  managementApi:
+  orgManagementSvc:
     memorySize: 2048
     timeout: 30 # limits api timout to 30 seconds
     url: true
     environment:
-      APP_NAME: management-api
-      APP_GLOBAL_PREFIX: management
+      APP_NAME: org-management
+      APP_GLOBAL_PREFIX: org-management
     image:
       name: appimage
       command:

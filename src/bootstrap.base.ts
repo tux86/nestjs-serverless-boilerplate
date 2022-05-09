@@ -7,8 +7,8 @@ import {
 import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
 import { ApiTimeoutInterceptor } from './shared/interceptors/api-timeout.interceptor';
 import { App } from './shared/enums/app.enum';
-import { PublicModule } from './apps/public/public.module';
-import { ManagementModule } from './apps/management/management.module';
+import { OrgPublicModule } from './apps/org-public/org-public.module';
+import { OrgManagementModule } from './apps/org-management/org-management.module';
 import { fastify, FastifyInstance, FastifyServerOptions } from 'fastify';
 import { NestFactory } from '@nestjs/core';
 import { appName } from './shared/utils/app.util';
@@ -18,12 +18,12 @@ export const logger = new Logger('bootstrap');
 
 export const getApplicationModule = (): any | never => {
   switch (appName) {
-    case App.PublicApi:
-      return PublicModule;
-    case App.ManagementApi:
-      return ManagementModule;
+    case App.OrgPublic:
+      return OrgPublicModule;
+    case App.OrgManagement:
+      return OrgManagementModule;
     case App.Consumer:
-      return ManagementModule;
+      return OrgManagementModule;
     default:
       throw new Error(`not defined or invalid application APP_NAME=${appName}`);
   }

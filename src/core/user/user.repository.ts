@@ -27,7 +27,7 @@ export class UserRepository extends Repository<User> {
   }
 
   //
-  // gql-public async create(user: Partial<User>): Promise<User | undefined> {
+  // public async create(user: Partial<User>): Promise<User | undefined> {
   //   try {
   //     await this.createQueryBuilder().insert().into(User).values();
   //     return await query.getOne();
@@ -37,7 +37,7 @@ export class UserRepository extends Repository<User> {
   //   }
   // }
   //
-  // gql-public async removeById(userId: number) {
+  // public async removeById(userId: number) {
   //   await this.remove();
   // }
 }

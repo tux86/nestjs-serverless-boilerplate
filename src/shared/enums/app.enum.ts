@@ -1,5 +1,5 @@
 export enum App {
-  PublicApi = 'public-api',
-  ManagementApi = 'management-api',
+  OrgPublic = 'org-public',
+  OrgManagement = 'org-management',
   Consumer = 'consumer',
 }
