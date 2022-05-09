@@ -1,4 +1,4 @@
-# Nestjs serverless boilerplate
+# Multi-tenant Service NestJS Boilerplate 
 
 ## Description
 
