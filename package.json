@@ -22,7 +22,7 @@
     "dcup": "dotenv -e .env.local -- docker-compose up",
     "dcupd": "dotenv -e .env.local -- docker-compose up -d",
     "dcd": "dotenv -e .env.local -- docker-compose down",
-    "sls:offline": "STAGE=local yarn sls offline cloudside --stage dev",
+    "sls:offline": "yarn watch & STAGE=local yarn sls offline cloudside --stage dev",
     "sls:deploy": "yarn sls deploy --stage ${STAGE:=dev}",
     "sls:deploy:table": "yarn sls deploy --config serverless-dynamodb-table.yaml --stage ${STAGE:=dev}",
     "sls:remove": "yarn sls remove --stage ${STAGE:=dev}",
