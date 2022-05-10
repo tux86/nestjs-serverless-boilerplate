@@ -37,4 +37,4 @@ lerna-debug.log*
 
 # Env
 .env*
-!.env*.dist
+!.env.template
