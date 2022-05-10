@@ -26,13 +26,12 @@ Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless F
 
 * Cognito module
 * SQS module: SQS producer/consumer (use of NestJS Standalone application for consumer)
-* SES module
+* SES module (inspired by **@ssut/nestjs-sqs**) https://www.npmjs.com/package/@ssut/nestjs-sqs
 * S3 module
 * SecretsManager module: used by database module to load db credentials
 
 ### Other topics
-* Semantic Versioning
-  [https://github.com/0xb4lamx/nestjs-boilerplate-microservice/blob/master/docs/guidelines.md]
+* Semantic Versioning: https://github.com/0xb4lamx/nestjs-boilerplate-microservice/blob/master/docs/guidelines.md
 
     
 ## Installation
