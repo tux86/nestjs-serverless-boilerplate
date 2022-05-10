@@ -84,7 +84,7 @@ Resources:
               Forward: none
         CacheBehaviors:
           # ======================== Org Public API CacheBehavior  ========================
-          - PathPattern: /${self:custom.apps.public.prefix}/*
+          - PathPattern: /public/*
             TargetOriginId: PublicApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true
@@ -111,7 +111,7 @@ Resources:
               Cookies:
                 Forward: none
           # ======================== Org Management API CacheBehavior  ========================
-          - PathPattern: /${self:custom.apps.management.prefix}/*
+          - PathPattern: /management/*
             TargetOriginId: InternalApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true
@@ -138,7 +138,7 @@ Resources:
               Cookies:
                 Forward: none
           # ======================== Internal API CacheBehavior  ========================
-          - PathPattern: /${self:custom.apps.internal.prefix}/*
+          - PathPattern: /internal/*
             TargetOriginId: ManagementApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true

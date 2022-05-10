@@ -48,6 +48,7 @@ provider:
       - '*/*'
 
 custom:
+  # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& CUSTOM CONFIGURATION SECTION &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   offline: ${self:custom.offline:${strToBool(${env:IS_OFFLINE, false})}} # contains config based on IS_OFFLINE env
   'offline:true': # offline enabled parameters
     enabled: true
@@ -77,21 +78,8 @@ custom:
     port: ${env:DATABASE_PORT}
     name: ${env:DATABASE_NAME}
     secretArn: ${env:DATABASE_SECRET_ARN}
-  lambda:
-    http:
-      handler: dist/src/http-lambda.handler
-    sqs:
-      handler: dist/src/sqs-lambda.handler
-  apps:
-    public:
-      appName: public
-      prefix: public
-    management:
-      appName: management
-      prefix: management
-    internal:
-      appName: internal
-      prefix: internal
+
+  # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PLUGINS CONFIGURATION SECTION &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   # *** serverless-deployment-bucket config ***
   deploymentBucket:
     accelerate: true

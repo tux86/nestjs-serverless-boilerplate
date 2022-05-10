@@ -1,28 +1,28 @@
 functions:
   publicApi:
-    handler: ${self:custom.lambda.http.handler}
+    handler: dist/src/http-lambda.handler
     environment:
-      APP_NAME: ${self:custom.apps.public.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.apps.public.prefix}
+      APP_NAME: public
+      APP_GLOBAL_PREFIX: public
     events:
       - httpApi:
           method: '*'
-          path: /${self:custom.apps.public.prefix}/{proxy+}
+          path: /public/{proxy+}
   managementApi:
-    handler: ${self:custom.lambda.http.handler}
+    handler: dist/src/http-lambda.handler
     environment:
-      APP_NAME: ${self:custom.apps.management.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.apps.management.prefix}
+      APP_NAME: management
+      APP_GLOBAL_PREFIX: management
     events:
       - httpApi:
           method: '*'
-          path: /${self:custom.apps.management.prefix}/{proxy+}
+          path: /management/{proxy+}
   internalApi:
-    handler: ${self:custom.lambda.http.handler}
+    handler: dist/src/http-lambda.handler
     environment:
-      APP_NAME: ${self:custom.apps.internal.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.apps.internal.prefix}
+      APP_NAME: internal
+      APP_GLOBAL_PREFIX: internal
     events:
       - httpApi:
           method: '*'
-          path: /${self:custom.apps.internal.prefix}/{proxy+}
+          path: /internal/{proxy+}

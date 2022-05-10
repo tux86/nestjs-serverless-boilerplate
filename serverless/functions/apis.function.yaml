@@ -2,29 +2,29 @@ functions:
   publicApi:
     url: true
     environment:
-      APP_NAME: ${self:custom.apps.public.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.apps.public.prefix}
+      APP_NAME: public
+      APP_GLOBAL_PREFIX: public
     image:
       name: appimage
       command:
-        - ${self:custom.lambda.http.handler}
+        - dist/src/http-lambda.handler
 
   managementApi:
     url: true
     environment:
-      APP_NAME: ${self:custom.apps.management.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.apps.management.prefix}
+      APP_NAME: management
+      APP_GLOBAL_PREFIX: management
     image:
       name: appimage
       command:
-        - ${self:custom.lambda.http.handler}
+        - dist/src/http-lambda.handler
 
   internalApi:
     url: true
     environment:
-      APP_NAME: ${self:custom.apps.internal.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.apps.internal.prefix}
+      APP_NAME: internal
+      APP_GLOBAL_PREFIX: internal
     image:
       name: appimage
       command:
-        - ${self:custom.lambda.http.handler}
+        - dist/src/http-lambda.handler

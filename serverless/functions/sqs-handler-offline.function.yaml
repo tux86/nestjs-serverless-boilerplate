@@ -1,6 +1,6 @@
 functions:
   sqs:
-    handler: ${self:custom.lambda.sqs.handler}
+    handler: dist/src/sqs-lambda.handler
     environment:
       APP_NAME: consumer
     events:

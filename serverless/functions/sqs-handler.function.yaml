@@ -5,7 +5,7 @@ functions:
     image:
       name: appimage
       command:
-        - ${self:custom.lambda.sqs.handler}
+        - dist/src/sqs-lambda.handler
     environment:
       APP_NAME: consumer
     events:
