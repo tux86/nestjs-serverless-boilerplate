@@ -5,7 +5,7 @@ Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless F
 ## Features: 
 
 ### NestJS:
-* NestJS 8 + Fastify
+* NestJS 8 + Fastify + TypeORM
 * NestJS/Graphql - multiple endpoints (public, management, internal)
 * Includes Buniness logic Exceptions with namespaced codes
 * Using Exception filters and logging
