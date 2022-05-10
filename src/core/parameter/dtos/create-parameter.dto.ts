@@ -1,25 +1,24 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 import {
   IsBoolean,
   IsEnum,
   IsOptional,
+  Length,
   MaxLength,
   MinLength,
 } from 'class-validator';
 import { ParameterValueType } from '../enums/parameter-value-type.enum';
 import { IsPascalCase } from '../../../shared/validators/decorators/is-pascal-case.decorator';
+import { Parameter } from '../entities/parameter.entity';
 
-@InputType()
-export class CreateParameterInput {
-  @Field()
+@InputType('CreateParameterInput')
+export class CreateParameterDto implements Partial<Parameter> {
+  @Field(() => ID)
   @IsPascalCase()
-  @MinLength(4)
-  @MaxLength(100)
+  @Length(4, 100)
   name: string;
 
-  @Field()
-  @MinLength(4)
-  @MaxLength(100)
+  @Field(() => ParameterValueType)
   @IsEnum(ParameterValueType)
   valueType: ParameterValueType;
 

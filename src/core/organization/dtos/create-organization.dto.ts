@@ -3,17 +3,16 @@ import {
   IsAlphanumeric,
   IsNotEmpty,
   IsUppercase,
-  MaxLength,
-  MinLength,
+  Length,
 } from 'class-validator';
+import { Organization } from '../organization.entity';
 
-@InputType()
-export class CreateOrganizationInput {
+@InputType('CreateOrganizationInput')
+export class CreateOrganizationDto implements Partial<Organization> {
   @Field()
   @IsAlphanumeric()
   @IsUppercase()
-  @MinLength(4)
-  @MaxLength(10)
+  @Length(4, 8)
   orgId: string;
 
   @Field()

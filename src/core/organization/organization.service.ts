@@ -1,10 +1,14 @@
-import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Organization } from './organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateOrganizationInput } from './dtos/create-organization.input';
+import { CreateOrganizationDto } from './dtos/create-organization.dto';
 import { Repository } from 'typeorm';
-import { UpdateOrganizationInput } from './dtos/update-organization.input';
+import { UpdateOrganizationDto } from './dtos/update-organization.dto';
 import { OrganizationNotFoundException } from './exceptions/organization-not-found.exception';
+import {
+  ResourceAlreadyExistsException,
+  ResourceNotExistsException,
+} from '../../shared/exceptions';
 
 @Injectable()
 export class OrganizationService {
@@ -17,22 +21,29 @@ export class OrganizationService {
 
   public async find(): Promise<Organization[]> {
     return this.repository.find({
+      where: {},
       order: {
         createdAt: 'DESC',
       },
     });
   }
 
-  public async findById(orgId: string): Promise<Organization | undefined> {
-    return this.repository.findOne({
+  public async findById(
+    orgId: string,
+  ): Promise<Organization | undefined | never> {
+    const organization = await this.repository.findOne({
       where: {
         orgId,
       },
     });
+    if (!organization) {
+      throw new ResourceNotExistsException(Organization, orgId);
+    }
+    return organization;
   }
 
   public async create(
-    createOrganizationInput: CreateOrganizationInput,
+    createOrganizationInput: CreateOrganizationDto,
   ): Promise<Organization | never> {
     const { orgId } = createOrganizationInput;
     const existingOrganization = await this.repository.findOne({
@@ -41,14 +52,17 @@ export class OrganizationService {
       },
     });
     if (existingOrganization) {
-      throw new ConflictException('Already existing organization');
+      throw new ResourceAlreadyExistsException(
+        Organization,
+        existingOrganization.orgId,
+      );
     }
     const organization = this.repository.create(createOrganizationInput);
     return await this.repository.save(organization);
   }
 
   public async update(
-    updateOrganizationInput: UpdateOrganizationInput,
+    updateOrganizationInput: UpdateOrganizationDto,
   ): Promise<Organization | never> {
     const { orgId } = updateOrganizationInput;
     const organization = await this.repository.preload(updateOrganizationInput);
@@ -59,17 +73,8 @@ export class OrganizationService {
   }
 
   public async remove(orgId: string): Promise<boolean | never> {
-    try {
-      const organization = await this.repository.findOneOrFail({
-        where: {
-          orgId,
-        },
-      });
-      await this.repository.softRemove(organization);
-      return true;
-    } catch (error) {
-      this.logger.error([error.message, error.stack].join('\n'));
-      return false;
-    }
+    const organization = await this.findById(orgId);
+    await this.repository.softRemove(organization);
+    return true;
   }
 }

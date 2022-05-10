@@ -16,7 +16,7 @@ export const getEndpointGraphqlConfig = (options: {
     autoSchemaFile: true, // generated on-the-fly in memory (needed for lambda)
     path,
     disableHealthCheck: true,
-    sortSchema: true,
+    sortSchema: false,
     debug: false,
     introspection: process.env.ENABLE_GRAPHQL_INTROSPECTION === 'true',
     playground: false,
