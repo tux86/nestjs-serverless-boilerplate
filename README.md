@@ -4,13 +4,13 @@ Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless F
 
 ## Features: 
 
-### NestJS
+### NestJS:
 * NestJS 8 + Fastify
 * NestJS/Graphql - multiple endpoints (public, management, internal)
 * Includes Buniness logic Exceptions with namespaced codes
 * Using Exception filters and logging
 * custom validators
-### IAC Serverless Framework (AWS)
+### IAC Serverless Framework (AWS):
 * Serverless Framework 3
 * serverless-offline (full working local envrionnement with aws services mocking)
 * single Lambda function aka. mono-lambda
@@ -18,8 +18,17 @@ Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless F
 * Custom domain (Route53+Cloudfront)
 * arm64 architecture for lambda
 * using 100% aws-sdk (v3)
-* SQS producer/consumer (use of NestJS Standalone application for consumer)
 * AWS Cognito JWT token validation with AuthGuard
+
+### Core modules:
+
+#### AWS Modules:
+
+* Cognito module
+* SQS module: SQS producer/consumer (use of NestJS Standalone application for consumer)
+* SES module
+* S3 module
+* SecretsManager module: used by database module to load db credentials
 
 ### Other topics
 * Semantic Versioning
