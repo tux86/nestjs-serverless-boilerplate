@@ -49,4 +49,4 @@ Outputs:
   TableName:
     Value: !Ref DynamoDBTable
     Export:
-      Name: ${self:custom.tableName}
+      Name: ${self:custom.dynamodb.tableName}

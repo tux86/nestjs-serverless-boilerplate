@@ -5,9 +5,9 @@ Resources:
     DependsOn:
       - StaticCloudFrontDistribution
     Properties:
-      HostedZoneName: ${self:custom.rootDomainName}.
+      HostedZoneName: ${self:custom.domains.root}.
       RecordSets:
-        - Name: ${self:custom.staticDomainName}
+        - Name: ${self:custom.domains.static}
           Type: A
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2

@@ -1,10 +1,11 @@
 functions:
   sqs:
     memorySize: 2048
+    timeout: 300 # 5 minutes
     image:
       name: appimage
       command:
-        - dist/src/app/consumer/lambda.handler
+        - ${self:custom.lambda.sqs.handler}
     environment:
       APP_NAME: consumer
     events:

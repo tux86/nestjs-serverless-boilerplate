@@ -18,8 +18,8 @@ provider:
     StackName: ${self:service}-${sls:stage}
   lambdaHashingVersion: '20201221'
   profile: ${env:AWS_PROFILE}
-  memorySize: 1024
-  timeout: 30
+  memorySize: 2048 # global value for http handlers
+  timeout: 30 # global value for http handlers
   versionFunctions: false
   logRetentionInDays: 14
   ecr:
@@ -48,24 +48,41 @@ provider:
       - '*/*'
 
 custom:
-  offlineParams:
-    # IS_OFFLINE = true
-    true:
-      offlineDir: 'offline'
-    # IS_OFFLINE = false
-    false:
-      offlineDir: ''
-  isOffline: ${strToBool(${env:IS_OFFLINE, false})}
-  offlineDir: ${self:custom.offlineParams.${self:custom.isOffline}.offlineDir}
-  s3BucketName: ${self:service}-bucket-${sls:stage}
-  rootDomainName: ${env:ROOT_DOMAIN_NAME}
-  staticDomainName: static.${env:ROOT_DOMAIN_NAME}
-  apiDomainName: api-v2.${env:ROOT_DOMAIN_NAME}
-  certificateNVirginaArn: ${env:CERTIFICATE_ARN_NVIRIGNIA}
-  tableName: ${self:service}-table-${sls:stage}
-  emailQueueName: ${self:service}-EmailQueue-${sls:stage}
-
-  appsConfig:
+  offline: ${self:custom.offline:${strToBool(${env:IS_OFFLINE, false})}} # contains config based on IS_OFFLINE env
+  'offline:true': # offline enabled parameters
+    enabled: true
+    filePrefix: '-offline'
+  'offline:false': # offline disabled parameters
+    enabled: false
+    filePrefix: ''
+  nodeEnv: ${env:NODE_ENV}
+  acm:
+    certificates:
+      'us-east-1': ${env:CERTIFICATE_ARN_US_EAST_1}
+  domains:
+    root: ${env:ROOT_DOMAIN_NAME}
+    static: static.${env:ROOT_DOMAIN_NAME}
+    api: api-v2.${env:ROOT_DOMAIN_NAME}
+  cognito:
+    userPoolId: ${env:COGNITO_USER_POOL_ID}
+    clientId: ${env:COGNITO_CLIENT_ID}
+  s3:
+    bucketName: ${self:service}-bucket-${sls:stage}
+  sqs:
+    emailQueueName: ${self:service}-EmailQueue-${sls:stage}
+  dynamodb:
+    tableName: ${self:service}-table-${sls:stage}
+  database:
+    host: ${env:DATABASE_HOST}
+    port: ${env:DATABASE_PORT}
+    name: ${env:DATABASE_NAME}
+    secretArn: ${env:DATABASE_SECRET_ARN}
+  lambda:
+    http:
+      handler: dist/src/http-lambda.handler
+    sqs:
+      handler: dist/src/sqs-lambda.handler
+  apps:
     public:
       appName: public
       prefix: public
@@ -75,7 +92,6 @@ custom:
     internal:
       appName: internal
       prefix: internal
-
   # *** serverless-deployment-bucket config ***
   deploymentBucket:
     accelerate: true
@@ -98,8 +114,8 @@ custom:
     skipCacheInvalidation: false
 
 functions:
-  - ${file(./serverless/functions/${self:custom.offlineDir}/apis.function.yaml):functions}
-  - ${file(./serverless/functions/${self:custom.offlineDir}/sqs-queue-handler.function.yaml):functions}
+  - ${file(./serverless/functions/apis${self:custom.offline.filePrefix}.function.yaml):functions}
+  - ${file(./serverless/functions/sqs-handler${self:custom.offline.filePrefix}.function.yaml):functions}
 resources:
   # route 53
   - ${file(./serverless/resources/route53/static-record.route53.yaml)}

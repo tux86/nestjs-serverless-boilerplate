@@ -1,7 +1,6 @@
 import { Env } from '../enums/env.enum';
 
-export const isEnv = (environment: Env): boolean =>
-  process.env.NODE_ENV === environment;
+export const isEnv = (env: Env): boolean => process.env.NODE_ENV === env;
 
 export const isProduction = (): boolean => {
   return isEnv(Env.Prod);

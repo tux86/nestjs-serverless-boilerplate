@@ -5,9 +5,9 @@ Resources:
     DependsOn:
       - ApisCloudFrontDistribution
     Properties:
-      HostedZoneName: ${self:custom.rootDomainName}.
+      HostedZoneName: ${self:custom.domains.root}.
       RecordSets:
-        - Name: ${self:custom.apiDomainName}
+        - Name: ${self:custom.domains.api}
           Type: A
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2

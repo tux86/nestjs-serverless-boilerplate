@@ -1,36 +1,30 @@
 functions:
   publicApi:
-    memorySize: 2048
-    timeout: 30 # limits api timout to 30 seconds
     url: true
     environment:
-      APP_NAME: ${self:custom.appsConfig.public.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.public.prefix}
+      APP_NAME: ${self:custom.apps.public.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.apps.public.prefix}
     image:
       name: appimage
       command:
-        - dist/src/lambda.handler
+        - ${self:custom.lambda.http.handler}
 
   managementApi:
-    memorySize: 2048
-    timeout: 30 # limits api timout to 30 seconds
     url: true
     environment:
-      APP_NAME: ${self:custom.appsConfig.management.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.management.prefix}
+      APP_NAME: ${self:custom.apps.management.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.apps.management.prefix}
     image:
       name: appimage
       command:
-        - dist/src/lambda.handler
+        - ${self:custom.lambda.http.handler}
 
   internalApi:
-    memorySize: 2048
-    timeout: 30 # limits api timout to 30 seconds
     url: true
     environment:
-      APP_NAME: ${self:custom.appsConfig.internal.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.internal.prefix}
+      APP_NAME: ${self:custom.apps.internal.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.apps.internal.prefix}
     image:
       name: appimage
       command:
-        - dist/src/lambda.handler
+        - ${self:custom.lambda.http.handler}

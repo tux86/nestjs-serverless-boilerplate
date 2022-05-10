@@ -33,6 +33,7 @@ export const getApplicationModule = (): any | never => {
 };
 
 export const appModuleLogInfo = (config: ConfigService, logger: Logger) => {
+  // logger.debug(JSON.stringify(config, null, 2));
   logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
   logger.debug(`  APP_NAME         → ${config.get('appName')}`);
   logger.debug(`  NODE_ENV         → ${config.get('env')}`);

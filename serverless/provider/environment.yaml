@@ -1,22 +1,21 @@
 environment:
   AWS_ACCOUNT_ID: ${aws:accountId}
   STAGE: ${sls:stage}
-  NODE_ENV: ${env:NODE_ENV}
+  NODE_ENV: ${self:custom.nodeEnv}
+  IS_OFFLINE: ${self:custom.offline.enabled}
 
   # S3
-  S3_BUCKET_NAME: ${self:custom.s3BucketName}
+  S3_BUCKET_NAME: ${self:custom.s3.bucketName}
 
   # DATABASE
-  DATABASE_HOST: ${env:DATABASE_HOST}
-  DATABASE_PORT: ${env:DATABASE_PORT}
-  DATABASE_NAME: ${env:DATABASE_NAME}
-  DATABASE_SECRET_ARN: ${env:DATABASE_SECRET_ARN}
+  DATABASE_HOST: ${self:custom.database.host}
+  DATABASE_PORT: ${self:custom.database.port}
+  DATABASE_NAME: ${self:custom.database.name}
+  DATABASE_SECRET_ARN: ${self:custom.database.secretArn}
 
   # COGNITO
-  IS_OFFLINE: ${self:custom.isOffline}
-  COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID}
-  COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
-  COGNITO_REGION: ${env:COGNITO_REGION}
+  COGNITO_USER_POOL_ID: ${self:custom.cognito.userPoolId}
+  COGNITO_CLIENT_ID: ${self:custom.cognito.clientId}
 
   # SES
   DEFAULT_SENDER_ADDRESS: ${env:DEFAULT_SENDER_ADDRESS}
@@ -24,7 +23,7 @@ environment:
 
   #SQS
   LOCAL_BROKER_ENDPOINT: ${env:LOCAL_BROKER_ENDPOINT, null}
-  EMAIL_QUEUE_NAME: ${self:custom.emailQueueName}
+  EMAIL_QUEUE_NAME: ${self:custom.sqs.emailQueueName}
 
   ENABLE_SWAGGER: ${env:ENABLE_SWAGGER, false}
   ENABLE_GRAPHQL_INTROSPECTION: ${env:ENABLE_GRAPHQL_INTROSPECTION, false}
