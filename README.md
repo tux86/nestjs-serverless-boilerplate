@@ -1,6 +1,6 @@
 # Multi-tenant Service NestJS Boilerplate 
 
-
+Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless Framework
 
 ## Features: 
 
