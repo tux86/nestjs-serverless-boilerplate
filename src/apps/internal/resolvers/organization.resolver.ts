@@ -8,38 +8,38 @@ import { UpdateOrganizationInput } from '../../../core/organization/dtos/update-
 
 @Resolver((of) => Organization)
 export class OrganizationResolver {
-  constructor(private readonly organizationService: OrganizationService) {}
+  constructor(private readonly service: OrganizationService) {}
 
   @Query(() => [Organization])
   async organizations(): Promise<Organization[]> {
-    return this.organizationService.find();
+    return this.service.find();
   }
 
   @Query(() => Organization)
   async organization(
     @Args('orgId') orgId: string,
   ): Promise<Organization | undefined | never> {
-    return this.organizationService.findById(orgId);
+    return this.service.findById(orgId);
   }
 
   @Mutation(() => Organization)
   async createOrganization(
     @Args('input') input: CreateOrganizationInput,
   ): Promise<Organization | never> {
-    return await this.organizationService.create(input);
+    return await this.service.create(input);
   }
 
   @Mutation(() => Organization)
   async updateOrganization(
     @Args('input') input: UpdateOrganizationInput,
   ): Promise<Organization | never> {
-    return await this.organizationService.update(input);
+    return await this.service.update(input);
   }
 
   @Mutation(() => Boolean)
   async deleteOrganization(
     @Args('orgId') orgId: string,
   ): Promise<boolean | never> {
-    return await this.organizationService.remove(orgId);
+    return await this.service.remove(orgId);
   }
 }

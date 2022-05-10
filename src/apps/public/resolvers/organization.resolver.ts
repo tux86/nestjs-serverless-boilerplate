@@ -5,10 +5,10 @@ import { OrganizationService } from '../../../core/organization/organization.ser
 
 @Resolver((of) => Organization)
 export class OrganizationResolver {
-  constructor(private readonly organizationService: OrganizationService) {}
+  constructor(private readonly service: OrganizationService) {}
 
   @Query(() => Organization)
   async currentOrganization(): Promise<Organization> {
-    return this.organizationService.findById('MP9212');
+    return this.service.findById('MP9212');
   }
 }

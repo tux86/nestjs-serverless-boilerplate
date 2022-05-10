@@ -6,7 +6,7 @@ import { CreateUserInput } from '../../../core/user/dtos/create-user.input';
 
 @Resolver()
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly service: UserService) {}
 
   @Query(() => [User])
   users(): User[] {

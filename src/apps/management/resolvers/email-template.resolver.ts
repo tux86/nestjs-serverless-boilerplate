@@ -7,12 +7,12 @@ import { CreateEmailTemplateInput } from '../../../core/email-template/dtos/crea
 
 @Resolver(() => EmailTemplate)
 export class EmailTemplateResolver {
-  constructor(private readonly emailTemplateService: EmailTemplateService) {}
+  constructor(private readonly service: EmailTemplateService) {}
 
   @Query(() => [EmailTemplate])
   @UseGuards(JwtAuthGuard)
   async emailTemplates(): Promise<EmailTemplate[]> {
-    return await this.emailTemplateService.getEmailTemplates();
+    return await this.service.getEmailTemplates();
   }
 
   // @Query(() => [EmailTemplatePlaceholder])
@@ -24,6 +24,6 @@ export class EmailTemplateResolver {
   async createEmailTemplate(
     @Args('input') input: CreateEmailTemplateInput,
   ): Promise<EmailTemplate> {
-    return await this.emailTemplateService.createEmailTemplate(input);
+    return await this.service.createEmailTemplate(input);
   }
 }

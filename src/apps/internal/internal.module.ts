@@ -11,6 +11,7 @@ import { appGlobalPrefix } from '../../shared/utils/app.util';
 import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
 import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
 import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
+import { ParameterModule } from '../../core/parameter/parameter.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
     EventEmitterModule.forRoot(),
     HealthCheckerModule,
     OrganizationModule,
+    ParameterModule,
   ],
   controllers: [],
   providers: [...resolvers],
