@@ -10,11 +10,6 @@ import { UpdateOrganizationInput } from '../../../core/organization/dtos/update-
 export class OrganizationResolver {
   constructor(private readonly organizationService: OrganizationService) {}
 
-  @Query(() => Organization)
-  async currentOrganization(): Promise<Organization> {
-    return this.organizationService.findById('MP9212');
-  }
-
   @Query(() => [Organization])
   async organizations(): Promise<Organization[]> {
     return this.organizationService.find();

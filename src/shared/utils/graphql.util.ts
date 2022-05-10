@@ -19,6 +19,7 @@ export const getEndpointGraphqlConfig = (options: {
     sortSchema: true,
     debug: false,
     introspection: process.env.ENABLE_GRAPHQL_INTROSPECTION === 'true',
+    playground: false,
     formatError: (error: GraphQLError) => {
       delete error.extensions?.code;
       return error;
@@ -29,15 +30,8 @@ export const getEndpointGraphqlConfig = (options: {
     config = {
       ...config,
       ...({
-        playground: false,
+        playground: false, // must be disabled if ApolloServerPluginLandingPage
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      } as Partial<ApolloDriverConfig>),
-    };
-  } else {
-    config = {
-      ...config,
-      ...({
-        playground: false,
       } as Partial<ApolloDriverConfig>),
     };
   }

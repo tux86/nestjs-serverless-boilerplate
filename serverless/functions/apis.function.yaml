@@ -1,23 +1,23 @@
 functions:
-  orgPublicApi:
+  publicApi:
     memorySize: 2048
     timeout: 30 # limits api timout to 30 seconds
     url: true
     environment:
-      APP_NAME: ${self:custom.appsConfig.orgPublic.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.orgPublic.prefix}
+      APP_NAME: ${self:custom.appsConfig.public.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.public.prefix}
     image:
       name: appimage
       command:
         - dist/src/lambda.handler
 
-  orgManagementApi:
+  managementApi:
     memorySize: 2048
     timeout: 30 # limits api timout to 30 seconds
     url: true
     environment:
-      APP_NAME: ${self:custom.appsConfig.orgManagement.appName}
-      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.orgManagement.prefix}
+      APP_NAME: ${self:custom.appsConfig.management.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.management.prefix}
     image:
       name: appimage
       command:

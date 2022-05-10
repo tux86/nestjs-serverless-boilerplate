@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { EmailTemplateName } from '../enums/email-template-name.enum';
+import { EmailTemplateName } from './enums/email-template-name.enum';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()

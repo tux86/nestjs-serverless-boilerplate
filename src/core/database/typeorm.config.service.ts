@@ -15,7 +15,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   ) {}
 
   async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
-    const environment: string = this.config.get<'string'>('environment');
+    const environment: string = this.config.get<'string'>('env');
 
     // retrieve database username and password from aws secrets manager service
     const dbCredentials = await this.getDatabaseCredentials();

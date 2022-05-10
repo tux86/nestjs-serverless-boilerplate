@@ -1,6 +1,6 @@
 export enum App {
-  OrgPublic = 'org-public',
-  OrgManagement = 'org-management',
+  Public = 'public',
+  Management = 'management',
   Internal = 'internal',
   Consumer = 'consumer',
 }

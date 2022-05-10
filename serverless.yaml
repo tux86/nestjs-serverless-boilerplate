@@ -66,12 +66,12 @@ custom:
   emailQueueName: ${self:service}-EmailQueue-${sls:stage}
 
   appsConfig:
-    orgPublic:
-      appName: org-public
-      prefix: org-public
-    orgManagement:
-      appName: org-management
-      prefix: org-management
+    public:
+      appName: public
+      prefix: public
+    management:
+      appName: management
+      prefix: management
     internal:
       appName: internal
       prefix: internal

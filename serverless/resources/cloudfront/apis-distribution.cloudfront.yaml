@@ -3,8 +3,8 @@ Resources:
     Type: AWS::CloudFront::Distribution
     DeletionPolicy: Delete
     DependsOn:
-      - OrgPublicApiLambdaFunctionUrl
-      - OrgManagementApiLambdaFunctionUrl
+      - PublicApiLambdaFunctionUrl
+      - ManagementApiLambdaFunctionUrl
       - InternalApiLambdaFunctionUrl
     Properties:
       DistributionConfig:
@@ -14,11 +14,11 @@ Resources:
         Comment: ${self:service}-${sls:stage} APIs distribution
         Origins:
           # Org Public API Lambda Function Origin
-          - Id: OrgPublicApiLambdaFunction
+          - Id: PublicApiLambdaFunction
             DomainName:
               !Select [
                 2,
-                !Split ['/', !GetAtt OrgPublicApiLambdaFunctionUrl.FunctionUrl],
+                !Split ['/', !GetAtt PublicApiLambdaFunctionUrl.FunctionUrl],
               ]
             OriginPath: ''
             CustomOriginConfig:
@@ -27,13 +27,13 @@ Resources:
               OriginProtocolPolicy: https-only
               OriginSSLProtocols: [TLSv1, TLSv1.1, TLSv1.2]
           # Org Management API Lambda Function Origin
-          - Id: OrgManagementApiLambdaFunction
+          - Id: ManagementApiLambdaFunction
             DomainName:
               !Select [
                 2,
                 !Split [
                   '/',
-                  !GetAtt OrgManagementApiLambdaFunctionUrl.FunctionUrl,
+                  !GetAtt ManagementApiLambdaFunctionUrl.FunctionUrl,
                 ],
               ]
             OriginPath: ''
@@ -57,7 +57,7 @@ Resources:
               OriginSSLProtocols: [TLSv1, TLSv1.1, TLSv1.2]
         DefaultCacheBehavior:
           # ======================== Default CacheBehavior  ========================
-          TargetOriginId: OrgPublicApiLambdaFunction
+          TargetOriginId: PublicApiLambdaFunction
           ViewerProtocolPolicy: redirect-to-https
           Compress: true
           MinTTL: 0
@@ -84,8 +84,8 @@ Resources:
               Forward: none
         CacheBehaviors:
           # ======================== Org Public API CacheBehavior  ========================
-          - PathPattern: /${self:custom.appsConfig.orgPublic.prefix}/*
-            TargetOriginId: OrgPublicApiLambdaFunction
+          - PathPattern: /${self:custom.appsConfig.public.prefix}/*
+            TargetOriginId: PublicApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true
             MinTTL: 0
@@ -111,7 +111,7 @@ Resources:
               Cookies:
                 Forward: none
           # ======================== Org Management API CacheBehavior  ========================
-          - PathPattern: /${self:custom.appsConfig.orgManagement.prefix}/*
+          - PathPattern: /${self:custom.appsConfig.management.prefix}/*
             TargetOriginId: InternalApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true
@@ -139,7 +139,7 @@ Resources:
                 Forward: none
           # ======================== Internal API CacheBehavior  ========================
           - PathPattern: /${self:custom.appsConfig.internal.prefix}/*
-            TargetOriginId: OrgManagementApiLambdaFunction
+            TargetOriginId: ManagementApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true
             MinTTL: 0

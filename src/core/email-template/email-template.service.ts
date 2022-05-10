@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EmailTemplate } from './entities/email-template.entity';
+import { EmailTemplate } from './email-template.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmailTemplateRepository } from './email-template.repository';
 import { EmailTemplatePlaceholderName } from './enums/email-template-placeholder.enum';

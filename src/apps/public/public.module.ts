@@ -1,4 +1,4 @@
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from '../../core/database/database.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
@@ -7,9 +7,12 @@ import { CoreModule } from '../../core/core.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Logger, Module } from '@nestjs/common';
 import configuration from '../../config';
-import { OrganizationResolver } from '../internal/resolvers/organization.resolver';
+import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
+import { SESModule } from '../../core/aws/ses/ses.module';
 import { appGlobalPrefix } from '../../shared/utils/app.util';
 import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
+import { resolvers } from './resolvers';
+import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
 
 @Module({
   imports: [
@@ -24,23 +27,19 @@ import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
         path: `${appGlobalPrefix}/graphql`,
       }),
     ),
-    // *** EventEmitterModule ***
     EventEmitterModule.forRoot(),
-    // *** CoreModule ***
+    HealthCheckerModule,
     CoreModule,
-    // *** Application apps ***
+    SESModule,
     OrganizationModule,
   ],
   controllers: [],
-  providers: [OrganizationResolver],
+  providers: [...resolvers],
 })
-export class OrgManagementModule {
-  private readonly logger = new Logger(OrgManagementModule.name);
+export class PublicModule {
+  private readonly logger = new Logger(PublicModule.name);
 
-  constructor() {
-    this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
-    this.logger.debug(`  NODE_ENV         → ${process.env.NODE_ENV}`);
-    this.logger.debug(`  SERVERLESS STAGE → ${process.env.STAGE}`);
-    this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
+  constructor(config: ConfigService) {
+    appModuleLogInfo(config, this.logger);
   }
 }

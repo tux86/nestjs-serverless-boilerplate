@@ -4,32 +4,40 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
-import { ApiTimeoutInterceptor } from './shared/interceptors/api-timeout.interceptor';
-import { App } from './shared/enums/app.enum';
-import { OrgPublicModule } from './apps/org-public/org-public.module';
-import { OrgManagementModule } from './apps/org-management/org-management.module';
+import { GlobalExceptionFilter } from '../filters/global-exception.filter';
+import { ApiTimeoutInterceptor } from '../interceptors/api-timeout.interceptor';
+import { App } from '../enums/app.enum';
+import { PublicModule } from '../../apps/public/public.module';
+import { ManagementModule } from '../../apps/management/management.module';
 import { fastify, FastifyInstance, FastifyServerOptions } from 'fastify';
 import { NestFactory } from '@nestjs/core';
-import { appName } from './shared/utils/app.util';
+import { appName } from './app.util';
 import { ConfigService } from '@nestjs/config';
-import { InternalModule } from './apps/internal/internal.module';
+import { InternalModule } from '../../apps/internal/internal.module';
 
 export const logger = new Logger('bootstrap');
 
 export const getApplicationModule = (): any | never => {
   switch (appName) {
-    case App.OrgPublic:
-      return OrgPublicModule;
-    case App.OrgManagement:
-      return OrgManagementModule;
+    case App.Public:
+      return PublicModule;
+    case App.Management:
+      return ManagementModule;
     case App.Internal:
       return InternalModule;
     case App.Consumer:
-      return OrgManagementModule;
+      return ManagementModule;
     default:
       throw new Error(`not defined or invalid application APP_NAME=${appName}`);
   }
+};
+
+export const appModuleLogInfo = (config: ConfigService, logger: Logger) => {
+  logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
+  logger.debug(`  APP_NAME         → ${config.get('appName')}`);
+  logger.debug(`  NODE_ENV         → ${config.get('env')}`);
+  logger.debug(`  STAGE            → ${config.get('stage')}`);
+  logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
 };
 
 export interface NestApp {
