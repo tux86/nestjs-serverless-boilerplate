@@ -1,0 +1,31 @@
+functions:
+  orgPublicApi:
+    timeout: 30 # limits api timout to 30 seconds
+    handler: dist/src/lambda.handler
+    environment:
+      APP_NAME: ${self:custom.appsConfig.orgPublic.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.orgPublic.prefix}
+    events:
+      - httpApi:
+          method: '*'
+          path: /${self:custom.appsConfig.orgPublic.prefix}/{proxy+}
+  orgManagementApi:
+    timeout: 30 # limits api timout to 30 seconds
+    handler: dist/src/lambda.handler
+    environment:
+      APP_NAME: ${self:custom.appsConfig.orgManagement.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.orgManagement.prefix}
+    events:
+      - httpApi:
+          method: '*'
+          path: /${self:custom.appsConfig.orgManagement.prefix}/{proxy+}
+  internalApi:
+    timeout: 30 # limits api timout to 30 seconds
+    handler: dist/src/lambda.handler
+    environment:
+      APP_NAME: ${self:custom.appsConfig.internal.appName}
+      APP_GLOBAL_PREFIX: ${self:custom.appsConfig.internal.prefix}
+    events:
+      - httpApi:
+          method: '*'
+          path: /${self:custom.appsConfig.internal.prefix}/{proxy+}

@@ -3,7 +3,7 @@ Resources:
     Type: AWS::Route53::RecordSetGroup
     DeletionPolicy: Delete
     DependsOn:
-      - ServiceCloudFrontDistribution
+      - ApisCloudFrontDistribution
     Properties:
       HostedZoneName: ${self:custom.rootDomainName}.
       RecordSets:
@@ -11,5 +11,4 @@ Resources:
           Type: A
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
-            DNSName:
-              { 'Fn::GetAtt': [ServiceCloudFrontDistribution, DomainName] }
+            DNSName: { 'Fn::GetAtt': [ApisCloudFrontDistribution, DomainName] }

@@ -64,6 +64,18 @@ custom:
   certificateNVirginaArn: ${env:CERTIFICATE_ARN_NVIRIGNIA}
   tableName: ${self:service}-table-${sls:stage}
   emailQueueName: ${self:service}-EmailQueue-${sls:stage}
+
+  appsConfig:
+    orgPublic:
+      appName: org-public
+      prefix: org-public
+    orgManagement:
+      appName: org-management
+      prefix: org-management
+    internal:
+      appName: internal
+      prefix: internal
+
   # *** serverless-deployment-bucket config ***
   deploymentBucket:
     accelerate: true
@@ -86,7 +98,7 @@ custom:
     skipCacheInvalidation: false
 
 functions:
-  - ${file(./serverless/functions/${self:custom.offlineDir}/api-handler.function.yaml):functions}
+  - ${file(./serverless/functions/${self:custom.offlineDir}/apis.function.yaml):functions}
   - ${file(./serverless/functions/${self:custom.offlineDir}/sqs-queue-handler.function.yaml):functions}
 resources:
   # route 53
@@ -94,7 +106,7 @@ resources:
   - ${file(./serverless/resources/route53/api-record.route53.yaml)}
   # cloudfront
   - ${file(./serverless/resources/cloudfront/origin-access-identity.cloudfront.yaml)}
-  - ${file(./serverless/resources/cloudfront/service-distribution.cloudfront.yaml)}
+  - ${file(./serverless/resources/cloudfront/apis-distribution.cloudfront.yaml)}
   - ${file(./serverless/resources/cloudfront/static-distribution.cloudfront.yaml)}
   # sqs
   - ${file(./serverless/resources/sqs/email-queue.sqs.yaml)}

@@ -13,6 +13,7 @@ import { fastify, FastifyInstance, FastifyServerOptions } from 'fastify';
 import { NestFactory } from '@nestjs/core';
 import { appName } from './shared/utils/app.util';
 import { ConfigService } from '@nestjs/config';
+import { InternalModule } from './apps/internal/internal.module';
 
 export const logger = new Logger('bootstrap');
 
@@ -22,6 +23,8 @@ export const getApplicationModule = (): any | never => {
       return OrgPublicModule;
     case App.OrgManagement:
       return OrgManagementModule;
+    case App.Internal:
+      return InternalModule;
     case App.Consumer:
       return OrgManagementModule;
     default:

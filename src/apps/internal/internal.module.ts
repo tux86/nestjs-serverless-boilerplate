@@ -34,8 +34,8 @@ import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
   controllers: [],
   providers: [OrganizationResolver],
 })
-export class OrgManagementModule {
-  private readonly logger = new Logger(OrgManagementModule.name);
+export class InternalModule {
+  private readonly logger = new Logger(InternalModule.name);
 
   constructor() {
     this.logger.debug('▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒');
