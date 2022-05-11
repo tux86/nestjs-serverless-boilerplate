@@ -47,10 +47,8 @@ $ yarn install
 $ yarn start
 
 # watch mode
-$ yarn start:dev
+$ yarn start:{app-name}:dev
 
-# production mode
-$ yarn start:prod
 ```
 
 ## Test
