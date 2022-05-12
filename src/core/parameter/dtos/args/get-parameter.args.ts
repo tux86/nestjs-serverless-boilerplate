@@ -2,7 +2,7 @@ import { Field, ArgsType, ID } from '@nestjs/graphql';
 import { IsUUID } from 'class-validator';
 
 @ArgsType()
-export class DeleteParameterDto {
+export class GetParameterArgs {
   @Field(() => ID)
   @IsUUID()
   parameterId: string;

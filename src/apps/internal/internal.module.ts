@@ -12,6 +12,7 @@ import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
 import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
 import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
 import { ParameterModule } from '../../core/parameter/parameter.module';
+import { controllers } from './controllers';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { ParameterModule } from '../../core/parameter/parameter.module';
     OrganizationModule,
     ParameterModule,
   ],
-  controllers: [],
+  controllers: [...controllers],
   providers: [...resolvers],
 })
 export class InternalModule {

@@ -5,7 +5,7 @@ import { CreateOrganizationDto } from '../../../core/organization/dtos/create-or
 import { OrganizationService } from '../../../core/organization/organization.service';
 
 import { UpdateOrganizationDto } from '../../../core/organization/dtos/update-organization.dto';
-import { DeleteParameterDto } from '../../../core/parameter/dtos/delete-parameter.dto';
+import { DeleteParameterArgs } from '../../../core/parameter/dtos/args/delete-parameter.args';
 import { GetOrganizationDto } from '../../../core/organization/dtos/get-organization.dto';
 import { DeleteOrganizationDto } from '../../../core/organization/dtos/delete-organization.dto';
 

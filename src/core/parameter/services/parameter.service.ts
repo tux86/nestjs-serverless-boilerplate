@@ -2,12 +2,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Parameter } from '../entities/parameter.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateParameterDto } from '../dtos/create-parameter.dto';
+import { CreateParameterInput } from '../dtos/input/create-parameter.input';
 import {
   ResourceAlreadyExistsException,
   ResourceNotExistsException,
 } from '../../../shared/exceptions';
-import { UpdateParameterDto } from '../dtos/update-parameter.dto';
+import { UpdateParameterInput } from '../dtos/input/update-parameter.input';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ParameterService {
@@ -18,8 +19,50 @@ export class ParameterService {
     private repository: Repository<Parameter>,
   ) {}
 
-  public async find(): Promise<Parameter[] | never> {
-    return await this.repository.find();
+  async paginate(): Promise<Pagination<Parameter>> {
+    return null;
+    // const filters: FiltersExpression = {
+    //   operator: Operator.AND,
+    //   filters: [
+    //     {
+    //       field: 'name',
+    //       op: Operation.EQ,
+    //       values: ['TimeZone'],
+    //     },
+    //     {
+    //       field: 'createdAt',
+    //       op: Operation.GE,
+    //       values: ['2021-05-10 17:59:55'],
+    //     },
+    //     {
+    //       field: 'shared',
+    //       op: Operation.EQ,
+    //       values: ['true'],
+    //     },
+    //   ],
+    // };
+    //
+    // console.log('filters', filters);
+    //
+    // const fqb = new FilterQueryBuilder<Parameter>(this.repository, filters);
+    //
+    // const qb: SelectQueryBuilder<Parameter> = fqb.build();
+    //
+    // console.log(qb.getSql());
+    // const result = await qb.getMany();
+    //
+    // console.log(JSON.stringify(result, null, 2));
+    // return null;
+    // // return paginate<Parameter>(this.repository, options, {
+    // //   order: {
+    // //     createdAt: options.order,
+    // //   },
+    // //   where: {
+    // //     name: Raw(
+    // //       (alias) => `LOWER(${alias}) Like '%${options.search.toLowerCase()}%'`,
+    // //     ),
+    // //   },
+    // // });
   }
 
   public async findById(
@@ -44,7 +87,7 @@ export class ParameterService {
     });
   }
 
-  public async create(input: CreateParameterDto): Promise<Parameter | never> {
+  public async create(input: CreateParameterInput): Promise<Parameter | never> {
     const { name } = input;
     const existingParameter = await this.findByName(name);
     if (existingParameter) {
@@ -57,13 +100,14 @@ export class ParameterService {
     return await this.repository.save(parameter);
   }
 
-  public async update(input: UpdateParameterDto): Promise<Parameter | never> {
+  public async update(input: UpdateParameterInput): Promise<Parameter | never> {
     const parameter = await this.repository.preload(input);
     if (!parameter) {
       throw new ResourceNotExistsException(Parameter, parameter.parameterId);
     }
     return await this.repository.save(parameter);
   }
+
   public async remove(parameterId: string): Promise<boolean | never> {
     const parameter = await this.findById(parameterId);
     await this.repository.softRemove(parameter);
