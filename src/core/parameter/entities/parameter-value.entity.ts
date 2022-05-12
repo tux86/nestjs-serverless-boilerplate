@@ -32,7 +32,7 @@ export class ParameterValue {
   @RelationId((parameterValue: ParameterValue) => parameterValue.organization)
   orgId: string;
 
-  @Field()
+  @Field({ nullable: true })
   @ManyToOne(() => Parameter, { nullable: false })
   @JoinColumn({ name: 'parameter_id' })
   parameter: Parameter;

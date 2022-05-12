@@ -8,7 +8,7 @@ import { Logger, Module } from '@nestjs/common';
 import configuration from '../../config';
 import { resolvers } from './resolvers';
 import { appGlobalPrefix } from '../../shared/utils/app.util';
-import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
+import { graphqlConfig } from '../../shared/utils/graphql/graphql-config.util';
 import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
 import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
 import { ParameterModule } from '../../core/parameter/parameter.module';
@@ -23,7 +23,7 @@ import { controllers } from './controllers';
     }),
     DatabaseModule,
     GraphQLModule.forRoot<ApolloDriverConfig>(
-      getEndpointGraphqlConfig({
+      graphqlConfig({
         path: `${appGlobalPrefix}/graphql`,
       }),
     ),

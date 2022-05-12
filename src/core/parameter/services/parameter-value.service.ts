@@ -1,18 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ParameterValue } from '../entities/parameter-value.entity';
-import {
-  FiltersExpression,
-  Operator,
-  LogicalOperator,
-} from '../../../shared/utils/filter';
-import FilterQueryBuilder from '../../../shared/utils/filter/filter-query-builder';
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
+import { paginate } from 'nestjs-typeorm-paginate';
+import { PaginationQueryInput } from '../../../shared/dtos/pagination-query.input';
+import { filterQueryBuilder } from '../../../shared/utils/filter/builder/filter-query.builder';
+import { ParameterValuesPagination } from '../dtos/types/parameter-values-paginated';
+import { defaultPaginationOptions } from '../../../shared/utils/pagination';
 
 @Injectable()
 export class ParameterValueService {
@@ -23,63 +17,25 @@ export class ParameterValueService {
     private repository: Repository<ParameterValue>,
   ) {}
 
-  async paginate(): Promise<Pagination<ParameterValue>> {
-    const filters: FiltersExpression = {
-      op: LogicalOperator.And,
-      filters: [
-        {
-          attribute: 'value',
-          op: Operator.Eq,
-          values: ['Africa/Tunis'],
-        },
-        {
-          attribute: 'name',
-          relationField: 'ParameterValue.parameter',
-          op: Operator.ILike,
-          values: ['TimeZone'],
-        },
-        // {
-        //   field: 'Organization.value',
-        //   op: Operation.EQ,
-        //   values: ['MP92'],
-        // },
-      ],
-      // childExpressions: [
-      //   {
-      //     operator: Operator.AND,
-      //     filters: [
-      //       {
-      //         field: 'Parameter.name',
-      //         relationField: 'ParameterValue.parameter',
-      //         op: Operation.EQ,
-      //         values: ['TimeZone'],
-      //       },
-      //     ],
-      //   },
-      // ],
-    };
+  async findAll(
+    input?: PaginationQueryInput,
+  ): Promise<ParameterValuesPagination> {
+    const { pagination, filters, sort, search } = input;
 
-    console.log('filters', filters);
+    const qb = this.repository.createQueryBuilder('ParameterValue');
+    filterQueryBuilder(qb, filters);
+    qb.andWhere('ParameterValue.orgId = :orgId', { orgId: 'MP92' });
+    qb.leftJoinAndSelect('ParameterValue.parameter', 'Parameter');
 
-    const fqb = new FilterQueryBuilder<ParameterValue>(
-      this.repository,
-      filters,
+    return await paginate<ParameterValue>(
+      qb,
+      pagination || defaultPaginationOptions,
     );
 
-    const qb: SelectQueryBuilder<ParameterValue> = fqb.build();
-
-    const options: IPaginationOptions = {
-      limit: 10,
-      page: 1,
-    };
-    // console.log(qb.getSql());
-    const result = await paginate<ParameterValue>(qb, options);
-
-    //  console.log(JSON.stringify(result, null, 2));
+    // console.log(JSON.stringify(result, null, 2));
 
     // const result = await qb.getMany();
 
-    return result;
     // return paginate<Parameter>(this.repository, options, {
     //   order: {
     //     createdAt: options.order,

@@ -1,6 +1,8 @@
 import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
-import { Types, FiltersExpression, Operator } from './types';
 import { isEmpty, map } from 'lodash';
+import { FiltersExpression } from '../dtos/filters.input';
+import { FilterOperation } from '../enums/filter-operation.enum';
+import { Filter } from '../dtos/filter.input';
 
 type ParamValue = string | number | Array<string | number>;
 
@@ -16,7 +18,7 @@ export class WhereBuilder<Entity> {
   build() {
     if (!this.filtersExpression) return;
     const whereSql = this.buildExpressionRec(this.filtersExpression);
-    this.qb.where(whereSql, this.params);
+    this.qb.andWhere(whereSql, this.params);
   }
 
   private buildExpressionRec(fe: FiltersExpression): string {
@@ -30,28 +32,37 @@ export class WhereBuilder<Entity> {
     return isEmpty(sqLExpr) ? '' : `(${sqLExpr})`;
   }
 
-  private buildFilter(filter: Types): string {
+  private buildFilter(filter: Filter): string {
     const paramName = `${filter.attribute}_${++this.paramsCount}`;
 
     switch (filter.op) {
-      case Operator.Eq:
+      case FilterOperation.Eq:
         this.params[paramName] = filter.values[0];
         return `${filter.attribute} = :${paramName}`;
-      case Operator.NotEq:
+      case FilterOperation.NotEq:
         this.params[paramName] = filter.values[0];
         return `${filter.attribute} != :${paramName}`;
-      case Operator.In:
+      case FilterOperation.In:
         this.params[paramName] = filter.values;
         return `${filter.attribute} IN (:${paramName})`;
-      case Operator.Like:
+      case FilterOperation.Like:
         this.params[paramName] = `%${filter.values[0]}%`;
         return `${filter.attribute} LIKE :${paramName}`;
-      case Operator.ILike:
+      case FilterOperation.ILike:
         this.params[paramName] = `%${filter.values[0]}%`;
         return `${filter.attribute} ILIKE :${paramName}`;
-      case Operator.Gte:
+      case FilterOperation.Gte:
         this.params[paramName] = filter.values[0];
         return `${filter.attribute} >= :${paramName}`;
+      case FilterOperation.Gt:
+        this.params[paramName] = filter.values[0];
+        return `${filter.attribute} > :${paramName}`;
+      case FilterOperation.Lte:
+        this.params[paramName] = filter.values[0];
+        return `${filter.attribute} <= :${paramName}`;
+      case FilterOperation.Lt:
+        this.params[paramName] = filter.values[0];
+        return `${filter.attribute} < :${paramName}`;
       default:
         throw new Error(`Unknown filter operation: ${filter.op}`);
     }

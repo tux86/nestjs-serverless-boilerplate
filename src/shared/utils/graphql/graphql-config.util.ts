@@ -6,7 +6,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
  * Generate Apollo drivers config from endpoint name
  * @param options
  */
-export const getEndpointGraphqlConfig = (options: {
+export const graphqlConfig = (options: {
   path: string;
 }): ApolloDriverConfig => {
   const { path } = options;

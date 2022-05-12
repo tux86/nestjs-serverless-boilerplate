@@ -1,6 +1,6 @@
 import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
-import { FiltersExpression } from './types';
 import { forEach } from 'lodash';
+import { FiltersExpression } from '../dtos/filters.input';
 
 export class JoinBuilder<Entity> {
   private joinedEntities = new Set<string>();

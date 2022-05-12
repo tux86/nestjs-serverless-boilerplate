@@ -6,21 +6,21 @@ import { UpdateParameterInput } from '../../../core/parameter/dtos/input/update-
 import { GetParameterArgs } from '../../../core/parameter/dtos/args/get-parameter.args';
 import { DeleteParameterArgs } from '../../../core/parameter/dtos/args/delete-parameter.args';
 import { ParametersPagination } from '../../../core/parameter/dtos/types/parameters-pagination';
-import { GetParametersArgs } from '../../../core/parameter/dtos/args/get-parameters.args';
+
 import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Resolver((of) => Parameter)
 export class ParameterResolver {
   constructor(private readonly service: ParameterService) {}
-
-  @Query(() => ParametersPagination)
-  async parameters(
-    @Args() args: GetParametersArgs,
-  ): Promise<Pagination<Parameter> | never> {
-    console.log(args);
-
-    return await this.service.paginate();
-  }
+  //
+  // @Query(() => ParametersPagination)
+  // async parameters(
+  //   @Args() args: PaginationQueryArgs,
+  // ): Promise<Pagination<Parameter> | never> {
+  //   console.log(args);
+  //
+  //   return await this.service.paginate();
+  // }
 
   @Query(() => Parameter)
   async parameter(@Args() args: GetParameterArgs): Promise<Parameter | never> {

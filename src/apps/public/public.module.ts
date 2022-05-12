@@ -10,7 +10,7 @@ import configuration from '../../config';
 import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
 import { SESModule } from '../../core/aws/ses/ses.module';
 import { appGlobalPrefix } from '../../shared/utils/app.util';
-import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
+import { graphqlConfig } from '../../shared/utils/graphql/graphql-config.util';
 import { resolvers } from './resolvers';
 import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
 
@@ -23,7 +23,7 @@ import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
     }),
     DatabaseModule,
     GraphQLModule.forRoot<ApolloDriverConfig>(
-      getEndpointGraphqlConfig({
+      graphqlConfig({
         path: `${appGlobalPrefix}/graphql`,
       }),
     ),

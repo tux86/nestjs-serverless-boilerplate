@@ -8,7 +8,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Logger, Module } from '@nestjs/common';
 import configuration from '../../config';
 import { appGlobalPrefix } from '../../shared/utils/app.util';
-import { getEndpointGraphqlConfig } from '../../shared/utils/graphql.util';
+import { graphqlConfig } from '../../shared/utils/graphql/graphql-config.util';
 import { resolvers } from './resolvers';
 import { UserModule } from '../../core/user/user.module';
 import { EmailTemplateModule } from '../../core/email-template/email-template.module';
@@ -24,7 +24,7 @@ import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
     }),
     DatabaseModule,
     GraphQLModule.forRoot<ApolloDriverConfig>(
-      getEndpointGraphqlConfig({
+      graphqlConfig({
         path: `${appGlobalPrefix}/graphql`,
       }),
     ),

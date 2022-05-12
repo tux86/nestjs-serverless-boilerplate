@@ -7,6 +7,6 @@ export class TestController {
 
   @Get('filters')
   async sendEmailSuccessTest(): Promise<any> {
-    return await this.parameterValueService.paginate();
+    return await this.parameterValueService.findAll({});
   }
 }

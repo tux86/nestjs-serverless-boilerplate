@@ -1,6 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
 import { ParameterValue } from '../../entities/parameter-value.entity';
-import { PaginationType } from '../../../../shared/utils/pagination';
+import { PaginationTypeOf } from '../../../../shared/utils/pagination/types/pagination';
 
 @ObjectType()
-export class ParameterValuesPagination extends PaginationType(ParameterValue) {}
+export class ParameterValuesPagination extends PaginationTypeOf(
+  ParameterValue,
+) {}
