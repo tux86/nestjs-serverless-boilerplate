@@ -112,7 +112,7 @@ Resources:
                 Forward: none
           # ======================== Org Management API CacheBehavior  ========================
           - PathPattern: /management/*
-            TargetOriginId: InternalApiLambdaFunction
+            TargetOriginId: ManagementApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true
             MinTTL: 0
@@ -139,7 +139,7 @@ Resources:
                 Forward: none
           # ======================== Internal API CacheBehavior  ========================
           - PathPattern: /internal/*
-            TargetOriginId: ManagementApiLambdaFunction
+            TargetOriginId: InternalApiLambdaFunction
             ViewerProtocolPolicy: redirect-to-https
             Compress: true
             MinTTL: 0

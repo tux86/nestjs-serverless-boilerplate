@@ -11,14 +11,14 @@ import { PublicModule } from '../../apps/public/public.module';
 import { ManagementModule } from '../../apps/management/management.module';
 import { fastify, FastifyInstance, FastifyServerOptions } from 'fastify';
 import { NestFactory } from '@nestjs/core';
-import { appName } from './app.util';
 import { ConfigService } from '@nestjs/config';
 import { InternalModule } from '../../apps/internal/internal.module';
+import { config } from '../../config';
 
 export const logger = new Logger('bootstrap');
 
 export const getApplicationModule = (): any | never => {
-  switch (appName) {
+  switch (config.appName) {
     case App.Public:
       return PublicModule;
     case App.Management:
@@ -28,7 +28,9 @@ export const getApplicationModule = (): any | never => {
     case App.Consumer:
       return ManagementModule;
     default:
-      throw new Error(`not defined or invalid application APP_NAME=${appName}`);
+      throw new Error(
+        `not defined or invalid application APP_NAME=${config.appName}`,
+      );
   }
 };
 
@@ -48,9 +50,11 @@ export interface NestApp {
 
 export const bootstrapServer = async (): Promise<NestApp> => {
   const serverOptions: FastifyServerOptions = { logger: true };
+
+  const AppModule = getApplicationModule();
   const instance: FastifyInstance = fastify(serverOptions);
   const app = await NestFactory.create<NestFastifyApplication>(
-    getApplicationModule(),
+    AppModule,
     new FastifyAdapter(instance),
     { logger: !process.env.AWS_EXECUTION_ENV ? new Logger() : console },
   );

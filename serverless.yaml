@@ -90,6 +90,7 @@ custom:
     noPrependStageInUrl: true
     noAuth: true
     printOutput: false
+    allowCache: true
 
   # *** serverless-offline-sqs  config ***
   serverless-offline-sqs:

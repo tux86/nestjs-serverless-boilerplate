@@ -2,7 +2,7 @@ import database from './database.config';
 import aws from './aws.config';
 import { Env } from '../shared/enums/env.enum';
 
-export default () => ({
+export const config = {
   port: parseInt(process.env.PORT, 10) || 3000,
   env: process.env.NODE_ENV || Env.Dev,
   stage: process.env.STAGE,
@@ -12,4 +12,6 @@ export default () => ({
   enableSwagger: process.env.ENABLE_SWAGGER || false,
   database,
   aws,
-});
+};
+
+export default () => config;
