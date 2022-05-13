@@ -1,9 +1,9 @@
 export * from './abstracts/exceptions.abstract';
 
 import {
-  ExceptionsAbstract,
   AbstractResourceAlreadyExistsException,
   AbstractResourceNotExistsException,
+  ExceptionsAbstract,
 } from './abstracts/exceptions.abstract';
 import { HttpStatus, Type } from '@nestjs/common';
 

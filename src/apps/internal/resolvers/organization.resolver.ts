@@ -1,13 +1,12 @@
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { Organization } from '../../../core/organization/organization.entity';
-import { CreateOrganizationDto } from '../../../core/organization/dtos/create-organization.dto';
-import { OrganizationService } from '../../../core/organization/organization.service';
+import { Organization } from '@/core/organization/organization.entity';
+import { CreateOrganizationDto } from '@/core/organization/dtos/create-organization.dto';
+import { OrganizationService } from '@/core/organization/organization.service';
 
-import { UpdateOrganizationDto } from '../../../core/organization/dtos/update-organization.dto';
-import { DeleteParameterArgs } from '../../../core/parameter/dtos/args/delete-parameter.args';
-import { GetOrganizationDto } from '../../../core/organization/dtos/get-organization.dto';
-import { DeleteOrganizationDto } from '../../../core/organization/dtos/delete-organization.dto';
+import { UpdateOrganizationDto } from '@/core/organization/dtos/update-organization.dto';
+import { GetOrganizationDto } from '@/core/organization/dtos/get-organization.dto';
+import { DeleteOrganizationDto } from '@/core/organization/dtos/delete-organization.dto';
 
 @Resolver((of) => Organization)
 export class OrganizationResolver {

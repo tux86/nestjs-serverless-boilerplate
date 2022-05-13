@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { BusinessLogicException } from '../../../shared/exceptions';
+import { BusinessLogicException } from '@/shared/exceptions';
 
 export class OrganizationNotFoundException extends BusinessLogicException {
   constructor(orgId: string, message?: string) {

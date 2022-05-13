@@ -6,7 +6,7 @@ import { CreateParameterInput } from '../dtos/input/create-parameter.input';
 import {
   ResourceAlreadyExistsException,
   ResourceNotExistsException,
-} from '../../../shared/exceptions';
+} from '@/shared/exceptions';
 import { UpdateParameterInput } from '../dtos/input/update-parameter.input';
 import { Pagination } from 'nestjs-typeorm-paginate';
 

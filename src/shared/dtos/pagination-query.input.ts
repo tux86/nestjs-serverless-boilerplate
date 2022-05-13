@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { SortBy } from '../utils/sort/dtos/sort-by.dto';
-import { PaginationInput } from '../utils/pagination/dtos/pagination.input';
-import { FiltersExpression } from '../utils/filter/dtos/filters.input';
+import { PaginationInput } from '@/shared/utils/pagination/dtos/pagination.input';
+import { SortBy } from '@/shared/utils/sort/dtos/sort-by.dto';
+import { FiltersExpression } from '@/shared/utils/filter/dtos/filters.input';
 
 @InputType()
 export class PaginationQueryInput {

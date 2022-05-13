@@ -1,17 +1,17 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseModule } from '../../core/database/database.module';
+import { DatabaseModule } from '@/core/database/database.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
-import { OrganizationModule } from '../../core/organization/organization.module';
-import { CoreModule } from '../../core/core.module';
+import { OrganizationModule } from '@/core/organization/organization.module';
+import { CoreModule } from '@/core/core.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Logger, Module } from '@nestjs/common';
-import configuration, { config } from '../../config';
-import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
-import { SESModule } from '../../core/aws/ses/ses.module';
-import { graphqlConfig } from '../../shared/utils/graphql/graphql-config.util';
+import configuration, { config } from '@/config';
+import { HealthCheckerModule } from '@/core/health-checker/health-checker.module';
+import { SESModule } from '@/core/aws/ses/ses.module';
+import { graphqlConfig } from '@/shared/utils/graphql/graphql-config.util';
 import { resolvers } from './resolvers';
-import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
+import { appModuleLogInfo } from '@/shared/utils/bootstrap.util';
 
 @Module({
   imports: [

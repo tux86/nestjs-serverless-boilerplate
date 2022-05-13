@@ -7,13 +7,13 @@ import {
 import { GlobalExceptionFilter } from '../filters/global-exception.filter';
 import { ApiTimeoutInterceptor } from '../interceptors/api-timeout.interceptor';
 import { App } from '../enums/app.enum';
-import { PublicModule } from '../../apps/public/public.module';
-import { ManagementModule } from '../../apps/management/management.module';
+import { PublicModule } from '@/apps/public/public.module';
+import { ManagementModule } from '@/apps/management/management.module';
 import { fastify, FastifyInstance, FastifyServerOptions } from 'fastify';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { InternalModule } from '../../apps/internal/internal.module';
-import { config } from '../../config';
+import { InternalModule } from '@/apps/internal/internal.module';
+import { config } from '@/config';
 
 export const logger = new Logger('bootstrap');
 

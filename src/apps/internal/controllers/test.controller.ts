@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ParameterValueService } from '../../../core/parameter/services/parameter-value.service';
+import { ParameterValueService } from '@/core/parameter/services/parameter-value.service';
 
 @Controller('test')
 export class TestController {

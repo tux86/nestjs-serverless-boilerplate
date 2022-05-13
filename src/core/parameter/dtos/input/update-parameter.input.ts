@@ -1,7 +1,7 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsBoolean, IsEnum, IsOptional, IsUUID, Length } from 'class-validator';
 import { ParameterValueType } from '../../enums/parameter-value-type.enum';
-import { IsPascalCase } from '../../../../shared/validators/decorators/is-pascal-case.decorator';
+import { IsPascalCase } from '@/shared/validators/decorators/is-pascal-case.decorator';
 import { Parameter } from '../../entities/parameter.entity';
 
 @InputType()

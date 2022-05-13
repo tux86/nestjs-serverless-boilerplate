@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { EmailTemplateService } from '../../../core/email-template/email-template.service';
-import { EmailTemplate } from '../../../core/email-template/email-template.entity';
+import { EmailTemplateService } from '@/core/email-template/email-template.service';
+import { EmailTemplate } from '@/core/email-template/email-template.entity';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../../core/auth/guards/jwt-auth.guard';
-import { CreateEmailTemplateInput } from '../../../core/email-template/dtos/create-email-template.input';
+import { JwtAuthGuard } from '@/core/auth/guards/jwt-auth.guard';
+import { CreateEmailTemplateInput } from '@/core/email-template/dtos/create-email-template.input';
 
 @Resolver(() => EmailTemplate)
 export class EmailTemplateResolver {

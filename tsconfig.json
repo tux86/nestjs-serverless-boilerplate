@@ -17,6 +17,9 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "esModuleInterop": true, // make the @vendia/serverless-express package load properly.
+    "esModuleInterop": true, // makes the @vendia/serverless-express package load properly.
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

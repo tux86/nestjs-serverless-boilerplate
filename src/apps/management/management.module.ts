@@ -1,18 +1,18 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseModule } from '../../core/database/database.module';
+import { DatabaseModule } from '@/core/database/database.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
-import { OrganizationModule } from '../../core/organization/organization.module';
-import { CoreModule } from '../../core/core.module';
+import { OrganizationModule } from '@/core/organization/organization.module';
+import { CoreModule } from '@/core/core.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Logger, Module } from '@nestjs/common';
-import configuration, { config } from '../../config';
-import { graphqlConfig } from '../../shared/utils/graphql/graphql-config.util';
+import configuration, { config } from '@/config';
+import { graphqlConfig } from '@/shared/utils/graphql/graphql-config.util';
 import { resolvers } from './resolvers';
-import { UserModule } from '../../core/user/user.module';
-import { EmailTemplateModule } from '../../core/email-template/email-template.module';
-import { HealthCheckerModule } from '../../core/health-checker/health-checker.module';
-import { appModuleLogInfo } from '../../shared/utils/bootstrap.util';
+import { UserModule } from '@/core/user/user.module';
+import { EmailTemplateModule } from '@/core/email-template/email-template.module';
+import { HealthCheckerModule } from '@/core/health-checker/health-checker.module';
+import { appModuleLogInfo } from '@/shared/utils/bootstrap.util';
 
 @Module({
   imports: [

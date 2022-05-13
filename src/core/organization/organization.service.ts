@@ -4,11 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrganizationDto } from './dtos/create-organization.dto';
 import { Repository } from 'typeorm';
 import { UpdateOrganizationDto } from './dtos/update-organization.dto';
-import { OrganizationNotFoundException } from './exceptions/organization-not-found.exception';
+
 import {
   ResourceAlreadyExistsException,
   ResourceNotExistsException,
-} from '../../shared/exceptions';
+} from '@/shared/exceptions';
+import { OrganizationNotFoundException } from '@/core/organization/exceptions/organization-not-found.exception';
 
 @Injectable()
 export class OrganizationService {

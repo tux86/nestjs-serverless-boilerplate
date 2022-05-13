@@ -3,13 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ParameterValue } from '../entities/parameter-value.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
-import { PaginationQueryInput } from '../../../shared/dtos/pagination-query.input';
-import { filterQueryBuilder } from '../../../shared/utils/filter/builder/filter-query.builder';
+import { PaginationQueryInput } from '@/shared/dtos/pagination-query.input';
+import { filterQueryBuilder } from '@/shared/utils/filter/builder/filter-query.builder';
 import { ParameterValuesPagination } from '../dtos/types/parameter-values-paginated';
-import { defaultPaginationOptions } from '../../../shared/utils/pagination';
-import { sortQueryBuilder } from '../../../shared/utils/sort/sort';
-import { SortBy } from '../../../shared/utils/sort/dtos/sort-by.dto';
-import { Raw } from 'typeorm/browser';
+import { defaultPaginationOptions } from '@/shared/utils/pagination';
+import { sortQueryBuilder } from '@/shared/utils/sort/sort';
+import { SortBy } from '@/shared/utils/sort/dtos/sort-by.dto';
 
 @Injectable()
 export class ParameterValueService {

@@ -1,5 +1,6 @@
-import { ValidationOptions, buildMessage, ValidateBy } from 'class-validator';
+import { buildMessage, ValidateBy, ValidationOptions } from 'class-validator';
 import { isPascalCase } from '../is-pascal-case.validator';
+
 export const IS_PASCAL_CASE = 'isPascalCase';
 
 export function IsPascalCase(
