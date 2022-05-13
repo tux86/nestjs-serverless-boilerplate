@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { SecretsManagerService } from '../aws/secrets-manager/secrets-manager.service';
+import { SecretsManagerService } from '@/core/aws/secrets-manager/secrets-manager.service';
 import { DatabaseCredentialsDto } from './dtos/database-credentials.dto';
 //TODO: should upgrade to class-transformer 5.x think to create wrapper
 import { deserialize } from 'class-transformer';

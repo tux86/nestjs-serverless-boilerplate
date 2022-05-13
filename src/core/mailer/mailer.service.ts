@@ -1,5 +1,5 @@
 // import { Injectable } from '@nestjs/shared';
-// import { SESService } from '../aws/ses/ses.service';
+// import { SESService } from '@/core/aws/ses/ses.service';
 // import { EmailTemplateName } from '../email-template/enums/email-template-name.enum';
 // import { EmailTemplatePlaceholder } from '../email-template/enums/email-template-placeholder.enum';
 // import Mustache from "mustache";

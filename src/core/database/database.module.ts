@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './typeorm.config.service';
 import { Connection, createConnection, getConnectionManager } from 'typeorm';
-import { SecretsManagerModule } from '../aws/secrets-manager/secrets-manager.module';
+import { SecretsManagerModule } from '@/core/aws/secrets-manager/secrets-manager.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from '@/config';
 
