@@ -1,13 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Message } from '@aws-sdk/client-sqs';
+import awsConfig from '@/config/aws.config';
+import { SendEmailParameters } from '@/core/aws/ses/dtos/send-email-parameters';
+import { SESService } from '@/core/aws/ses/ses.service';
 import {
   SQSMessageProcessedHandler,
   SQSMessageProcessingErrorHandler,
   SQSMessageReceivedHandler,
-} from '../../sqs/decorators/sqs.decorators';
-import { Message } from '@aws-sdk/client-sqs';
-import awsConfig from '@/config/aws.config';
-import { SESService } from '../ses.service';
-import { SendEmailParameters } from '../dtos/send-email-parameters';
+} from '@/core/aws/sqs/decorators/sqs.decorators';
 
 const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;
 
