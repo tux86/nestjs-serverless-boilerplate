@@ -1,7 +1,7 @@
 {
   "name": "nestjs-serverless-boilerplate",
   "version": "0.0.1",
-  "description": "",
+  "description": "Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless Framework",
   "author": "Walid KARRAY",
   "private": true,
   "license": "UNLICENSED",
@@ -35,8 +35,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm:schema:drop": "yarn typeorm schema:drop",
-    "typeorm:schema:sync": "yarn typeorm schema:sync"
+    "db:schema:drop": "yarn typeorm schema:drop",
+    "db:schema:sync": "yarn typeorm schema:sync"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.80.0",

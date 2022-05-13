@@ -1,11 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { SortOrder } from '../enums/sort-direction.enum';
 
-@InputType()
-export class SortInput {
+@InputType('SortInput')
+export class SortBy {
   @Field()
   attribute: string;
 
   @Field(() => SortOrder, { defaultValue: SortOrder.Asc })
-  direction: SortOrder;
+  order: SortOrder = SortOrder.Asc;
+
+  constructor(attribute: string, order: SortOrder = SortOrder.Asc) {
+    /* empty */
+  }
 }

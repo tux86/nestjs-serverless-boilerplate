@@ -7,6 +7,9 @@ import { PaginationQueryInput } from '../../../shared/dtos/pagination-query.inpu
 import { filterQueryBuilder } from '../../../shared/utils/filter/builder/filter-query.builder';
 import { ParameterValuesPagination } from '../dtos/types/parameter-values-paginated';
 import { defaultPaginationOptions } from '../../../shared/utils/pagination';
+import { sortQueryBuilder } from '../../../shared/utils/sort/sort';
+import { SortBy } from '../../../shared/utils/sort/dtos/sort-by.dto';
+import { Raw } from 'typeorm/browser';
 
 @Injectable()
 export class ParameterValueService {
@@ -23,9 +26,25 @@ export class ParameterValueService {
     const { pagination, filters, sort, search } = input;
 
     const qb = this.repository.createQueryBuilder('ParameterValue');
-    filterQueryBuilder(qb, filters);
-    qb.andWhere('ParameterValue.orgId = :orgId', { orgId: 'MP92' });
+
+    // qb.andWhere('ParameterValue.orgId = :orgId', { orgId: 'MP92' });
     qb.leftJoinAndSelect('ParameterValue.parameter', 'Parameter');
+
+    if (search) {
+      qb.where(
+        'LOWER(unaccent(ParameterValue.value)) ILIKE LOWER(unaccent(:search))',
+        {
+          search: `%${search}%`,
+        },
+      );
+    }
+
+    //filter
+    filterQueryBuilder(qb, filters);
+
+    // sort
+    const defaultSortBy = new SortBy('parameterValueId');
+    sortQueryBuilder(qb, sort || [defaultSortBy]);
 
     return await paginate<ParameterValue>(
       qb,

@@ -14,7 +14,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     private readonly secretsManagerService: SecretsManagerService,
   ) {}
 
-  async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
+  async createTypeOrmOptions(
+    connectionName?: string,
+  ): Promise<TypeOrmModuleOptions> {
     const environment: string = this.config.get<'string'>('env');
 
     // retrieve database username and password from aws secrets manager service
@@ -35,6 +37,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       synchronize: false,
       namingStrategy: new SnakeNamingStrategy(),
       useUTC: this.config.get<boolean>('database.useUTC'),
+      // installExtensions: true,
+      applicationName: this.config.get('appName') || undefined,
     };
 
     return defaultConfiguration;
