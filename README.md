@@ -11,7 +11,7 @@ Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless F
 * Includes Buniness logic Exceptions with namespaced codes
 * Using Exception filters and logging
 * custom validators
-*
+
 ### IAC Serverless Framework (AWS):
 * Serverless Framework 3
 * serverless-offline (full working local envrionnement with aws services mocking)
