@@ -90,7 +90,7 @@
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
-    "@types/aws-lambda": "^8.10.95",
+    "@types/aws-lambda": "^8.10.97",
     "@types/aws-sdk": "^2.7.0",
     "@types/jest": "27.4.1",
     "@types/mime-types": "^2.1.1",
