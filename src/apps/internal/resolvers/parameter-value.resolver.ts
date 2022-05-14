@@ -2,7 +2,7 @@ import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ParameterValue } from '@/core/parameter/entities/parameter-value.entity';
 import { ParameterValueService } from '@/core/parameter/services/parameter-value.service';
 import { ParameterValuesPagination } from '@/core/parameter/dtos/types/parameter-values-paginated';
-import { PaginationQueryInput } from '@/shared/dtos/pagination-query.input';
+import { QueryListArgs } from '@/shared/dtos/query-list.args';
 
 @Resolver((of) => ParameterValue)
 export class ParameterValueResolver {
@@ -10,8 +10,8 @@ export class ParameterValueResolver {
 
   @Query(() => ParameterValuesPagination)
   async parameterValues(
-    @Args('input') input: PaginationQueryInput,
+    @Args() args: QueryListArgs,
   ): Promise<ParameterValuesPagination | never> {
-    return await this.service.findAll(input);
+    return await this.service.findAll(args);
   }
 }

@@ -3,12 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ParameterValue } from '../entities/parameter-value.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
-import { PaginationQueryInput } from '@/shared/dtos/pagination-query.input';
+import { QueryListArgs } from '@/shared/dtos/query-list.args';
 import { filterQueryBuilder } from '@/shared/utils/filter/builder/filter-query.builder';
 import { ParameterValuesPagination } from '../dtos/types/parameter-values-paginated';
-import { defaultPaginationOptions } from '@/shared/utils/pagination';
 import { sortQueryBuilder } from '@/shared/utils/sort/sort';
-import { SortBy } from '@/shared/utils/sort/dtos/sort-by.dto';
+import { searchQueryBuilder } from '@/shared/utils/search/seach-query.builder';
 
 @Injectable()
 export class ParameterValueService {
@@ -19,51 +18,20 @@ export class ParameterValueService {
     private repository: Repository<ParameterValue>,
   ) {}
 
-  async findAll(
-    input?: PaginationQueryInput,
-  ): Promise<ParameterValuesPagination> {
-    const { pagination, filters, sort, search } = input;
-
+  async findAll({
+    page,
+    limit,
+    search,
+    filters,
+    sort,
+  }: QueryListArgs): Promise<ParameterValuesPagination> {
     const qb = this.repository.createQueryBuilder('ParameterValue');
-
-    // qb.andWhere('ParameterValue.orgId = :orgId', { orgId: 'MP92' });
     qb.leftJoinAndSelect('ParameterValue.parameter', 'Parameter');
 
-    if (search) {
-      qb.where(
-        'LOWER(unaccent(ParameterValue.value)) ILIKE LOWER(unaccent(:search))',
-        {
-          search: `%${search}%`,
-        },
-      );
-    }
-
-    //filter
+    searchQueryBuilder(qb, ['ParameterValue.value'], search);
     filterQueryBuilder(qb, filters);
-
-    // sort
-    const defaultSortBy = new SortBy('parameterValueId');
-    sortQueryBuilder(qb, sort || [defaultSortBy]);
-
-    return await paginate<ParameterValue>(
-      qb,
-      pagination || defaultPaginationOptions,
-    );
-
-    // console.log(JSON.stringify(result, null, 2));
-
-    // const result = await qb.getMany();
-
-    // return paginate<Parameter>(this.repository, options, {
-    //   order: {
-    //     createdAt: options.order,
-    //   },
-    //   where: {
-    //     name: Raw(
-    //       (alias) => `LOWER(${alias}) Like '%${options.search.toLowerCase()}%'`,
-    //     ),
-    //   },
-    // });
+    sortQueryBuilder(qb, sort);
+    return await paginate<ParameterValue>(qb, { page, limit });
   }
 
   // public find() {}
