@@ -19,6 +19,10 @@ export class Organization {
   @Column({ nullable: false, length: 128 })
   name: string;
 
+  @Field({ nullable: true })
+  @Column('text', { nullable: true })
+  description: string;
+
   @Field()
   @CreateDateColumn()
   createdAt: Date;

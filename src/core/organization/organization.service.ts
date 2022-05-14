@@ -10,6 +10,13 @@ import {
   ResourceNotExistsException,
 } from '@/shared/exceptions';
 import { OrganizationNotFoundException } from '@/core/organization/exceptions/organization-not-found.exception';
+import { QueryListArgs } from '@/shared/dtos/query-list.args';
+import { searchQueryBuilder } from '@/shared/utils/search/seach-query.builder';
+import { filterQueryBuilder } from '@/shared/utils/filter/builder/filter-query.builder';
+import { sortQueryBuilder } from '@/shared/utils/sort/sort';
+import { paginate } from 'nestjs-typeorm-paginate';
+
+import { OrganizationsPagination } from '@/core/organization/dtos/organizations-pagination';
 
 @Injectable()
 export class OrganizationService {
@@ -20,13 +27,22 @@ export class OrganizationService {
     private repository: Repository<Organization>,
   ) {}
 
-  public async find(): Promise<Organization[]> {
-    return this.repository.find({
-      where: {},
-      order: {
-        createdAt: 'DESC',
-      },
-    });
+  async findAll({
+    page,
+    limit,
+    search,
+    filters,
+    sort,
+  }: QueryListArgs): Promise<OrganizationsPagination> {
+    const qb = this.repository.createQueryBuilder('Organization');
+    searchQueryBuilder(
+      qb,
+      ['Organization.orgId', 'Organization.name', 'Organization.description'],
+      search,
+    );
+    filterQueryBuilder(qb, filters);
+    sortQueryBuilder(qb, sort);
+    return await paginate<Organization>(qb, { page, limit });
   }
 
   public async findById(

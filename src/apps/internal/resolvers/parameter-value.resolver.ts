@@ -1,7 +1,7 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ParameterValue } from '@/core/parameter/entities/parameter-value.entity';
 import { ParameterValueService } from '@/core/parameter/services/parameter-value.service';
-import { ParameterValuesPagination } from '@/core/parameter/dtos/types/parameter-values-paginated';
+import { ParameterValuesPagination } from '@/core/parameter/dtos/types/parameter-values-pagination';
 import { QueryListArgs } from '@/shared/dtos/query-list.args';
 
 @Resolver((of) => ParameterValue)

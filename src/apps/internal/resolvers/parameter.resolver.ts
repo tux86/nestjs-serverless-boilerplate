@@ -5,20 +5,19 @@ import { ParameterService } from '@/core/parameter/services/parameter.service';
 import { UpdateParameterInput } from '@/core/parameter/dtos/input/update-parameter.input';
 import { GetParameterArgs } from '@/core/parameter/dtos/args/get-parameter.args';
 import { DeleteParameterArgs } from '@/core/parameter/dtos/args/delete-parameter.args';
+import { QueryListArgs } from '@/shared/dtos/query-list.args';
+import { ParametersPagination } from '@/core/parameter/dtos/types/parameters-pagination';
 
 @Resolver((of) => Parameter)
 export class ParameterResolver {
   constructor(private readonly service: ParameterService) {}
 
-  //
-  // @Query(() => ParametersPagination)
-  // async parameters(
-  //   @Args() args: PaginationQueryArgs,
-  // ): Promise<Pagination<Parameter> | never> {
-  //   console.log(args);
-  //
-  //   return await this.service.paginate();
-  // }
+  @Query(() => ParametersPagination)
+  async parameters(
+    @Args() args: QueryListArgs,
+  ): Promise<ParametersPagination | never> {
+    return await this.service.findAll(args);
+  }
 
   @Query(() => Parameter)
   async parameter(@Args() args: GetParameterArgs): Promise<Parameter | never> {

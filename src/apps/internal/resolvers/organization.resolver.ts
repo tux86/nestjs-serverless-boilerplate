@@ -3,20 +3,22 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Organization } from '@/core/organization/organization.entity';
 import { CreateOrganizationDto } from '@/core/organization/dtos/create-organization.dto';
 import { OrganizationService } from '@/core/organization/organization.service';
-
 import { UpdateOrganizationDto } from '@/core/organization/dtos/update-organization.dto';
 import { GetOrganizationDto } from '@/core/organization/dtos/get-organization.dto';
 import { DeleteOrganizationDto } from '@/core/organization/dtos/delete-organization.dto';
+import { QueryListArgs } from '@/shared/dtos/query-list.args';
+import { OrganizationsPagination } from '@/core/organization/dtos/organizations-pagination';
 
 @Resolver((of) => Organization)
 export class OrganizationResolver {
   constructor(private readonly service: OrganizationService) {}
 
-  @Query(() => [Organization])
-  async organizations(): Promise<Organization[] | never> {
-    return this.service.find();
+  @Query(() => OrganizationsPagination)
+  async organizations(
+    @Args() args: QueryListArgs,
+  ): Promise<OrganizationsPagination | never> {
+    return await this.service.findAll(args);
   }
-
   @Query(() => Organization)
   async organization(
     @Args() args: GetOrganizationDto,

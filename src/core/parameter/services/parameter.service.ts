@@ -8,7 +8,12 @@ import {
   ResourceNotExistsException,
 } from '@/shared/exceptions';
 import { UpdateParameterInput } from '../dtos/input/update-parameter.input';
-import { Pagination } from 'nestjs-typeorm-paginate';
+import { paginate } from 'nestjs-typeorm-paginate';
+import { QueryListArgs } from '@/shared/dtos/query-list.args';
+import { searchQueryBuilder } from '@/shared/utils/search/seach-query.builder';
+import { filterQueryBuilder } from '@/shared/utils/filter/builder/filter-query.builder';
+import { sortQueryBuilder } from '@/shared/utils/sort/sort';
+import { ParametersPagination } from '@/core/parameter/dtos/types/parameters-pagination';
 
 @Injectable()
 export class ParameterService {
@@ -19,50 +24,18 @@ export class ParameterService {
     private repository: Repository<Parameter>,
   ) {}
 
-  async paginate(): Promise<Pagination<Parameter>> {
-    return null;
-    // const filters: FiltersExpression = {
-    //   operator: Operator.AND,
-    //   filters: [
-    //     {
-    //       field: 'name',
-    //       op: Operation.EQ,
-    //       values: ['TimeZone'],
-    //     },
-    //     {
-    //       field: 'createdAt',
-    //       op: Operation.GE,
-    //       values: ['2021-05-10 17:59:55'],
-    //     },
-    //     {
-    //       field: 'shared',
-    //       op: Operation.EQ,
-    //       values: ['true'],
-    //     },
-    //   ],
-    // };
-    //
-    // console.log('filters', filters);
-    //
-    // const fqb = new FilterQueryBuilder<Parameter>(this.repository, filters);
-    //
-    // const qb: SelectQueryBuilder<Parameter> = fqb.build();
-    //
-    // console.log(qb.getSql());
-    // const result = await qb.getMany();
-    //
-    // console.log(JSON.stringify(result, null, 2));
-    // return null;
-    // // return paginate<Parameter>(this.repository, options, {
-    // //   order: {
-    // //     createdAt: options.order,
-    // //   },
-    // //   where: {
-    // //     name: Raw(
-    // //       (alias) => `LOWER(${alias}) Like '%${options.search.toLowerCase()}%'`,
-    // //     ),
-    // //   },
-    // // });
+  async findAll({
+    page,
+    limit,
+    search,
+    filters,
+    sort,
+  }: QueryListArgs): Promise<ParametersPagination> {
+    const qb = this.repository.createQueryBuilder('Parameter');
+    searchQueryBuilder(qb, ['Parameter.name', 'Parameter.description'], search);
+    filterQueryBuilder(qb, filters);
+    sortQueryBuilder(qb, sort);
+    return await paginate<Parameter>(qb, { page, limit });
   }
 
   public async findById(

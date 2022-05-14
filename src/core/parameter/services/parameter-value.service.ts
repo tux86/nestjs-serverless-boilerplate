@@ -5,7 +5,7 @@ import { ParameterValue } from '../entities/parameter-value.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { QueryListArgs } from '@/shared/dtos/query-list.args';
 import { filterQueryBuilder } from '@/shared/utils/filter/builder/filter-query.builder';
-import { ParameterValuesPagination } from '../dtos/types/parameter-values-paginated';
+import { ParameterValuesPagination } from '../dtos/types/parameter-values-pagination';
 import { sortQueryBuilder } from '@/shared/utils/sort/sort';
 import { searchQueryBuilder } from '@/shared/utils/search/seach-query.builder';
 
