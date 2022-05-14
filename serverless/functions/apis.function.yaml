@@ -7,7 +7,7 @@ functions:
     image:
       name: appimage
       command:
-        - dist/src/http-lambda.handler
+        - dist/src/lambda/http.handler
 
   managementApi:
     url: true
@@ -17,7 +17,7 @@ functions:
     image:
       name: appimage
       command:
-        - dist/src/http-lambda.handler
+        - dist/src/lambda/http.handler
 
   internalApi:
     url: true
@@ -27,4 +27,4 @@ functions:
     image:
       name: appimage
       command:
-        - dist/src/http-lambda.handler
+        - dist/src/lambda/http.handler

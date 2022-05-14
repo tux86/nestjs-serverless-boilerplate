@@ -9,24 +9,19 @@ import configuration, { config } from '@/config';
 import { resolvers } from './resolvers';
 import { graphqlConfig } from '@/shared/utils/graphql/graphql-config.util';
 import { HealthCheckerModule } from '@/core/health-checker/health-checker.module';
-import { appModuleLogInfo } from '@/shared/utils/bootstrap.util';
+import { appModuleLogInfo } from '@/bootstrap';
 import { ParameterModule } from '@/core/parameter/parameter.module';
 import { controllers } from './controllers';
+import { CoreModule } from '@/core/core.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      ignoreEnvFile: true,
-      load: [configuration],
-    }),
-    DatabaseModule,
+    CoreModule,
     GraphQLModule.forRoot<ApolloDriverConfig>(
       graphqlConfig({
         path: `${config.appGlobalPrefix}/graphql`,
       }),
     ),
-    EventEmitterModule.forRoot(),
     HealthCheckerModule,
     OrganizationModule,
     ParameterModule,

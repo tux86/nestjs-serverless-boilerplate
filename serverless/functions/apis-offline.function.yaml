@@ -1,6 +1,6 @@
 functions:
   publicApi:
-    handler: dist/src/http-lambda.handler
+    handler: dist/src/lambda/http.handler
     environment:
       APP_NAME: public
       APP_GLOBAL_PREFIX: public
@@ -9,7 +9,7 @@ functions:
           method: '*'
           path: /public/{proxy+}
   managementApi:
-    handler: dist/src/http-lambda.handler
+    handler: dist/src/lambda/http.handler
     environment:
       APP_NAME: management
       APP_GLOBAL_PREFIX: management
@@ -18,7 +18,7 @@ functions:
           method: '*'
           path: /management/{proxy+}
   internalApi:
-    handler: dist/src/http-lambda.handler
+    handler: dist/src/lambda/http.handler
     environment:
       APP_NAME: internal
       APP_GLOBAL_PREFIX: internal

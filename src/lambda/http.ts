@@ -7,7 +7,7 @@ import {
   APIGatewayProxyResult,
   Context,
 } from 'aws-lambda';
-import { bootstrapServer, NestApp } from '@/shared/utils/bootstrap.util';
+import { bootstrapServer, NestApp } from '@/bootstrap';
 
 let cachedNestApp: NestApp;
 let cachedProxy: PromiseHandler<unknown, LambdaResponse>;

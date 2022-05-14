@@ -4,9 +4,9 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { GlobalExceptionFilter } from '../filters/global-exception.filter';
-import { ApiTimeoutInterceptor } from '../interceptors/api-timeout.interceptor';
-import { App } from '../enums/app.enum';
+import { GlobalExceptionFilter } from '@/shared/filters/global-exception.filter';
+import { ApiTimeoutInterceptor } from '@/shared/interceptors/api-timeout.interceptor';
+import { App } from '@/shared/enums/app.enum';
 import { PublicModule } from '@/apps/public/public.module';
 import { ManagementModule } from '@/apps/management/management.module';
 import { fastify, FastifyInstance, FastifyServerOptions } from 'fastify';

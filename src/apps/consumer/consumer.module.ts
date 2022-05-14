@@ -1,24 +1,12 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseModule } from '@/core/database/database.module';
-import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ConfigService } from '@nestjs/config';
 import { Logger, Module } from '@nestjs/common';
-import configuration from '@/config';
-import { appModuleLogInfo } from '@/shared/utils/bootstrap.util';
+import { appModuleLogInfo } from '@/bootstrap';
 import { SQSModule } from '@/core/aws/sqs/sqs.module';
 import { SESModule } from '@/core/aws/ses/ses.module';
+import { CoreModule } from '@/core/core.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      ignoreEnvFile: true,
-      load: [configuration],
-    }),
-    DatabaseModule,
-    EventEmitterModule.forRoot(),
-    SQSModule,
-    SESModule,
-  ],
+  imports: [CoreModule, SQSModule, SESModule],
   controllers: [],
   providers: [],
 })

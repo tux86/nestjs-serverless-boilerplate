@@ -1,4 +1,4 @@
-import { bootstrapServer, logger } from '@/shared/utils/bootstrap.util';
+import { bootstrapServer, logger } from '@/bootstrap';
 
 export const bootstrap = async () => {
   const { app } = await bootstrapServer();

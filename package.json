@@ -9,7 +9,7 @@
     "prebuild": "rimraf dist",
     "watch": "nest build -w",
     "sls": "dotenv -e .env.${STAGE:=dev} -- sls",
-    "typeorm": "dotenv -e .env.${STAGE:=local} -- ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -f ./typeorm-cli.db.config.ts",
+    "typeorm": "dotenv -e .env.${STAGE:=local} -- ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -f typeorm-cli.config.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "dotenv -e .env.local -- nest start",
