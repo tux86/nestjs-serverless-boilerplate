@@ -16,8 +16,8 @@ Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless F
 * Serverless Framework 3
 * serverless-offline (full working local envrionnement with aws services mocking)
 * single Lambda function aka. mono-lambda
-* lambda funtion URLs
-* Custom domain endpoints (Route53+Cloudfront)
+* use of Lambda function URLs instead of Lambda + Api Gateway
+* Custom domain endpoints (Route53 → Cloudfront → Lambda)
 * arm64 architecture for lambda
 * using 100% aws-sdk (v3)
 * AWS Cognito JWT token validation with AuthGuard
