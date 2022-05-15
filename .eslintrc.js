@@ -4,7 +4,7 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'github', 'prettier'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -56,6 +56,10 @@ module.exports = {
     '@typescript-eslint/unbound-method': 'error',
     'require-await': 'off',
     '@typescript-eslint/require-await': 'error',
+    // **** Github eslint rules ****
+    'github/array-foreach': 'error',
+    'github/no-then': 'error',
+    // **** prettier plugin rule ****
     'prettier/prettier': 'error',
   },
 };
