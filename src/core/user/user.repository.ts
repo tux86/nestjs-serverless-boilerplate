@@ -9,14 +9,9 @@ export class UserRepository extends Repository<User> {
   });
 
   public async findById(userId: string): Promise<User | undefined> {
-    try {
-      const query = this.createQueryBuilder('u');
-      query.where('u.userId = :userId', { userId });
-      return await query.getOne();
-    } catch (error) {
-      this.logger.error(`${error} - ${error.stack}`);
-      throw new InternalServerErrorException();
-    }
+    const query = this.createQueryBuilder('u');
+    query.where('u.userId = :userId', { userId });
+    return await query.getOne();
   }
 
   public async findByEmail(email: string): Promise<User> {

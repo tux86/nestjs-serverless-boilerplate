@@ -12,16 +12,7 @@ export class EmailTemplateRepository extends Repository<EmailTemplate> {
 
   async getEmailTemplates(): Promise<EmailTemplate[]> {
     const query = this.createQueryBuilder('emailTemplate');
-
-    try {
-      return await query.getMany();
-    } catch (error) {
-      this.logger.error(
-        `query [ getEmailTemplates ] error . Filters: ${{}}"`,
-        error.stack,
-      );
-      throw new InternalServerErrorException();
-    }
+    return await query.getMany();
   }
 
   async createEmailTemplate(

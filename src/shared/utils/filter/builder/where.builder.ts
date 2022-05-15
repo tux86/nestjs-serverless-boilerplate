@@ -4,7 +4,7 @@ import { FiltersExpression } from '../dtos/filters.input';
 import { FilterOperation } from '../enums/filter-operation.enum';
 import { Filter } from '../dtos/filter.input';
 
-type ParamValue = string | number | Array<string | number>;
+type ParamValue = string | number | (string | number)[];
 
 export class WhereBuilder<Entity> {
   private params: Record<string, ParamValue> = {};

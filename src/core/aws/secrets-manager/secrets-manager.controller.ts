@@ -10,7 +10,7 @@ export class SecretsManagerController {
   ) {}
 
   @Get('test')
-  async testGetSecretValue() {
+  async testGetSecretValue(): Promise<any> {
     const data = await this.service.getSecretValue('test_secret');
     return {
       data,

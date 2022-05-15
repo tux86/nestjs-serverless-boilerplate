@@ -14,4 +14,4 @@ export const config = {
   aws,
 };
 
-export default () => config;
+export default (): any => config;

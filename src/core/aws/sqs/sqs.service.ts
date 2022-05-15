@@ -6,6 +6,7 @@ import {
 } from '@aws-sdk/client-sqs';
 import { SendMessageInput } from './dtos/send-message.input';
 import { SqsClientProvider } from './sqs-client.provider';
+import { sleep } from '@/shared/utils/sleep.util';
 
 /**
  * @class SqsService
@@ -47,7 +48,7 @@ export class SqsService {
    */
   public async purgeQueue(queueUrl: string): Promise<void> {
     //TODO: WILL BE IMPLEMENTED LATER
-    return;
+    await sleep(1);
   }
 
   /**

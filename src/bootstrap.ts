@@ -56,10 +56,12 @@ export const bootstrapServer = async (): Promise<NestApp> => {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(instance),
-    { logger: !process.env.AWS_EXECUTION_ENV ? new Logger() : console },
+    {
+      logger: !process.env.AWS_EXECUTION_ENV ? new Logger() : console,
+    },
   );
 
-  await setupNestApp(app);
+  setupNestApp(app);
   await app.init();
   return { app, instance };
 };
@@ -77,7 +79,7 @@ export const setupSwagger = (app: INestApplication, path: string) => {
   SwaggerModule.setup(path, app, document);
 };
 
-export const setupNestApp = async (app: NestFastifyApplication) => {
+export const setupNestApp = (app: NestFastifyApplication) => {
   const config = app.get(ConfigService);
   const appGlobalPrefix = config.get<string | undefined>('appGlobalPrefix');
   const enableSwagger = config.get<boolean>('enableSwagger');

@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtTokenPayload } from '../token-payload/jwt-token-payload.interface';
 import { UserService } from '../../user/user.service';
 import { User } from '../../user/user.entity';
+import { sleep } from '@/shared/utils/sleep.util';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -39,6 +40,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     //  }
     //throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
+    await sleep(1);
     return new User();
   }
 }

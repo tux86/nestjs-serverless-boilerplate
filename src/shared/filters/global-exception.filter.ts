@@ -97,15 +97,15 @@ export class GlobalExceptionFilter implements GqlExceptionFilter {
 
       if (exception instanceof HttpException) {
         const status = exception.getStatus();
-        response.status(status).send(exception);
+        void response.status(status).send(exception);
       } else if (exception instanceof BusinessLogicException) {
-        response.status(exception.statusCode).send({
+        void response.status(exception.statusCode).send({
           errorCode: exception.errorCode,
           statusCode: exception.statusCode,
           message: exception.message,
         });
       } else {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send(exception);
+        void response.status(HttpStatus.INTERNAL_SERVER_ERROR).send(exception);
       }
     } else {
       this.logError(exception);

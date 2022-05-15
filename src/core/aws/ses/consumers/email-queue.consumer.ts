@@ -8,6 +8,7 @@ import {
   SQSMessageProcessingErrorHandler,
   SQSMessageReceivedHandler,
 } from '@/core/aws/sqs/decorators/sqs.decorators';
+import { sleep } from '@/shared/utils/sleep.util';
 
 const EmailQueueName = awsConfig.sqs.queueNames.emailQueue;
 
@@ -27,10 +28,12 @@ export class EmailQueueConsumer {
   @SQSMessageProcessedHandler(EmailQueueName)
   async handleMessageProcessed(message: Message) {
     this.logger.debug(`onMessageProcessed : mail sent successfully`);
+    await sleep(1);
   }
 
   @SQSMessageProcessingErrorHandler(EmailQueueName)
   async handleProcessingError(error: Error, message: Message) {
+    await sleep(1);
     this.logger.error(`onProcessingError: failed to send email`);
     //  this.logger.error(error.message, error.stack);
     //TODO: send message to DLQ

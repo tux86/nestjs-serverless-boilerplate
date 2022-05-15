@@ -8,6 +8,7 @@ import { GetOrganizationDto } from '@/core/organization/dtos/get-organization.dt
 import { DeleteOrganizationDto } from '@/core/organization/dtos/delete-organization.dto';
 import { QueryListArgs } from '@/shared/dtos/query-list.args';
 import { OrganizationsPagination } from '@/core/organization/dtos/organizations-pagination';
+import { OrganizationNotFoundException } from '@/core/organization/exceptions/organization-not-found.exception';
 
 @Resolver((of) => Organization)
 export class OrganizationResolver {
