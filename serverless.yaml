@@ -11,6 +11,7 @@ plugins:
 
 provider:
   name: aws
+  deploymentMethod: direct
   runtime: nodejs14.x
   architecture: arm64
   region: ${opt:region, 'eu-west-1'}
