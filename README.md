@@ -3,10 +3,7 @@
 Serverless Multi-tenant monolithic backend app made with NestJS 8 + Serverless Framework
 
 ## Features: 
-testing  
 
-
-sdfdsf
 dsfdsf
 ### NestJS:
 * NestJS 8 + Fastify + TypeORM
